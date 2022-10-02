@@ -1,0 +1,30 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "UITouch",
+	"Description": "适用于UI的触控",
+	"Category": "Widgets",
+	"CreatedBy": "Aimo_皑墨",
+	"CreatedByURL": "https://space.bilibili.com/146962867",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"EngineVersion": "5.0.0",
+	"CanContainContent": true,
+	"IsBetaVersion": true,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "UITouch",
+			"Type": "Runtime",
+			"LoadingPhase": "PreLoadingScreen"
+		}
+	],
+	"WhitelistPlatforms": [
+			"Win64",
+			"IOS",
+			"Android"
+	]
+}

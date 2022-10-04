@@ -11,6 +11,7 @@
 
 #include "TouchWidget.h"
 #include "../Components/TouchComponent.h"
+#include "Runtime/Engine/Public/DelayAction.h" //延迟的函数库
 
 #include "Runtime/UMG/Public/Blueprint/WidgetLayoutLibrary.h"
 
@@ -19,13 +20,18 @@
 void UTouchWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	GetWorld()->GetTimerManager().SetTimer(BindTouchTimerHandle, this, &UTouchWidget::BindTouchDelegate, 2.0f, true);
+	
+}
+
+void UTouchWidget::NativeOnInitialized()
+{
+	Super::NativeOnInitialized();
 	BindTouchDelegate();
 }
 
 void UTouchWidget::BindTouchDelegate()
 {
-	if (GetOwningPlayer())
+	if (GetOwningPlayer() && GetWorld())
 	{
 		UActorComponent* ActorComponent = GetOwningPlayer()->GetComponentByClass(UTouchComponent::StaticClass());
 		if (ActorComponent)
@@ -36,9 +42,19 @@ void UTouchWidget::BindTouchDelegate()
 				TScriptDelegate<FWeakObjectPtr> OnSetDragPrt; //建立对接变量
 				OnSetDragPrt.BindUFunction(this, "TouchIndex"); //对接变量绑定函数
 				TouchComponent->OnPressedTouch.Add(OnSetDragPrt); //绑定对接变量
-				GetWorld()->GetTimerManager().ClearTimer(BindTouchTimerHandle);
+				return;
 			}
 		}
+	}
+	if (UWorld* World = GEngine->GetWorldFromContextObject(this, EGetWorldErrorMode::LogAndReturnNull))
+	{
+		FLatentActionManager& LatentActionManager = World->GetLatentActionManager();
+		FLatentActionInfo Latentinfo;
+		Latentinfo.CallbackTarget = this;
+		Latentinfo.ExecutionFunction = "BindTouchDelegate";
+		Latentinfo.Linkage = 0;
+		Latentinfo.UUID = 22;
+		LatentActionManager.AddNewAction(this, Latentinfo.UUID, new FDelayAction(0.2, Latentinfo));
 	}
 }
 

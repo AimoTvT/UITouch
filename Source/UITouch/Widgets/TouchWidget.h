@@ -37,13 +37,11 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Aimo|On")
 		FOnPressed OnPressedLocation;
 
-	/** * 多播所有接收到的调度器 */
-	UPROPERTY(BlueprintReadOnly, Category = "Aimo|On")
-		FTimerHandle BindTouchTimerHandle;
-
 protected:
 	// Called when the game starts
 	virtual void NativeConstruct() override;
+
+	virtual void NativeOnInitialized() override;
 
 
 public:

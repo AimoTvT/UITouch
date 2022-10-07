@@ -22,7 +22,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-#include "../Components/TouchComponent.h"
+#include "Components/TouchComponent.h"
 
 #include "TouchPlayerController.generated.h"
 

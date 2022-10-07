@@ -5,7 +5,7 @@
 ===========================================================================*/
 
 #include "UObject/GeneratedCppIncludes.h"
-#include "UITouch/Components/TouchComponent.h"
+#include "UITouch/Public/Components/TouchComponent.h"
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 void EmptyLinkFunctionForGeneratedCodeTouchComponent() {}
 // Cross Module References
@@ -42,7 +42,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchComponent() {}
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UDelegateFunction_UTouchComponent_TouchDynmic__DelegateSignature_Statics::Function_MetaDataParams[] = {
 		{ "Comment", "/** * \xe6\x8e\xa5\xe6\x94\xb6\xe9\x80\x9a\xe8\xae\xaf\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8 */" },
-		{ "ModuleRelativePath", "Components/TouchComponent.h" },
+		{ "ModuleRelativePath", "Public/Components/TouchComponent.h" },
 		{ "ToolTip", "\xe6\x8e\xa5\xe6\x94\xb6\xe9\x80\x9a\xe8\xae\xaf\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8" },
 	};
 #endif
@@ -80,7 +80,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchComponent() {}
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UDelegateFunction_UTouchComponent_OnTouchDynmic__DelegateSignature_Statics::Function_MetaDataParams[] = {
 		{ "Comment", "/** * \xe5\xa4\x9a\xe6\x92\xad\xe6\x89\x80\xe6\x9c\x89\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8 */" },
-		{ "ModuleRelativePath", "Components/TouchComponent.h" },
+		{ "ModuleRelativePath", "Public/Components/TouchComponent.h" },
 		{ "ToolTip", "\xe5\xa4\x9a\xe6\x92\xad\xe6\x89\x80\xe6\x9c\x89\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8" },
 	};
 #endif
@@ -114,7 +114,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchComponent() {}
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UDelegateFunction_UTouchComponent_OnIndexTouchDynmic__DelegateSignature_Statics::Function_MetaDataParams[] = {
 		{ "Comment", "/** * \xe5\xa4\x9a\xe6\x92\xad\xe6\x8c\x87\xe5\xae\x9a\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8 */" },
-		{ "ModuleRelativePath", "Components/TouchComponent.h" },
+		{ "ModuleRelativePath", "Public/Components/TouchComponent.h" },
 		{ "ToolTip", "\xe5\xa4\x9a\xe6\x92\xad\xe6\x8c\x87\xe5\xae\x9a\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8" },
 	};
 #endif
@@ -179,7 +179,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchComponent() {}
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UTouchComponent_Touch_Statics::Function_MetaDataParams[] = {
 		{ "Category", "Aimo|Function" },
-		{ "ModuleRelativePath", "Components/TouchComponent.h" },
+		{ "ModuleRelativePath", "Public/Components/TouchComponent.h" },
 	};
 #endif
 	const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_UTouchComponent_Touch_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UTouchComponent, nullptr, "Touch", nullptr, nullptr, sizeof(Z_Construct_UFunction_UTouchComponent_Touch_Statics::TouchComponent_eventTouch_Parms), Z_Construct_UFunction_UTouchComponent_Touch_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_UTouchComponent_Touch_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04820400, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UTouchComponent_Touch_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_UTouchComponent_Touch_Statics::Function_MetaDataParams)) };
@@ -216,7 +216,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchComponent() {}
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UTouchComponent_TouchIndex_Statics::Function_MetaDataParams[] = {
 		{ "Category", "Aimo|Function" },
-		{ "ModuleRelativePath", "Components/TouchComponent.h" },
+		{ "ModuleRelativePath", "Public/Components/TouchComponent.h" },
 	};
 #endif
 	const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_UTouchComponent_TouchIndex_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UTouchComponent, nullptr, "TouchIndex", nullptr, nullptr, sizeof(Z_Construct_UFunction_UTouchComponent_TouchIndex_Statics::TouchComponent_eventTouchIndex_Parms), Z_Construct_UFunction_UTouchComponent_TouchIndex_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_UTouchComponent_TouchIndex_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04820400, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UTouchComponent_TouchIndex_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_UTouchComponent_TouchIndex_Statics::Function_MetaDataParams)) };
@@ -298,11 +298,11 @@ void EmptyLinkFunctionForGeneratedCodeTouchComponent() {}
 		(UObject* (*)())Z_Construct_UPackage__Script_UITouch,
 	};
 	const FClassFunctionLinkInfo Z_Construct_UClass_UTouchComponent_Statics::FuncInfo[] = {
-		{ &Z_Construct_UDelegateFunction_UTouchComponent_OnIndexTouchDynmic__DelegateSignature, "OnIndexTouchDynmic__DelegateSignature" }, // 1115449870
-		{ &Z_Construct_UDelegateFunction_UTouchComponent_OnTouchDynmic__DelegateSignature, "OnTouchDynmic__DelegateSignature" }, // 690589744
-		{ &Z_Construct_UFunction_UTouchComponent_Touch, "Touch" }, // 2394855018
-		{ &Z_Construct_UDelegateFunction_UTouchComponent_TouchDynmic__DelegateSignature, "TouchDynmic__DelegateSignature" }, // 2150665722
-		{ &Z_Construct_UFunction_UTouchComponent_TouchIndex, "TouchIndex" }, // 333008661
+		{ &Z_Construct_UDelegateFunction_UTouchComponent_OnIndexTouchDynmic__DelegateSignature, "OnIndexTouchDynmic__DelegateSignature" }, // 1830850696
+		{ &Z_Construct_UDelegateFunction_UTouchComponent_OnTouchDynmic__DelegateSignature, "OnTouchDynmic__DelegateSignature" }, // 1380647458
+		{ &Z_Construct_UFunction_UTouchComponent_Touch, "Touch" }, // 2395527047
+		{ &Z_Construct_UDelegateFunction_UTouchComponent_TouchDynmic__DelegateSignature, "TouchDynmic__DelegateSignature" }, // 1288974554
+		{ &Z_Construct_UFunction_UTouchComponent_TouchIndex, "TouchIndex" }, // 941820814
 	};
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchComponent_Statics::Class_MetaDataParams[] = {
@@ -311,117 +311,117 @@ void EmptyLinkFunctionForGeneratedCodeTouchComponent() {}
 		{ "DisplayName", "TouchComponent" },
 		{ "IncludePath", "Components/TouchComponent.h" },
 		{ "IsBlueprintBase", "true" },
-		{ "ModuleRelativePath", "Components/TouchComponent.h" },
+		{ "ModuleRelativePath", "Public/Components/TouchComponent.h" },
 	};
 #endif
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnAllTouch_MetaData[] = {
 		{ "Category", "Aimo|On" },
 		{ "Comment", "/** * \xe6\x8e\xa5\xe6\x94\xb6\xe9\x80\x9a\xe8\xae\xaf\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8 */" },
-		{ "ModuleRelativePath", "Components/TouchComponent.h" },
+		{ "ModuleRelativePath", "Public/Components/TouchComponent.h" },
 		{ "ToolTip", "\xe6\x8e\xa5\xe6\x94\xb6\xe9\x80\x9a\xe8\xae\xaf\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8" },
 	};
 #endif
-	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnAllTouch = { "OnAllTouch", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchComponent, OnAllTouch), Z_Construct_UDelegateFunction_UTouchComponent_TouchDynmic__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnAllTouch_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnAllTouch_MetaData)) }; // 2150665722
+	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnAllTouch = { "OnAllTouch", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchComponent, OnAllTouch), Z_Construct_UDelegateFunction_UTouchComponent_TouchDynmic__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnAllTouch_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnAllTouch_MetaData)) }; // 1288974554
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnPressedTouch_MetaData[] = {
 		{ "Category", "Aimo|On" },
 		{ "Comment", "/** * \xe5\xa4\x9a\xe6\x92\xad\xe6\x89\x80\xe6\x9c\x89\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8 */" },
-		{ "ModuleRelativePath", "Components/TouchComponent.h" },
+		{ "ModuleRelativePath", "Public/Components/TouchComponent.h" },
 		{ "ToolTip", "\xe5\xa4\x9a\xe6\x92\xad\xe6\x89\x80\xe6\x9c\x89\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8" },
 	};
 #endif
-	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnPressedTouch = { "OnPressedTouch", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchComponent, OnPressedTouch), Z_Construct_UDelegateFunction_UTouchComponent_OnTouchDynmic__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnPressedTouch_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnPressedTouch_MetaData)) }; // 690589744
+	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnPressedTouch = { "OnPressedTouch", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchComponent, OnPressedTouch), Z_Construct_UDelegateFunction_UTouchComponent_OnTouchDynmic__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnPressedTouch_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnPressedTouch_MetaData)) }; // 1380647458
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch1_MetaData[] = {
 		{ "Category", "Aimo|On" },
 		{ "Comment", "/** * \xe5\xa4\x9a\xe6\x92\xad\xe6\x8c\x87\xe5\xae\x9a\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8 */" },
-		{ "ModuleRelativePath", "Components/TouchComponent.h" },
+		{ "ModuleRelativePath", "Public/Components/TouchComponent.h" },
 		{ "ToolTip", "\xe5\xa4\x9a\xe6\x92\xad\xe6\x8c\x87\xe5\xae\x9a\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8" },
 	};
 #endif
-	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch1 = { "OnTouch1", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchComponent, OnTouch1), Z_Construct_UDelegateFunction_UTouchComponent_OnIndexTouchDynmic__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch1_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch1_MetaData)) }; // 1115449870
+	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch1 = { "OnTouch1", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchComponent, OnTouch1), Z_Construct_UDelegateFunction_UTouchComponent_OnIndexTouchDynmic__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch1_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch1_MetaData)) }; // 1830850696
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch2_MetaData[] = {
 		{ "Category", "Aimo|On" },
 		{ "Comment", "/** * \xe5\xa4\x9a\xe6\x92\xad\xe6\x8c\x87\xe5\xae\x9a\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8 */" },
-		{ "ModuleRelativePath", "Components/TouchComponent.h" },
+		{ "ModuleRelativePath", "Public/Components/TouchComponent.h" },
 		{ "ToolTip", "\xe5\xa4\x9a\xe6\x92\xad\xe6\x8c\x87\xe5\xae\x9a\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8" },
 	};
 #endif
-	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch2 = { "OnTouch2", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchComponent, OnTouch2), Z_Construct_UDelegateFunction_UTouchComponent_OnIndexTouchDynmic__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch2_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch2_MetaData)) }; // 1115449870
+	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch2 = { "OnTouch2", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchComponent, OnTouch2), Z_Construct_UDelegateFunction_UTouchComponent_OnIndexTouchDynmic__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch2_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch2_MetaData)) }; // 1830850696
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch3_MetaData[] = {
 		{ "Category", "Aimo|On" },
 		{ "Comment", "/** * \xe5\xa4\x9a\xe6\x92\xad\xe6\x8c\x87\xe5\xae\x9a\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8 */" },
-		{ "ModuleRelativePath", "Components/TouchComponent.h" },
+		{ "ModuleRelativePath", "Public/Components/TouchComponent.h" },
 		{ "ToolTip", "\xe5\xa4\x9a\xe6\x92\xad\xe6\x8c\x87\xe5\xae\x9a\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8" },
 	};
 #endif
-	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch3 = { "OnTouch3", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchComponent, OnTouch3), Z_Construct_UDelegateFunction_UTouchComponent_OnIndexTouchDynmic__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch3_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch3_MetaData)) }; // 1115449870
+	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch3 = { "OnTouch3", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchComponent, OnTouch3), Z_Construct_UDelegateFunction_UTouchComponent_OnIndexTouchDynmic__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch3_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch3_MetaData)) }; // 1830850696
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch4_MetaData[] = {
 		{ "Category", "Aimo|On" },
 		{ "Comment", "/** * \xe5\xa4\x9a\xe6\x92\xad\xe6\x8c\x87\xe5\xae\x9a\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8 */" },
-		{ "ModuleRelativePath", "Components/TouchComponent.h" },
+		{ "ModuleRelativePath", "Public/Components/TouchComponent.h" },
 		{ "ToolTip", "\xe5\xa4\x9a\xe6\x92\xad\xe6\x8c\x87\xe5\xae\x9a\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8" },
 	};
 #endif
-	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch4 = { "OnTouch4", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchComponent, OnTouch4), Z_Construct_UDelegateFunction_UTouchComponent_OnIndexTouchDynmic__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch4_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch4_MetaData)) }; // 1115449870
+	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch4 = { "OnTouch4", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchComponent, OnTouch4), Z_Construct_UDelegateFunction_UTouchComponent_OnIndexTouchDynmic__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch4_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch4_MetaData)) }; // 1830850696
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch5_MetaData[] = {
 		{ "Category", "Aimo|On" },
 		{ "Comment", "/** * \xe5\xa4\x9a\xe6\x92\xad\xe6\x8c\x87\xe5\xae\x9a\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8 */" },
-		{ "ModuleRelativePath", "Components/TouchComponent.h" },
+		{ "ModuleRelativePath", "Public/Components/TouchComponent.h" },
 		{ "ToolTip", "\xe5\xa4\x9a\xe6\x92\xad\xe6\x8c\x87\xe5\xae\x9a\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8" },
 	};
 #endif
-	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch5 = { "OnTouch5", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchComponent, OnTouch5), Z_Construct_UDelegateFunction_UTouchComponent_OnIndexTouchDynmic__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch5_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch5_MetaData)) }; // 1115449870
+	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch5 = { "OnTouch5", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchComponent, OnTouch5), Z_Construct_UDelegateFunction_UTouchComponent_OnIndexTouchDynmic__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch5_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch5_MetaData)) }; // 1830850696
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch6_MetaData[] = {
 		{ "Category", "Aimo|On" },
 		{ "Comment", "/** * \xe5\xa4\x9a\xe6\x92\xad\xe6\x8c\x87\xe5\xae\x9a\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8 */" },
-		{ "ModuleRelativePath", "Components/TouchComponent.h" },
+		{ "ModuleRelativePath", "Public/Components/TouchComponent.h" },
 		{ "ToolTip", "\xe5\xa4\x9a\xe6\x92\xad\xe6\x8c\x87\xe5\xae\x9a\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8" },
 	};
 #endif
-	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch6 = { "OnTouch6", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchComponent, OnTouch6), Z_Construct_UDelegateFunction_UTouchComponent_OnIndexTouchDynmic__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch6_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch6_MetaData)) }; // 1115449870
+	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch6 = { "OnTouch6", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchComponent, OnTouch6), Z_Construct_UDelegateFunction_UTouchComponent_OnIndexTouchDynmic__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch6_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch6_MetaData)) }; // 1830850696
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch7_MetaData[] = {
 		{ "Category", "Aimo|On" },
 		{ "Comment", "/** * \xe5\xa4\x9a\xe6\x92\xad\xe6\x8c\x87\xe5\xae\x9a\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8 */" },
-		{ "ModuleRelativePath", "Components/TouchComponent.h" },
+		{ "ModuleRelativePath", "Public/Components/TouchComponent.h" },
 		{ "ToolTip", "\xe5\xa4\x9a\xe6\x92\xad\xe6\x8c\x87\xe5\xae\x9a\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8" },
 	};
 #endif
-	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch7 = { "OnTouch7", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchComponent, OnTouch7), Z_Construct_UDelegateFunction_UTouchComponent_OnIndexTouchDynmic__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch7_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch7_MetaData)) }; // 1115449870
+	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch7 = { "OnTouch7", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchComponent, OnTouch7), Z_Construct_UDelegateFunction_UTouchComponent_OnIndexTouchDynmic__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch7_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch7_MetaData)) }; // 1830850696
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch8_MetaData[] = {
 		{ "Category", "Aimo|On" },
 		{ "Comment", "/** * \xe5\xa4\x9a\xe6\x92\xad\xe6\x8c\x87\xe5\xae\x9a\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8 */" },
-		{ "ModuleRelativePath", "Components/TouchComponent.h" },
+		{ "ModuleRelativePath", "Public/Components/TouchComponent.h" },
 		{ "ToolTip", "\xe5\xa4\x9a\xe6\x92\xad\xe6\x8c\x87\xe5\xae\x9a\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8" },
 	};
 #endif
-	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch8 = { "OnTouch8", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchComponent, OnTouch8), Z_Construct_UDelegateFunction_UTouchComponent_OnIndexTouchDynmic__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch8_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch8_MetaData)) }; // 1115449870
+	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch8 = { "OnTouch8", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchComponent, OnTouch8), Z_Construct_UDelegateFunction_UTouchComponent_OnIndexTouchDynmic__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch8_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch8_MetaData)) }; // 1830850696
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch9_MetaData[] = {
 		{ "Category", "Aimo|On" },
 		{ "Comment", "/** * \xe5\xa4\x9a\xe6\x92\xad\xe6\x8c\x87\xe5\xae\x9a\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8 */" },
-		{ "ModuleRelativePath", "Components/TouchComponent.h" },
+		{ "ModuleRelativePath", "Public/Components/TouchComponent.h" },
 		{ "ToolTip", "\xe5\xa4\x9a\xe6\x92\xad\xe6\x8c\x87\xe5\xae\x9a\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8" },
 	};
 #endif
-	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch9 = { "OnTouch9", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchComponent, OnTouch9), Z_Construct_UDelegateFunction_UTouchComponent_OnIndexTouchDynmic__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch9_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch9_MetaData)) }; // 1115449870
+	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch9 = { "OnTouch9", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchComponent, OnTouch9), Z_Construct_UDelegateFunction_UTouchComponent_OnIndexTouchDynmic__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch9_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch9_MetaData)) }; // 1830850696
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch10_MetaData[] = {
 		{ "Category", "Aimo|On" },
 		{ "Comment", "/** * \xe5\xa4\x9a\xe6\x92\xad\xe6\x8c\x87\xe5\xae\x9a\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8 */" },
-		{ "ModuleRelativePath", "Components/TouchComponent.h" },
+		{ "ModuleRelativePath", "Public/Components/TouchComponent.h" },
 		{ "ToolTip", "\xe5\xa4\x9a\xe6\x92\xad\xe6\x8c\x87\xe5\xae\x9a\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8" },
 	};
 #endif
-	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch10 = { "OnTouch10", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchComponent, OnTouch10), Z_Construct_UDelegateFunction_UTouchComponent_OnIndexTouchDynmic__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch10_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch10_MetaData)) }; // 1115449870
+	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch10 = { "OnTouch10", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchComponent, OnTouch10), Z_Construct_UDelegateFunction_UTouchComponent_OnIndexTouchDynmic__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch10_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnTouch10_MetaData)) }; // 1830850696
 	const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UTouchComponent_Statics::PropPointers[] = {
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnAllTouch,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UTouchComponent_Statics::NewProp_OnPressedTouch,
@@ -467,15 +467,15 @@ void EmptyLinkFunctionForGeneratedCodeTouchComponent() {}
 		return UTouchComponent::StaticClass();
 	}
 	DEFINE_VTABLE_PTR_HELPER_CTOR(UTouchComponent);
-	struct Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Components_TouchComponent_h_Statics
+	struct Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_Statics
 	{
 		static const FClassRegisterCompiledInInfo ClassInfo[];
 	};
-	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Components_TouchComponent_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_UTouchComponent, UTouchComponent::StaticClass, TEXT("UTouchComponent"), &Z_Registration_Info_UClass_UTouchComponent, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UTouchComponent), 821212733U) },
+	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_Statics::ClassInfo[] = {
+		{ Z_Construct_UClass_UTouchComponent, UTouchComponent::StaticClass, TEXT("UTouchComponent"), &Z_Registration_Info_UClass_UTouchComponent, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UTouchComponent), 521532052U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Components_TouchComponent_h_195602865(TEXT("/Script/UITouch"),
-		Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Components_TouchComponent_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Components_TouchComponent_h_Statics::ClassInfo),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_4281864246(TEXT("/Script/UITouch"),
+		Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_Statics::ClassInfo),
 		nullptr, 0,
 		nullptr, 0);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

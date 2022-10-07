@@ -5,7 +5,7 @@
 ===========================================================================*/
 
 #include "UObject/GeneratedCppIncludes.h"
-#include "UITouch/Widgets/TouchWidget.h"
+#include "UITouch/Public/Widgets/TouchWidget.h"
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 void EmptyLinkFunctionForGeneratedCodeTouchWidget() {}
 // Cross Module References
@@ -37,7 +37,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchWidget() {}
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UDelegateFunction_UTouchWidget_OnPressed__DelegateSignature_Statics::Function_MetaDataParams[] = {
 		{ "Comment", "/** * \xe5\xa4\x9a\xe6\x92\xad\xe6\x8c\x87\xe5\xae\x9a\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8 */" },
-		{ "ModuleRelativePath", "Widgets/TouchWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchWidget.h" },
 		{ "ToolTip", "\xe5\xa4\x9a\xe6\x92\xad\xe6\x8c\x87\xe5\xae\x9a\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8" },
 	};
 #endif
@@ -115,7 +115,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchWidget() {}
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UTouchWidget_BindTouchDelegate_Statics::Function_MetaDataParams[] = {
 		{ "Category", "Aimo|Function" },
 		{ "Comment", "/** * \xe5\x88\xa4\xe6\x96\xad\xe6\x98\xaf\xe5\x90\xa6\xe8\xbf\x9b\xe5\x85\xa5\xe8\xa7\xa6\xe6\x8e\xa7\xe5\x8c\xba\xe5\x9f\x9f */" },
-		{ "ModuleRelativePath", "Widgets/TouchWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchWidget.h" },
 		{ "ToolTip", "\xe5\x88\xa4\xe6\x96\xad\xe6\x98\xaf\xe5\x90\xa6\xe8\xbf\x9b\xe5\x85\xa5\xe8\xa7\xa6\xe6\x8e\xa7\xe5\x8c\xba\xe5\x9f\x9f" },
 	};
 #endif
@@ -159,7 +159,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchWidget() {}
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UTouchWidget_IsTouchLocation_Statics::Function_MetaDataParams[] = {
 		{ "Category", "Aimo|Function" },
 		{ "Comment", "/** * \xe5\x88\xa4\xe6\x96\xad\xe6\x98\xaf\xe5\x90\xa6\xe8\xbf\x9b\xe5\x85\xa5\xe8\xa7\xa6\xe6\x8e\xa7\xe5\x8c\xba\xe5\x9f\x9f */" },
-		{ "ModuleRelativePath", "Widgets/TouchWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchWidget.h" },
 		{ "ToolTip", "\xe5\x88\xa4\xe6\x96\xad\xe6\x98\xaf\xe5\x90\xa6\xe8\xbf\x9b\xe5\x85\xa5\xe8\xa7\xa6\xe6\x8e\xa7\xe5\x8c\xba\xe5\x9f\x9f" },
 	};
 #endif
@@ -203,7 +203,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchWidget() {}
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UTouchWidget_SetIndexTouchDelegate_Statics::Function_MetaDataParams[] = {
 		{ "Category", "Aimo|Function" },
 		{ "Comment", "/** * \xe8\xae\xbe\xe7\xbd\xae\xe8\xa7\xa6\xe6\x8e\xa7\xe6\x98\xaf\xe5\x90\xa6\xe7\xbb\x91\xe5\xae\x9a */" },
-		{ "ModuleRelativePath", "Widgets/TouchWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchWidget.h" },
 		{ "ToolTip", "\xe8\xae\xbe\xe7\xbd\xae\xe8\xa7\xa6\xe6\x8e\xa7\xe6\x98\xaf\xe5\x90\xa6\xe7\xbb\x91\xe5\xae\x9a" },
 	};
 #endif
@@ -242,7 +242,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchWidget() {}
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UTouchWidget_TouchIndex_Statics::Function_MetaDataParams[] = {
 		{ "Category", "Aimo|Function" },
 		{ "Comment", "/** * \xe6\x8e\xa5\xe6\x94\xb6\xe8\xa7\xa6\xe5\x8f\x91\xe4\xbd\x8d\xe7\xbd\xae\xe5\x92\x8c\xe7\xb4\xa2\xe5\xbc\x95 */" },
-		{ "ModuleRelativePath", "Widgets/TouchWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchWidget.h" },
 		{ "ToolTip", "\xe6\x8e\xa5\xe6\x94\xb6\xe8\xa7\xa6\xe5\x8f\x91\xe4\xbd\x8d\xe7\xbd\xae\xe5\x92\x8c\xe7\xb4\xa2\xe5\xbc\x95" },
 	};
 #endif
@@ -277,7 +277,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchWidget() {}
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UTouchWidget_TouchMoved_Statics::Function_MetaDataParams[] = {
 		{ "Category", "Aimo|Function" },
 		{ "Comment", "/** * \xe8\xa7\xa6\xe5\x8f\x91\xe7\xa7\xbb\xe5\x8a\xa8\xe4\xbd\x8d\xe7\xbd\xae */" },
-		{ "ModuleRelativePath", "Widgets/TouchWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchWidget.h" },
 		{ "ToolTip", "\xe8\xa7\xa6\xe5\x8f\x91\xe7\xa7\xbb\xe5\x8a\xa8\xe4\xbd\x8d\xe7\xbd\xae" },
 	};
 #endif
@@ -320,24 +320,24 @@ void EmptyLinkFunctionForGeneratedCodeTouchWidget() {}
 		(UObject* (*)())Z_Construct_UPackage__Script_UITouch,
 	};
 	const FClassFunctionLinkInfo Z_Construct_UClass_UTouchWidget_Statics::FuncInfo[] = {
-		{ &Z_Construct_UFunction_UTouchWidget_BindTouchDelegate, "BindTouchDelegate" }, // 3354206880
-		{ &Z_Construct_UFunction_UTouchWidget_IsTouchLocation, "IsTouchLocation" }, // 232947103
-		{ &Z_Construct_UDelegateFunction_UTouchWidget_OnPressed__DelegateSignature, "OnPressed__DelegateSignature" }, // 1987956299
-		{ &Z_Construct_UFunction_UTouchWidget_SetIndexTouchDelegate, "SetIndexTouchDelegate" }, // 808452416
-		{ &Z_Construct_UFunction_UTouchWidget_TouchIndex, "TouchIndex" }, // 3131151643
-		{ &Z_Construct_UFunction_UTouchWidget_TouchMoved, "TouchMoved" }, // 3654325018
+		{ &Z_Construct_UFunction_UTouchWidget_BindTouchDelegate, "BindTouchDelegate" }, // 1638459919
+		{ &Z_Construct_UFunction_UTouchWidget_IsTouchLocation, "IsTouchLocation" }, // 1865568956
+		{ &Z_Construct_UDelegateFunction_UTouchWidget_OnPressed__DelegateSignature, "OnPressed__DelegateSignature" }, // 136059385
+		{ &Z_Construct_UFunction_UTouchWidget_SetIndexTouchDelegate, "SetIndexTouchDelegate" }, // 507990128
+		{ &Z_Construct_UFunction_UTouchWidget_TouchIndex, "TouchIndex" }, // 1182314602
+		{ &Z_Construct_UFunction_UTouchWidget_TouchMoved, "TouchMoved" }, // 2632961747
 	};
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchWidget_Statics::Class_MetaDataParams[] = {
 		{ "Comment", "/**\n * \n */" },
 		{ "IncludePath", "Widgets/TouchWidget.h" },
-		{ "ModuleRelativePath", "Widgets/TouchWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchWidget.h" },
 	};
 #endif
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchWidget_Statics::NewProp_LocalWidgetLocation_MetaData[] = {
 		{ "Category", "Aimo|Variable" },
-		{ "ModuleRelativePath", "Widgets/TouchWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchWidget.h" },
 	};
 #endif
 	const UECodeGen_Private::FStructPropertyParams Z_Construct_UClass_UTouchWidget_Statics::NewProp_LocalWidgetLocation = { "LocalWidgetLocation", nullptr, (EPropertyFlags)0x0010000000000004, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchWidget, LocalWidgetLocation), Z_Construct_UScriptStruct_FVector2D, METADATA_PARAMS(Z_Construct_UClass_UTouchWidget_Statics::NewProp_LocalWidgetLocation_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchWidget_Statics::NewProp_LocalWidgetLocation_MetaData)) };
@@ -345,11 +345,11 @@ void EmptyLinkFunctionForGeneratedCodeTouchWidget() {}
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchWidget_Statics::NewProp_OnPressedLocation_MetaData[] = {
 		{ "Category", "Aimo|On" },
 		{ "Comment", "/** * \xe5\xa4\x9a\xe6\x92\xad\xe6\x89\x80\xe6\x9c\x89\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8 */" },
-		{ "ModuleRelativePath", "Widgets/TouchWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchWidget.h" },
 		{ "ToolTip", "\xe5\xa4\x9a\xe6\x92\xad\xe6\x89\x80\xe6\x9c\x89\xe6\x8e\xa5\xe6\x94\xb6\xe5\x88\xb0\xe7\x9a\x84\xe8\xb0\x83\xe5\xba\xa6\xe5\x99\xa8" },
 	};
 #endif
-	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchWidget_Statics::NewProp_OnPressedLocation = { "OnPressedLocation", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchWidget, OnPressedLocation), Z_Construct_UDelegateFunction_UTouchWidget_OnPressed__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchWidget_Statics::NewProp_OnPressedLocation_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchWidget_Statics::NewProp_OnPressedLocation_MetaData)) }; // 1987956299
+	const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UTouchWidget_Statics::NewProp_OnPressedLocation = { "OnPressedLocation", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(UTouchWidget, OnPressedLocation), Z_Construct_UDelegateFunction_UTouchWidget_OnPressed__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UTouchWidget_Statics::NewProp_OnPressedLocation_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UTouchWidget_Statics::NewProp_OnPressedLocation_MetaData)) }; // 136059385
 	const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UTouchWidget_Statics::PropPointers[] = {
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UTouchWidget_Statics::NewProp_LocalWidgetLocation,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UTouchWidget_Statics::NewProp_OnPressedLocation,
@@ -385,15 +385,15 @@ void EmptyLinkFunctionForGeneratedCodeTouchWidget() {}
 		return UTouchWidget::StaticClass();
 	}
 	DEFINE_VTABLE_PTR_HELPER_CTOR(UTouchWidget);
-	struct Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Widgets_TouchWidget_h_Statics
+	struct Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_Statics
 	{
 		static const FClassRegisterCompiledInInfo ClassInfo[];
 	};
-	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Widgets_TouchWidget_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_UTouchWidget, UTouchWidget::StaticClass, TEXT("UTouchWidget"), &Z_Registration_Info_UClass_UTouchWidget, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UTouchWidget), 3409703780U) },
+	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_Statics::ClassInfo[] = {
+		{ Z_Construct_UClass_UTouchWidget, UTouchWidget::StaticClass, TEXT("UTouchWidget"), &Z_Registration_Info_UClass_UTouchWidget, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UTouchWidget), 998225085U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Widgets_TouchWidget_h_646111498(TEXT("/Script/UITouch"),
-		Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Widgets_TouchWidget_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Widgets_TouchWidget_h_Statics::ClassInfo),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_2530694611(TEXT("/Script/UITouch"),
+		Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_Statics::ClassInfo),
 		nullptr, 0,
 		nullptr, 0);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

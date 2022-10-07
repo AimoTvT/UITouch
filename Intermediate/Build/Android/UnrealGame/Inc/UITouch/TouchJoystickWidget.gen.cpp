@@ -5,7 +5,7 @@
 ===========================================================================*/
 
 #include "UObject/GeneratedCppIncludes.h"
-#include "UITouch/Widgets/TouchJoystickWidget.h"
+#include "UITouch/Public/Widgets/TouchJoystickWidget.h"
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 void EmptyLinkFunctionForGeneratedCodeTouchJoystickWidget() {}
 // Cross Module References
@@ -56,7 +56,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchJoystickWidget() {}
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UTouchJoystickWidget_SetControlPosition_Statics::Function_MetaDataParams[] = {
 		{ "Category", "Aimo|Function" },
 		{ "Comment", "/** * \xe8\xae\xbe\xe7\xbd\xae\xe6\x93\x8d\xe6\x8e\xa7\xe6\x9d\x86\xe4\xbd\x8d\xe7\xbd\xae */" },
-		{ "ModuleRelativePath", "Widgets/TouchJoystickWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchJoystickWidget.h" },
 		{ "ToolTip", "\xe8\xae\xbe\xe7\xbd\xae\xe6\x93\x8d\xe6\x8e\xa7\xe6\x9d\x86\xe4\xbd\x8d\xe7\xbd\xae" },
 	};
 #endif
@@ -127,13 +127,13 @@ void EmptyLinkFunctionForGeneratedCodeTouchJoystickWidget() {}
 		(UObject* (*)())Z_Construct_UPackage__Script_UITouch,
 	};
 	const FClassFunctionLinkInfo Z_Construct_UClass_UTouchJoystickWidget_Statics::FuncInfo[] = {
-		{ &Z_Construct_UFunction_UTouchJoystickWidget_SetControlPosition, "SetControlPosition" }, // 3645430198
+		{ &Z_Construct_UFunction_UTouchJoystickWidget_SetControlPosition, "SetControlPosition" }, // 2567403657
 	};
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchJoystickWidget_Statics::Class_MetaDataParams[] = {
 		{ "Comment", "/**\n * \n */" },
 		{ "IncludePath", "Widgets/TouchJoystickWidget.h" },
-		{ "ModuleRelativePath", "Widgets/TouchJoystickWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchJoystickWidget.h" },
 	};
 #endif
 #if WITH_METADATA
@@ -142,7 +142,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchJoystickWidget() {}
 		{ "Category", "Aimo|Variable" },
 		{ "Comment", "/** \xe7\xbc\xa9\xe6\x94\xbe\xe6\x8e\xa7\xe4\xbb\xb6\xe5\x8f\x98\xe9\x87\x8f */" },
 		{ "EditInline", "true" },
-		{ "ModuleRelativePath", "Widgets/TouchJoystickWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchJoystickWidget.h" },
 		{ "ToolTip", "\xe7\xbc\xa9\xe6\x94\xbe\xe6\x8e\xa7\xe4\xbb\xb6\xe5\x8f\x98\xe9\x87\x8f" },
 	};
 #endif
@@ -153,7 +153,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchJoystickWidget() {}
 		{ "Category", "Aimo|Variable" },
 		{ "Comment", "/** \xe5\x8c\x85\xe8\xa3\xb9\xe6\x8e\xa7\xe4\xbb\xb6\xe7\x9a\x84\xe8\xa7\x86\xe5\x8f\xa3 */" },
 		{ "EditInline", "true" },
-		{ "ModuleRelativePath", "Widgets/TouchJoystickWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchJoystickWidget.h" },
 		{ "ToolTip", "\xe5\x8c\x85\xe8\xa3\xb9\xe6\x8e\xa7\xe4\xbb\xb6\xe7\x9a\x84\xe8\xa7\x86\xe5\x8f\xa3" },
 	};
 #endif
@@ -164,7 +164,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchJoystickWidget() {}
 		{ "Category", "Aimo|Variable" },
 		{ "Comment", "/**  \xe6\x93\x8d\xe6\x8e\xa7\xe6\x9d\x86\xe8\x83\x8c\xe6\x99\xaf\xe5\x9b\xbe\xe7\x89\x87 */" },
 		{ "EditInline", "true" },
-		{ "ModuleRelativePath", "Widgets/TouchJoystickWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchJoystickWidget.h" },
 		{ "ToolTip", "\xe6\x93\x8d\xe6\x8e\xa7\xe6\x9d\x86\xe8\x83\x8c\xe6\x99\xaf\xe5\x9b\xbe\xe7\x89\x87" },
 	};
 #endif
@@ -173,7 +173,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchJoystickWidget() {}
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchJoystickWidget_Statics::NewProp_BackdropSlateBrush_MetaData[] = {
 		{ "Category", "Aimo|Variable" },
 		{ "Comment", "/** \xe6\x93\x8d\xe6\x8e\xa7\xe6\x9d\x86\xe8\x83\x8c\xe6\x99\xaf\xe5\x9b\xbe\xe7\x89\x87\xe8\xae\xbe\xe7\xbd\xae */" },
-		{ "ModuleRelativePath", "Widgets/TouchJoystickWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchJoystickWidget.h" },
 		{ "ToolTip", "\xe6\x93\x8d\xe6\x8e\xa7\xe6\x9d\x86\xe8\x83\x8c\xe6\x99\xaf\xe5\x9b\xbe\xe7\x89\x87\xe8\xae\xbe\xe7\xbd\xae" },
 	};
 #endif
@@ -184,7 +184,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchJoystickWidget() {}
 		{ "Category", "Aimo|Variable" },
 		{ "Comment", "/** \xe6\x93\x8d\xe6\x8e\xa7\xe6\x9d\x86\xe5\x9b\xbe\xe7\x89\x87\xe5\x8f\x98\xe9\x87\x8f */" },
 		{ "EditInline", "true" },
-		{ "ModuleRelativePath", "Widgets/TouchJoystickWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchJoystickWidget.h" },
 		{ "ToolTip", "\xe6\x93\x8d\xe6\x8e\xa7\xe6\x9d\x86\xe5\x9b\xbe\xe7\x89\x87\xe5\x8f\x98\xe9\x87\x8f" },
 	};
 #endif
@@ -193,7 +193,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchJoystickWidget() {}
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchJoystickWidget_Statics::NewProp_ControlSlateBrush_MetaData[] = {
 		{ "Category", "Aimo|Variable" },
 		{ "Comment", "/** \xe6\x93\x8d\xe6\x8e\xa7\xe6\x9d\x86\xe5\x9b\xbe\xe7\x89\x87\xe8\xae\xbe\xe7\xbd\xae */" },
-		{ "ModuleRelativePath", "Widgets/TouchJoystickWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchJoystickWidget.h" },
 		{ "ToolTip", "\xe6\x93\x8d\xe6\x8e\xa7\xe6\x9d\x86\xe5\x9b\xbe\xe7\x89\x87\xe8\xae\xbe\xe7\xbd\xae" },
 	};
 #endif
@@ -202,7 +202,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchJoystickWidget() {}
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchJoystickWidget_Statics::NewProp_TouchFingerIndex_MetaData[] = {
 		{ "Category", "Aimo|Variable" },
 		{ "Comment", "/** * \xe8\xa7\xa6\xe6\x8e\xa7\xe7\xb4\xa2\xe5\xbc\x95 */" },
-		{ "ModuleRelativePath", "Widgets/TouchJoystickWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchJoystickWidget.h" },
 		{ "ToolTip", "\xe8\xa7\xa6\xe6\x8e\xa7\xe7\xb4\xa2\xe5\xbc\x95" },
 	};
 #endif
@@ -211,7 +211,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchJoystickWidget() {}
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchJoystickWidget_Statics::NewProp_YShaftTimes_MetaData[] = {
 		{ "Category", "Aimo|Variable" },
 		{ "Comment", "/** * Y\xe8\xbd\xb4\xe5\x80\x8d\xe6\x95\xb0 */" },
-		{ "ModuleRelativePath", "Widgets/TouchJoystickWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchJoystickWidget.h" },
 		{ "ToolTip", "Y\xe8\xbd\xb4\xe5\x80\x8d\xe6\x95\xb0" },
 	};
 #endif
@@ -220,7 +220,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchJoystickWidget() {}
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchJoystickWidget_Statics::NewProp_IgnoreNumerical_MetaData[] = {
 		{ "Category", "Aimo|Variable" },
 		{ "Comment", "/** * \xe5\xbf\xbd\xe7\x95\xa5\xe5\x80\xbc */" },
-		{ "ModuleRelativePath", "Widgets/TouchJoystickWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchJoystickWidget.h" },
 		{ "ToolTip", "\xe5\xbf\xbd\xe7\x95\xa5\xe5\x80\xbc" },
 	};
 #endif
@@ -267,15 +267,15 @@ void EmptyLinkFunctionForGeneratedCodeTouchJoystickWidget() {}
 		return UTouchJoystickWidget::StaticClass();
 	}
 	DEFINE_VTABLE_PTR_HELPER_CTOR(UTouchJoystickWidget);
-	struct Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Widgets_TouchJoystickWidget_h_Statics
+	struct Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchJoystickWidget_h_Statics
 	{
 		static const FClassRegisterCompiledInInfo ClassInfo[];
 	};
-	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Widgets_TouchJoystickWidget_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_UTouchJoystickWidget, UTouchJoystickWidget::StaticClass, TEXT("UTouchJoystickWidget"), &Z_Registration_Info_UClass_UTouchJoystickWidget, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UTouchJoystickWidget), 3206321872U) },
+	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchJoystickWidget_h_Statics::ClassInfo[] = {
+		{ Z_Construct_UClass_UTouchJoystickWidget, UTouchJoystickWidget::StaticClass, TEXT("UTouchJoystickWidget"), &Z_Registration_Info_UClass_UTouchJoystickWidget, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UTouchJoystickWidget), 3868341160U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Widgets_TouchJoystickWidget_h_2385118760(TEXT("/Script/UITouch"),
-		Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Widgets_TouchJoystickWidget_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Widgets_TouchJoystickWidget_h_Statics::ClassInfo),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchJoystickWidget_h_4021105971(TEXT("/Script/UITouch"),
+		Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchJoystickWidget_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchJoystickWidget_h_Statics::ClassInfo),
 		nullptr, 0,
 		nullptr, 0);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

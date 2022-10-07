@@ -5,7 +5,7 @@
 ===========================================================================*/
 
 #include "UObject/GeneratedCppIncludes.h"
-#include "UITouch/Widgets/TouchControlWidget.h"
+#include "UITouch/Public/Widgets/TouchControlWidget.h"
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 void EmptyLinkFunctionForGeneratedCodeTouchControlWidget() {}
 // Cross Module References
@@ -66,7 +66,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchControlWidget() {}
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchControlWidget_Statics::Class_MetaDataParams[] = {
 		{ "Comment", "/**\n * \n */" },
 		{ "IncludePath", "Widgets/TouchControlWidget.h" },
-		{ "ModuleRelativePath", "Widgets/TouchControlWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchControlWidget.h" },
 	};
 #endif
 #if WITH_METADATA
@@ -75,7 +75,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchControlWidget() {}
 		{ "Category", "Aimo|Variable" },
 		{ "Comment", "/** \xe7\xbc\xa9\xe6\x94\xbe\xe6\x8e\xa7\xe4\xbb\xb6\xe5\x8f\x98\xe9\x87\x8f */" },
 		{ "EditInline", "true" },
-		{ "ModuleRelativePath", "Widgets/TouchControlWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchControlWidget.h" },
 		{ "ToolTip", "\xe7\xbc\xa9\xe6\x94\xbe\xe6\x8e\xa7\xe4\xbb\xb6\xe5\x8f\x98\xe9\x87\x8f" },
 	};
 #endif
@@ -86,7 +86,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchControlWidget() {}
 		{ "Category", "Aimo|Variable" },
 		{ "Comment", "/** \xe5\x9b\xbe\xe5\x83\x8f\xe5\x8f\x98\xe9\x87\x8f */" },
 		{ "EditInline", "true" },
-		{ "ModuleRelativePath", "Widgets/TouchControlWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchControlWidget.h" },
 		{ "ToolTip", "\xe5\x9b\xbe\xe5\x83\x8f\xe5\x8f\x98\xe9\x87\x8f" },
 	};
 #endif
@@ -95,7 +95,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchControlWidget() {}
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchControlWidget_Statics::NewProp_SlateBrush_MetaData[] = {
 		{ "Category", "Aimo|Variable" },
 		{ "Comment", "/** \xe5\x9b\xbe\xe7\x89\x87\xe8\xae\xbe\xe7\xbd\xae */" },
-		{ "ModuleRelativePath", "Widgets/TouchControlWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchControlWidget.h" },
 		{ "ToolTip", "\xe5\x9b\xbe\xe7\x89\x87\xe8\xae\xbe\xe7\xbd\xae" },
 	};
 #endif
@@ -105,7 +105,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchControlWidget() {}
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchControlWidget_Statics::NewProp_TouchFingerIndexs_MetaData[] = {
 		{ "Category", "Aimo|Variable" },
 		{ "Comment", "/** * \xe8\xa7\xa6\xe6\x8e\xa7\xe7\xb4\xa2\xe5\xbc\x95\xe7\xbb\x84 */" },
-		{ "ModuleRelativePath", "Widgets/TouchControlWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchControlWidget.h" },
 		{ "ToolTip", "\xe8\xa7\xa6\xe6\x8e\xa7\xe7\xb4\xa2\xe5\xbc\x95\xe7\xbb\x84" },
 	};
 #endif
@@ -115,7 +115,7 @@ void EmptyLinkFunctionForGeneratedCodeTouchControlWidget() {}
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UTouchControlWidget_Statics::NewProp_TouchLocations_MetaData[] = {
 		{ "Category", "Aimo|Variable" },
 		{ "Comment", "/** * \xe8\xa7\xa6\xe6\x8e\xa7\xe7\xb4\xa2\xe5\xbc\x95\xe4\xbd\x8d\xe7\xbd\xae\xe7\xbb\x84 */" },
-		{ "ModuleRelativePath", "Widgets/TouchControlWidget.h" },
+		{ "ModuleRelativePath", "Public/Widgets/TouchControlWidget.h" },
 		{ "ToolTip", "\xe8\xa7\xa6\xe6\x8e\xa7\xe7\xb4\xa2\xe5\xbc\x95\xe4\xbd\x8d\xe7\xbd\xae\xe7\xbb\x84" },
 	};
 #endif
@@ -160,15 +160,15 @@ void EmptyLinkFunctionForGeneratedCodeTouchControlWidget() {}
 		return UTouchControlWidget::StaticClass();
 	}
 	DEFINE_VTABLE_PTR_HELPER_CTOR(UTouchControlWidget);
-	struct Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Widgets_TouchControlWidget_h_Statics
+	struct Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchControlWidget_h_Statics
 	{
 		static const FClassRegisterCompiledInInfo ClassInfo[];
 	};
-	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Widgets_TouchControlWidget_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_UTouchControlWidget, UTouchControlWidget::StaticClass, TEXT("UTouchControlWidget"), &Z_Registration_Info_UClass_UTouchControlWidget, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UTouchControlWidget), 2136654136U) },
+	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchControlWidget_h_Statics::ClassInfo[] = {
+		{ Z_Construct_UClass_UTouchControlWidget, UTouchControlWidget::StaticClass, TEXT("UTouchControlWidget"), &Z_Registration_Info_UClass_UTouchControlWidget, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UTouchControlWidget), 3230860706U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Widgets_TouchControlWidget_h_1561837098(TEXT("/Script/UITouch"),
-		Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Widgets_TouchControlWidget_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Widgets_TouchControlWidget_h_Statics::ClassInfo),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchControlWidget_h_501401710(TEXT("/Script/UITouch"),
+		Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchControlWidget_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchControlWidget_h_Statics::ClassInfo),
 		nullptr, 0,
 		nullptr, 0);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

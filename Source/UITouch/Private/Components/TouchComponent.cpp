@@ -1,25 +1,25 @@
 /**
- * Copyright: Aimo_°¨Ä«
+ * Copyright: Aimo_çš‘å¢¨
  * Release date: October 10, 2022
  * Do not steal or use it for profit
  * No modification is allowed to be published on the Internet without the person's consent
- * BiLiBiLi (ßÙÁ¨ßÙÁ¨) address: https://space.bilibili.com/146962867
+ * BiLiBiLi (å“”å“©å“”å“©) address: https://space.bilibili.com/146962867
  * making address: https://github.com/AimoTvT/UETouchPlugin
  * We welcome the contributions of powerful movers and movers to join this plugin
  * Build powerful plugins together!!
  *
- * °æÈ¨ËùÓĞÈ¨: Aimo_°¨Ä«
- * ·¢²¼Ê±¼ä: 2022Äê10ÔÂ10ºÅ
- * ½ûÖ¹µÁÈ¡»òÓÃÓÚÓ¯Àû
- * ½ûÖ¹ĞŞ¸ÄÎ´¾­¹ı±¾ÈËÍ¬Òâ·¢²¼»¥ÁªÍø
- * BiLiBiLi(ßÙÁ¨ßÙÁ¨)µØÖ·: https://space.bilibili.com/146962867
- * GitHubµØÖ·: https://github.com/AimoTvT/UETouchPlugin
- * »¶Ó­ÓĞÊµÁ¦µÄ´óÀĞ/ÃÈĞÂ¼ÓÈë±¾²å¼şµÄ¹±Ï×
- * Ò»Æğ´òÔìÇ¿´óµÄ²å¼ş!!!
+ * ç‰ˆæƒæ‰€æœ‰æƒ: Aimo_çš‘å¢¨
+ * å‘å¸ƒæ—¶é—´: 2022å¹´10æœˆ10å·
+ * ç¦æ­¢ç›—å–æˆ–ç”¨äºç›ˆåˆ©
+ * ç¦æ­¢ä¿®æ”¹æœªç»è¿‡æœ¬äººåŒæ„å‘å¸ƒäº’è”ç½‘
+ * BiLiBiLi(å“”å“©å“”å“©)åœ°å€: https://space.bilibili.com/146962867
+ * GitHubåœ°å€: https://github.com/AimoTvT/UETouchPlugin
+ * æ¬¢è¿æœ‰å®åŠ›çš„å¤§ä½¬/èŒæ–°åŠ å…¥æœ¬æ’ä»¶çš„è´¡çŒ®
+ * ä¸€èµ·æ‰“é€ å¼ºå¤§çš„æ’ä»¶!!!
  */
 
 
-#include "TouchComponent.h"
+#include "Components/TouchComponent.h"
 
 // Sets default values for this component's properties
 UTouchComponent::UTouchComponent()

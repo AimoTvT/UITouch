@@ -19,8 +19,8 @@
  */
 
 
-#include "TouchWidget.h"
-#include "../Components/TouchComponent.h"
+#include "Widgets/TouchWidget.h"
+#include "Components/TouchComponent.h"
 #include "Runtime/Engine/Public/DelayAction.h" //延迟的函数库
 
 #include "Runtime/UMG/Public/Blueprint/WidgetLayoutLibrary.h"

@@ -19,7 +19,7 @@
  */
 
 
-#include "TouchJoystickWidget.h"
+#include "Widgets/TouchJoystickWidget.h"
 #include "UMG/Public/Components/CanvasPanelSlot.h"
 #include "Runtime/UMG/Public/Blueprint/WidgetLayoutLibrary.h"
 

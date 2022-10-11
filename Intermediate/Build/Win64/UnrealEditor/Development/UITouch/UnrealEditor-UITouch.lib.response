@@ -1,0 +1,13 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UnrealEditor-UITouch.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"F:\UE_Folder\SSS5Cpp\Intermediate\Build\Win64\SSS5CppEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.obj"
+"F:\UE_Folder\SSS5Cpp\Plugins\UITouch\Intermediate\Build\Win64\UnrealEditor\Development\UITouch\Module.UITouch.cpp.obj"
+"F:\UE_Folder\SSS5Cpp\Plugins\UITouch\Intermediate\Build\Win64\UnrealEditor\Development\UITouch\Module.UITouch.gen.cpp.obj"
+"F:\UE_Folder\SSS5Cpp\Plugins\UITouch\Intermediate\Build\Win64\UnrealEditor\Development\UITouch\Default.rc2.res"
+/OUT:"F:\UE_Folder\SSS5Cpp\Plugins\UITouch\Intermediate\Build\Win64\UnrealEditor\Development\UITouch\UnrealEditor-UITouch.lib"

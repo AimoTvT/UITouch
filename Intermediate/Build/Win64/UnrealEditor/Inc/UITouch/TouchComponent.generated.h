@@ -13,7 +13,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #endif
 #define UITOUCH_TouchComponent_generated_h
 
-#define FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_42_DELEGATE \
+#define FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_42_DELEGATE \
 struct TouchComponent_eventTouchDynmic_Parms \
 { \
 	FVector Moved; \
@@ -28,7 +28,7 @@ static inline void FTouchDynmic_DelegateWrapper(const FMulticastScriptDelegate& 
 }
 
 
-#define FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_45_DELEGATE \
+#define FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_45_DELEGATE \
 struct TouchComponent_eventOnTouchDynmic_Parms \
 { \
 	FVector Moved; \
@@ -43,7 +43,7 @@ static inline void FOnTouchDynmic_DelegateWrapper(const FMulticastScriptDelegate
 }
 
 
-#define FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_48_DELEGATE \
+#define FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_48_DELEGATE \
 struct TouchComponent_eventOnIndexTouchDynmic_Parms \
 { \
 	FVector Moved; \
@@ -56,20 +56,20 @@ static inline void FOnIndexTouchDynmic_DelegateWrapper(const FMulticastScriptDel
 }
 
 
-#define FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_SPARSE_DATA
-#define FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_RPC_WRAPPERS \
+#define FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_SPARSE_DATA
+#define FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_RPC_WRAPPERS \
  \
 	DECLARE_FUNCTION(execTouchIndex); \
 	DECLARE_FUNCTION(execTouch);
 
 
-#define FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_RPC_WRAPPERS_NO_PURE_DECLS \
+#define FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_RPC_WRAPPERS_NO_PURE_DECLS \
  \
 	DECLARE_FUNCTION(execTouchIndex); \
 	DECLARE_FUNCTION(execTouch);
 
 
-#define FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_INCLASS_NO_PURE_DECLS \
+#define FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesUTouchComponent(); \
 	friend struct Z_Construct_UClass_UTouchComponent_Statics; \
@@ -78,7 +78,7 @@ public: \
 	DECLARE_SERIALIZER(UTouchComponent)
 
 
-#define FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_INCLASS \
+#define FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_INCLASS \
 private: \
 	static void StaticRegisterNativesUTouchComponent(); \
 	friend struct Z_Construct_UClass_UTouchComponent_Statics; \
@@ -87,7 +87,7 @@ public: \
 	DECLARE_SERIALIZER(UTouchComponent)
 
 
-#define FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_STANDARD_CONSTRUCTORS \
+#define FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_STANDARD_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API UTouchComponent(const FObjectInitializer& ObjectInitializer); \
 	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(UTouchComponent) \
@@ -100,7 +100,7 @@ private: \
 public:
 
 
-#define FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_ENHANCED_CONSTRUCTORS \
+#define FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_ENHANCED_CONSTRUCTORS \
 private: \
 	/** Private move- and copy-constructors, should never be used */ \
 	NO_API UTouchComponent(UTouchComponent&&); \
@@ -111,25 +111,25 @@ public: \
 	DEFINE_DEFAULT_CONSTRUCTOR_CALL(UTouchComponent)
 
 
-#define FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_31_PROLOG
-#define FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_GENERATED_BODY_LEGACY \
+#define FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_31_PROLOG
+#define FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_SPARSE_DATA \
-	FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_RPC_WRAPPERS \
-	FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_INCLASS \
-	FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_STANDARD_CONSTRUCTORS \
+	FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_SPARSE_DATA \
+	FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_RPC_WRAPPERS \
+	FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_INCLASS \
+	FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_STANDARD_CONSTRUCTORS \
 public: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 
-#define FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_GENERATED_BODY \
+#define FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_SPARSE_DATA \
-	FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_RPC_WRAPPERS_NO_PURE_DECLS \
-	FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_INCLASS_NO_PURE_DECLS \
-	FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_ENHANCED_CONSTRUCTORS \
+	FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_SPARSE_DATA \
+	FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_RPC_WRAPPERS_NO_PURE_DECLS \
+	FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_INCLASS_NO_PURE_DECLS \
+	FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h_34_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
@@ -137,7 +137,7 @@ PRAGMA_ENABLE_DEPRECATION_WARNINGS
 template<> UITOUCH_API UClass* StaticClass<class UTouchComponent>();
 
 #undef CURRENT_FILE_ID
-#define CURRENT_FILE_ID FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h
+#define CURRENT_FILE_ID FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Components_TouchComponent_h
 
 
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

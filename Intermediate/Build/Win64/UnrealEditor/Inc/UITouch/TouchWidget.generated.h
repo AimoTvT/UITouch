@@ -13,7 +13,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #endif
 #define UITOUCH_TouchWidget_generated_h
 
-#define FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_44_DELEGATE \
+#define FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_44_DELEGATE \
 struct TouchWidget_eventOnPressed_Parms \
 { \
 	FVector Moved; \
@@ -26,8 +26,8 @@ static inline void FOnPressed_DelegateWrapper(const FMulticastScriptDelegate& On
 }
 
 
-#define FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_SPARSE_DATA
-#define FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_RPC_WRAPPERS \
+#define FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_SPARSE_DATA
+#define FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_RPC_WRAPPERS \
  \
 	DECLARE_FUNCTION(execIsTouchLocation); \
 	DECLARE_FUNCTION(execTouchMoved); \
@@ -36,7 +36,7 @@ static inline void FOnPressed_DelegateWrapper(const FMulticastScriptDelegate& On
 	DECLARE_FUNCTION(execBindTouchDelegate);
 
 
-#define FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_RPC_WRAPPERS_NO_PURE_DECLS \
+#define FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_RPC_WRAPPERS_NO_PURE_DECLS \
  \
 	DECLARE_FUNCTION(execIsTouchLocation); \
 	DECLARE_FUNCTION(execTouchMoved); \
@@ -45,7 +45,7 @@ static inline void FOnPressed_DelegateWrapper(const FMulticastScriptDelegate& On
 	DECLARE_FUNCTION(execBindTouchDelegate);
 
 
-#define FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_INCLASS_NO_PURE_DECLS \
+#define FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesUTouchWidget(); \
 	friend struct Z_Construct_UClass_UTouchWidget_Statics; \
@@ -54,7 +54,7 @@ public: \
 	DECLARE_SERIALIZER(UTouchWidget)
 
 
-#define FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_INCLASS \
+#define FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_INCLASS \
 private: \
 	static void StaticRegisterNativesUTouchWidget(); \
 	friend struct Z_Construct_UClass_UTouchWidget_Statics; \
@@ -63,7 +63,7 @@ public: \
 	DECLARE_SERIALIZER(UTouchWidget)
 
 
-#define FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_STANDARD_CONSTRUCTORS \
+#define FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_STANDARD_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API UTouchWidget(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()); \
 	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(UTouchWidget) \
@@ -76,7 +76,7 @@ private: \
 public:
 
 
-#define FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_ENHANCED_CONSTRUCTORS \
+#define FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_ENHANCED_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API UTouchWidget(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : Super(ObjectInitializer) { }; \
 private: \
@@ -89,25 +89,25 @@ public: \
 	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(UTouchWidget)
 
 
-#define FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_32_PROLOG
-#define FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_GENERATED_BODY_LEGACY \
+#define FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_32_PROLOG
+#define FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_SPARSE_DATA \
-	FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_RPC_WRAPPERS \
-	FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_INCLASS \
-	FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_STANDARD_CONSTRUCTORS \
+	FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_SPARSE_DATA \
+	FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_RPC_WRAPPERS \
+	FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_INCLASS \
+	FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_STANDARD_CONSTRUCTORS \
 public: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 
-#define FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_GENERATED_BODY \
+#define FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_SPARSE_DATA \
-	FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_RPC_WRAPPERS_NO_PURE_DECLS \
-	FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_INCLASS_NO_PURE_DECLS \
-	FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_ENHANCED_CONSTRUCTORS \
+	FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_SPARSE_DATA \
+	FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_RPC_WRAPPERS_NO_PURE_DECLS \
+	FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_INCLASS_NO_PURE_DECLS \
+	FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h_35_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
@@ -115,7 +115,7 @@ PRAGMA_ENABLE_DEPRECATION_WARNINGS
 template<> UITOUCH_API UClass* StaticClass<class UTouchWidget>();
 
 #undef CURRENT_FILE_ID
-#define CURRENT_FILE_ID FID_HostProject_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h
+#define CURRENT_FILE_ID FID_SSS5Cpp_Plugins_UITouch_Source_UITouch_Public_Widgets_TouchWidget_h
 
 
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

@@ -26,10 +26,7 @@
 void UTouchJoystickWidget::NativePreConstruct()
 {
 	Super::NativePreConstruct();
-	if (BackdropImageWidget)
-	{
-		BackdropImageWidget->SetBrush(BackdropSlateBrush);  /** * 设置操控杆背景的图片 */
-	}
+
 	if (ControlImageWidget)
 	{
 		ControlImageWidget->SetBrush(ControlSlateBrush);  /** * 设置操控杆的图片 */
@@ -39,6 +36,11 @@ void UTouchJoystickWidget::NativePreConstruct()
 			CanvasPanelSlot->SetSize(ControlSlateBrush.GetImageSize());  /** * 设置大小 */
 		}
 	}
+	if (BackdropImageWidget)
+	{
+		BackdropImageWidget->SetBrush(BackdropSlateBrush);  /** * 设置操控杆背景的图片 */
+	}
+
 }
 
 void UTouchJoystickWidget::NativeConstruct()
@@ -64,6 +66,7 @@ void UTouchJoystickWidget::TouchIndex(FVector Moved, uint8 FingerIndex)
 			TouchFingerIndex = FingerIndex;
 			OnPressedLocation.Broadcast({ 0.0, 0.0, Moved.Z + 1 });
 			SetIndexTouchDelegate(true, FingerIndex);
+			TriggerInedxAnimation(1);
 			return;
 		}
 	}
@@ -73,6 +76,7 @@ void UTouchJoystickWidget::TouchIndex(FVector Moved, uint8 FingerIndex)
 		SetIndexTouchDelegate(false, FingerIndex);
 		OnPressedLocation.Broadcast({ 0.0, 0.0, Moved.Z + 1 });
 		SetControlPosition(LocalWidgetLocation + GetPaintSpaceGeometry().GetLocalSize() / 2 * UWidgetLayoutLibrary::GetViewportScale(this));  /** * 设置操控杆归零位置 */
+		TriggerInedxAnimation(0);
 		return;
 	}
 	return;
@@ -87,8 +91,8 @@ void UTouchJoystickWidget::TouchMoved(FVector Moved)
 		FVector2D OffLocation = { Moved.X, Moved.Y };
 		OffLocation = OffLocation - (LocalWidgetLocation + SizeLocation);  /** * 获取偏移值 */
 		/** * 限制的值 */
-		float X = OffLocation.X / SizeLocation.X;
-		float Y = OffLocation.Y / SizeLocation.Y * YShaftTimes;
+		float X = OffLocation.X / (SizeLocation.X * RenderTransform.Scale.X);
+		float Y = OffLocation.Y / (SizeLocation.Y * RenderTransform.Scale.Y) * YShaftTimes;
 		if (Y < IgnoreNumerical.Y && Y > IgnoreNumerical.Y * -1)
 		{
 			if (X < IgnoreNumerical.X && X > IgnoreNumerical.X * -1)
@@ -107,21 +111,26 @@ void UTouchJoystickWidget::SetControlPosition(FVector2D Position)
 	UCanvasPanelSlot* CanvasPanelSlot = Cast<UCanvasPanelSlot>(ControlImageWidget->Slot);
 	if (CanvasPanelSlot)
 	{
-		float ViewportScale = UWidgetLayoutLibrary::GetViewportScale(this);
-		FVector2D LocalPositionAtCoordinates = GetPaintSpaceGeometry().GetLocalPositionAtCoordinates({ 0.0,0.0 });
-		FVector2D Size = CanvasPanelSlot->GetAutoSize() ? ControlImageWidget->Brush.GetImageSize() : CanvasPanelSlot->GetSize();
-		FVector Vector = FVector(Size, 0.0);  /** * 转化向量 */
-		FVector2D SizeLocationPosition = { Vector.X / 2, Vector.Y / 2 }; 
-		FVector2D SetLocationPosition = Position / ViewportScale - SizeLocationPosition - LocalPositionAtCoordinates;  /** * 获取设置最终位置 */
-		FVector2D LocalSize = GetPaintSpaceGeometry().GetLocalSize();
-		/** * 限制操控杆位置 */
-		CanvasPanelSlot->SetPosition({ FMath::Clamp(SetLocationPosition.X, (Size / 2 * -1).X, LocalSize.X + (Size / 2 * -1).X), FMath::Clamp(SetLocationPosition.Y,(Size / 2 * -1).Y, LocalSize.Y + (Size / 2 * -1).Y) });
+		float ViewportScale = UWidgetLayoutLibrary::GetViewportScale(this); /** * 获取缩放 */
+		FVector2D LocalPositionAtCoordinates = GetPaintSpaceGeometry().GetLocalPositionAtCoordinates({ 0.0,0.0 }); /** * 左上角位置 */
+		FVector2D ControlImageSize = CanvasPanelSlot->GetAutoSize() ? ControlImageWidget->Brush.GetImageSize() : CanvasPanelSlot->GetSize(); /** * 获取偏移值 */
+		FVector2D LocalSize = GetPaintSpaceGeometry().GetLocalSize() / 2;
+		FVector2D SetLocationPosition = Position / ViewportScale - (LocalPositionAtCoordinates + LocalSize); /** * 中心位置 */
+
+		FVector2D Direction;
+		float Len;
+		SetLocationPosition.ToDirectionAndLength(Direction, Len); /** * 获得圆圈参数 */
+		SetLocationPosition = FVector2D(Len > LocalSize.X * RenderTransform.Scale.X ? LocalSize.X * RenderTransform.Scale.X : Len);
+		SetLocationPosition = Direction * (SetLocationPosition / RenderTransform.Scale); /** * 获得圆圈位置 */
+		SetLocationPosition = SetLocationPosition + LocalSize - ControlImageSize / 2; /** * 设置偏移 */
+		
+		CanvasPanelSlot->SetPosition(SetLocationPosition);
 	}
 }
 
 /* * 获取蓝图动画
 
-ObjectProperty = FindField<UObjectProperty>(GetClass(), "JianBianXianShiAnimation"); //Object指针类型变量
+		ObjectProperty = FindField<UObjectProperty>(GetClass(), "JianBianXianShiAnimation"); //Object指针类型变量
 		Object = Cast<UWidgetAnimation>(ObjectProperty->GetObjectPropertyValue_InContainer(this)); //转换Object类型
 		if (Object)
 		{

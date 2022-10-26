@@ -9,6 +9,7 @@
 
 > - The cache compilation binaries have been removed
 > - When installing plug-ins manually, remember to compile the UE once
+> - This IS THE TEST VERSION!! There is no test packaging for this release
 
 ## 引擎版本( >= 4.27.0 )
 
@@ -19,3 +20,4 @@
 
 > - 已经删除缓存编译二进制文件
 > - 手动安装插件时记得 UE 编译一次
+> - 这个是测试版本!!!这个版本没有测试打包

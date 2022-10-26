@@ -58,6 +58,7 @@ void UTouchAdvancedJoystickWidget::TouchIndex(FVector Moved, uint8 FingerIndex)
 			TouchFingerIndex = FingerIndex;
 			OnPressedLocation.Broadcast({ 0.0, 0.0, Moved.Z + 1 });
 			SetIndexTouchDelegate(true, FingerIndex);
+			TriggerInedxAnimation(1);
 			return;
 		}
 	}
@@ -72,10 +73,11 @@ void UTouchAdvancedJoystickWidget::TouchIndex(FVector Moved, uint8 FingerIndex)
 			UpSpeedImageWidget->SetBrush(UpSpeedSlateBrush);
 			bTriggerUpSpeed = false;
 		}
-		if (UpSpeedImageWidget->GetVisibility() == ESlateVisibility::Visible)
-		{
-			UpSpeedImageWidget->SetVisibility(ESlateVisibility::Hidden);/** * 设置隐藏加速图片 */
-		}
+		//if (UpSpeedImageWidget && UpSpeedImageWidget->GetVisibility() == ESlateVisibility::Visible)
+		//{
+		//	UpSpeedImageWidget->SetVisibility(ESlateVisibility::Hidden);/** * 设置隐藏加速图片 */
+		//}
+		TriggerInedxAnimation(0);
 		return;
 	}
 	return;
@@ -89,8 +91,8 @@ void UTouchAdvancedJoystickWidget::TouchMoved(FVector Moved)
 		FVector2D SizeLocation = GetPaintSpaceGeometry().GetLocalSize() * ViewportScale / 2;
 		FVector2D OffLocation = { Moved.X, Moved.Y };
 		OffLocation = OffLocation - (LocalWidgetLocation + SizeLocation);
-		float X = OffLocation.X / SizeLocation.X;
-		float Y = OffLocation.Y / SizeLocation.Y * YShaftTimes;
+		float X = OffLocation.X / (SizeLocation.X * RenderTransform.Scale.X);
+		float Y = OffLocation.Y / (SizeLocation.Y * RenderTransform.Scale.Y) * YShaftTimes;
 		if (Y < IgnoreNumerical.Y && Y > IgnoreNumerical.Y * -1)
 		{
 			if (X < IgnoreNumerical.X && X > IgnoreNumerical.X * -1)

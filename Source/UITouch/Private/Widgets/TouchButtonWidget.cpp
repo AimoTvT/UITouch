@@ -62,6 +62,7 @@ void UTouchButtonWidget::TouchIndex(FVector Moved, uint8 FingerIndex)
 						ImageWidget->SetBrush(bPressed ? PressedSlateBrush : SlateBrush);
 					}
 				}
+				TriggerInedxAnimation(1);
 				return;
 			}
 			else
@@ -74,6 +75,7 @@ void UTouchButtonWidget::TouchIndex(FVector Moved, uint8 FingerIndex)
 			{
 				ImageWidget->SetBrush(PressedSlateBrush);
 			}
+			TriggerInedxAnimation(1);
 			return;
 		}
 	}
@@ -86,6 +88,7 @@ void UTouchButtonWidget::TouchIndex(FVector Moved, uint8 FingerIndex)
 		{
 			ImageWidget->SetBrush(SlateBrush);
 		}
+		TriggerInedxAnimation(0);
 	}
 	return;
 }

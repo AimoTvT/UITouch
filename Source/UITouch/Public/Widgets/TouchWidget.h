@@ -77,4 +77,13 @@ public:
 		/** * 判断是否进入触控区域 */
 		virtual bool IsTouchLocation(FVector Moved);
 
+	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
+		/** * 播放动画 */
+		virtual void TriggerInedxAnimation(int Index);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Aimo|Function")
+		/** * 蓝图播放动画 */
+		void BPTriggerInedxAnimation(int Index);
+
+
 };

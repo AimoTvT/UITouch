@@ -40,7 +40,7 @@ public:
 	ATouchPlayerController();
 
 	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Aimo|Variable")
-		TObjectPtr <UTouchComponent> TouchComponent;
+		UTouchComponent* TouchComponent;
 
 protected:
 

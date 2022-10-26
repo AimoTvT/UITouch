@@ -106,7 +106,7 @@ void UTouchAdvancedJoystickWidget::TouchMoved(FVector Moved)
 			if (Y > 1.5) /** * 判断是否进入加速模式 */
 			{
 				Y = 2;
-				OnPressedLocation.Broadcast({ FMath::Clamp(X,-1.0,1.0),  FMath::Clamp(Y,-1.0, 2), Moved.Z + 1 }); /** * 返回 Y = 2 是加速模式 */
+				OnPressedLocation.Broadcast({ FMath::Clamp(X,-1.0f,1.0f),  FMath::Clamp(Y,-1.0f, 2.0f), Moved.Z + 1 }); /** * 返回 Y = 2 是加速模式 */
 				if (bTriggerUpSpeed == false && UpSpeedImageWidget)
 				{
 					UpSpeedImageWidget->SetBrush(TriggerUpSpeedSlateBrush);
@@ -115,7 +115,7 @@ void UTouchAdvancedJoystickWidget::TouchMoved(FVector Moved)
 			}
 			else
 			{
-				OnPressedLocation.Broadcast({ FMath::Clamp(X,-1.0,1.0),  FMath::Clamp(Y,-1.0, 1.0), Moved.Z + 1 }); /** * 分发普通移动 */
+				OnPressedLocation.Broadcast({ FMath::Clamp(X,-1.0f,1.0f),  FMath::Clamp(Y,-1.0f, 1.0f), Moved.Z + 1 }); /** * 分发普通移动 */
 				if (bTriggerUpSpeed == true && UpSpeedImageWidget)
 				{
 					UpSpeedImageWidget->SetBrush(UpSpeedSlateBrush);
@@ -129,7 +129,7 @@ void UTouchAdvancedJoystickWidget::TouchMoved(FVector Moved)
 		}
 		else
 		{
-			OnPressedLocation.Broadcast({ FMath::Clamp(X,-1.0,1.0),  FMath::Clamp(Y,-1.0, 1.0), Moved.Z + 1 });
+			OnPressedLocation.Broadcast({ FMath::Clamp(X,-1.0f,1.0f),  FMath::Clamp(Y,-1.0f, 1.0f), Moved.Z + 1 });
 			if (UpSpeedImageWidget->GetVisibility() == ESlateVisibility::Visible)
 			{
 				UpSpeedImageWidget->SetVisibility(ESlateVisibility::Hidden); /** * 设置隐藏加速图片 */

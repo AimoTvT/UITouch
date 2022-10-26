@@ -101,7 +101,7 @@ void UTouchJoystickWidget::TouchMoved(FVector Moved)
 				Y = 0.0;
 			}
 		}
-		OnPressedLocation.Broadcast({ FMath::Clamp(X, -1.0, 1.0),  FMath::Clamp(Y, -1.0, 1.0), Moved.Z + 1 });
+		OnPressedLocation.Broadcast({ FMath::Clamp(X, -1.0f, 1.0f),  FMath::Clamp(Y, -1.0f, 1.0f), Moved.Z + 1 });
 		SetControlPosition({ Moved.X, Moved.Y });
 	}
 }

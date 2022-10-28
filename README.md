@@ -38,4 +38,4 @@
 
 > - # 爱心开发不易, 请开发者们喝茶吧 ------- 0.0
 > -
-> - ![喝茶](<[TuPian/支付码.png](https://github.com/AimoTvT/UITouch/raw/Aimo/TuPian/%E6%94%AF%E4%BB%98%E7%A0%81.png)> "爱心开发不易, 请开发者们喝茶吧 ------- 0.0")
+> - ![喝茶](https://github.com/AimoTvT/UITouch/raw/Aimo/TuPian/ZhiFuMa.png "爱心开发不易, 请开发者们喝茶吧 ------- 0.0")

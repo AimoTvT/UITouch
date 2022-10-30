@@ -1,4 +1,4 @@
-/*/**
+/**
  * Copyright: Aimo_皑墨
  * Release date: October 21, 2022
  * Do not steal or use it for profit

@@ -73,10 +73,10 @@ void UTouchAdvancedJoystickWidget::TouchIndex(FVector Moved, uint8 FingerIndex)
 			UpSpeedImageWidget->SetBrush(UpSpeedSlateBrush);
 			bTriggerUpSpeed = false;
 		}
-		//if (UpSpeedImageWidget && UpSpeedImageWidget->GetVisibility() == ESlateVisibility::Visible)
-		//{
-		//	UpSpeedImageWidget->SetVisibility(ESlateVisibility::Hidden);/** * 设置隐藏加速图片 */
-		//}
+		if (UpSpeedImageWidget && UpSpeedImageWidget->GetVisibility() == ESlateVisibility::Visible)
+		{
+			UpSpeedImageWidget->SetVisibility(ESlateVisibility::Hidden);/** * 设置隐藏加速图片 */
+		}
 		TriggerInedxAnimation(0);
 		return;
 	}

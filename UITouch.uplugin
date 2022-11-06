@@ -20,7 +20,7 @@
 			"Name": "UITouch",
 			"Type": "Runtime",
 			"LoadingPhase": "PreLoadingScreen",
-			"WhitelistPlatforms": [
+			"PlatformAllowList": [
 				"Win64",
 				"Android"
 			],

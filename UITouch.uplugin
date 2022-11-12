@@ -1,9 +1,9 @@
-{
+{	
 	"FileVersion": 3,
 	"Version": 1,
 	"VersionName": "1.01",
 	"FriendlyName": "UITouch",
-	"Description": "适用于UI的触控[引擎版本4.27]",
+	"Description": "适用于UI的触控",
 	"Category": "Wdigets",
 	"CreatedBy": "Aimo_皑墨",
 	"CreatedByURL": "https://space.bilibili.com/146962867",

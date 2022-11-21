@@ -1,11 +1,10 @@
 # UETouchPlugin
 
-## Engine version (>= 5.0.0)
+## Engine version (>= 5.1.0)
 
 > - Copyright: Aimo\_皑墨
-> - Open source Date: October 2, 2022
-> - Prohibited source code for fraud and other illegal behavior to profit
-> - Anyone can get copies and modify them for profit, publish them on the Internet, etc
+> - Open source protocol: MIT License
+> - Open Source Date: October 2, 2022
 > - QQ: 2422489737
 > - wechat: Aimo_TvT
 > - Email: 2422489737@qq.com
@@ -22,12 +21,11 @@
 > - The cache compilation binaries have been removed
 > - When installing plug-ins manually, remember to compile the UE once
 
-## 引擎版本( >= 5.0.0 )
+## 引擎版本( >= 5.1.0 )
 
 > - 版权所有权: Aimo\_皑墨
+> - 开源协议: MIT License
 > - 开源时间: 2022 年 10 月 2 号
-> - 禁止源码用于诈骗等违法行为来进行获利
-> - 大家都可以获取副本修改来盈利,发布互联网,等...
 > - QQ: 2422489737
 > - 微信: Aimo_TvT
 > - 邮箱: 2422489737@qq.com
@@ -45,5 +43,3 @@
 > - 手动安装插件时记得 UE 编译一次
 
 > - # 爱心开发不易, 请开发者们喝茶吧 ------- 0.0
-> -
-> - ![喝茶](https://github.com/AimoTvT/UITouch/raw/Aimo/TuPian/ZhiFuMa.png "爱心开发不易, 请开发者们喝茶吧 ------- 0.0")

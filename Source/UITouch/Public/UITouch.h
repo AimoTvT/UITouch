@@ -1,17 +1,15 @@
 /**
  * Copyright: Aimo_皑墨
- * Release date: October 21, 2022
- * Do not steal or use it for profit
- * No modification is allowed to be published on the Internet without the person's consent
+ * Open source protocol: MIT License
+ * Open Source Date: October 2, 2022
  * BiLiBiLi (哔哩哔哩) address: https://space.bilibili.com/146962867
  * making address: https://github.com/AimoTvT/UITouch
  * We welcome the contributions of powerful movers and movers to join this plugin
  * Build powerful plugins together!!
  *
  * 版权所有权: Aimo_皑墨
- * 发布时间: 2022年10月21号
- * 禁止盗取或用于盈利
- * 禁止修改未经过本人同意发布互联网
+ * 开源协议: MIT License
+ * 开源时间: 2022年10月2号
  * BiLiBiLi(哔哩哔哩)地址: https://space.bilibili.com/146962867
  * GitHub地址: https://github.com/AimoTvT/UITouch
  * 欢迎有实力的大佬/萌新加入本插件的贡献

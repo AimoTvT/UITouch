@@ -4,8 +4,8 @@
 
 > - Copyright: Aimo\_皑墨
 > - Open source Date: October 2, 2022
-> - Anyone can get copies and modify them for profit, publish them on the Internet, etc
 > - Prohibited source code for fraud and other illegal behavior to profit
+> - Anyone can get copies and modify them for profit, publish them on the Internet, etc
 > - QQ: 2422489737
 > - wechat: Aimo_TvT
 > - Email: 2422489737@qq.com
@@ -26,8 +26,8 @@
 
 > - 版权所有权: Aimo\_皑墨
 > - 开源时间: 2022 年 10 月 2 号
-> - 大家都可以获取副本修改来盈利,发布互联网,等...
 > - 禁止源码用于诈骗等违法行为来进行获利
+> - 大家都可以获取副本修改来盈利,发布互联网,等...
 > - QQ: 2422489737
 > - 微信: Aimo_TvT
 > - 邮箱: 2422489737@qq.com

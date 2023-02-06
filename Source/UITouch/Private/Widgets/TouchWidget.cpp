@@ -206,7 +206,16 @@ FVector2D UTouchWidget::GetLocalPosition()
 		Offset += Parent->GetPaintSpaceGeometry().GetLocalPositionAtCoordinates({ 0.0,0.0 });
 		Parent = Parent->GetParent();
 	}
-	return Offset;
+	if (ParentWidget)
+	{
+		Parent = ParentWidget;
+		while (Parent)
+		{
+			Offset += Parent->GetPaintSpaceGeometry().GetLocalPositionAtCoordinates({ 0.0,0.0 });
+			Parent = Parent->GetParent();
+		}
+	}
+	return Offset + CustomOffsetPosition;
 }
 
 /** * 判断是否触控位置是否进入触控区域 */
@@ -215,10 +224,10 @@ bool UTouchWidget::IsTouchLocation(FVector Moved)
 {
 	float ViewportScale = UWidgetLayoutLibrary::GetViewportScale(this); /** * 视口触控缩放 */
 	FVector2D SizeLocation = GetPaintSpaceGeometry().GetLocalSize() * ViewportScale * RenderTransform.Scale; /** * 获取控件大小 */
-	LocalWidgetLocation = GetLocalPosition(); /** * 获取控件左上角位置 */
-	FVector2D TLocalWidgetLocation = LocalWidgetLocation * ViewportScale - SizeLocation / 4 * (RenderTransform.Scale - 1); /** * 计算缩放偏移 */
-	return Moved.X >= TLocalWidgetLocation.X && Moved.X <= TLocalWidgetLocation.X + SizeLocation.X  \
-		&& Moved.Y >= TLocalWidgetLocation.Y && Moved.Y <= TLocalWidgetLocation.Y + SizeLocation.Y; // \是链接下一行 后面不许有空格
+	LocalWidgetPosition = GetLocalPosition(); /** * 获取控件左上角位置 */
+	FVector2D TLocalWidgetPosition = LocalWidgetPosition * ViewportScale - SizeLocation / 4 * (RenderTransform.Scale - 1); /** * 计算缩放偏移 */
+	return Moved.X >= TLocalWidgetPosition.X && Moved.X <= TLocalWidgetPosition.X + SizeLocation.X  \
+		&& Moved.Y >= TLocalWidgetPosition.Y && Moved.Y <= TLocalWidgetPosition.Y + SizeLocation.Y; // \是链接下一行 后面不许有空格
 }
 
 void UTouchWidget::TriggerInedxAnimation(int Index)

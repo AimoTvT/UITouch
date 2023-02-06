@@ -73,7 +73,7 @@ void UTouchJoystickWidget::TouchIndex(FVector Moved, uint8 FingerIndex)
 		TouchFingerIndex = 255;
 		SetIndexTouchDelegate(false, FingerIndex);
 		OnPressedLocation.Broadcast({ 0.0, 0.0, Moved.Z + 1 });
-		SetControlPosition(LocalWidgetLocation + GetPaintSpaceGeometry().GetLocalSize() / 2 * UWidgetLayoutLibrary::GetViewportScale(this));  /** * 设置操控杆归零位置 */
+		SetControlPosition((LocalWidgetLocation + GetPaintSpaceGeometry().GetLocalSize() / 2) * UWidgetLayoutLibrary::GetViewportScale(this));  /** * 设置操控杆归零位置 */
 		TriggerInedxAnimation(0);
 		return;
 	}
@@ -118,7 +118,7 @@ void UTouchJoystickWidget::SetControlPosition(FVector2D Position)
 		float Len;
 		SetLocationPosition.ToDirectionAndLength(Direction, Len); /** * 获得圆圈参数 */
 		SetLocationPosition = FVector2D(Len > LocalSize.X * RenderTransform.Scale.X ? LocalSize.X * RenderTransform.Scale.X : Len);
-		SetLocationPosition = Direction * (SetLocationPosition / RenderTransform.Scale); /** * 获得圆圈位置 */
+		SetLocationPosition = Direction * JoystickAnimationRangeMultiple * (SetLocationPosition / RenderTransform.Scale); /** * 获得圆圈位置 */
 		SetLocationPosition = SetLocationPosition + LocalSize - ControlImageSize / 2; /** * 设置偏移 */
 		
 		CanvasPanelSlot->SetPosition(SetLocationPosition);

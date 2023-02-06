@@ -36,6 +36,7 @@ public:
 
 
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
+		/** * 本地位置,包括嵌套布局后的位置 */
 		FVector2D LocalWidgetLocation;
 	
 	/** * 多播指定接收到的调度器 */
@@ -70,6 +71,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
 		/** * 触发移动位置 */
 		virtual void TouchMoved(FVector Moved);
+
+	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
+		/** * 获取本地位置,包括嵌套布局后的偏移 */
+		virtual FVector2D GetLocalPosition();
 
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
 		/** * 判断是否进入触控区域 */

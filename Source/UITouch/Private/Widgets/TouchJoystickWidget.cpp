@@ -110,10 +110,9 @@ void UTouchJoystickWidget::SetControlPosition(FVector2D Position)
 	if (CanvasPanelSlot)
 	{
 		float ViewportScale = UWidgetLayoutLibrary::GetViewportScale(this); /** * 获取缩放 */
-		FVector2D LocalPositionAtCoordinates = GetPaintSpaceGeometry().GetLocalPositionAtCoordinates({ 0.0,0.0 }); /** * 左上角位置 */
 		FVector2D ControlImageSize = CanvasPanelSlot->GetAutoSize() ? ControlImageWidget->Brush.GetImageSize() : CanvasPanelSlot->GetSize(); /** * 获取偏移值 */
 		FVector2D LocalSize = GetPaintSpaceGeometry().GetLocalSize() / 2;
-		FVector2D SetLocationPosition = Position / ViewportScale - (LocalPositionAtCoordinates + LocalSize); /** * 中心位置 */
+		FVector2D SetLocationPosition = Position / ViewportScale - (LocalWidgetLocation + LocalSize); /** * 中心位置 */
 
 		FVector2D Direction;
 		float Len;

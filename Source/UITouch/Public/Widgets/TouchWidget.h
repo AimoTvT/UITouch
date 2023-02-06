@@ -88,5 +88,4 @@ public:
 		/** * 蓝图播放动画 */
 		void BPTriggerInedxAnimation(int Index);
 
-
 };

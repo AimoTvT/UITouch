@@ -68,11 +68,15 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
 		/** * Y轴倍数 */
-		float YShaftTimes = -1.0;
+		float YShaftTimes = -1.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
 		/** * 忽略值 */
 		FVector2D IgnoreNumerical;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+		/** * 摇杆动画倍数 */
+		float JoystickAnimationRangeMultiple = 1.0f;
 
 protected:
 

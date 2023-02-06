@@ -65,7 +65,7 @@ void UTouchAdvancedJoystickWidget::TouchIndex(FVector Moved, uint8 FingerIndex)
 		TouchFingerIndex = 255;
 		SetIndexTouchDelegate(false, FingerIndex);
 		OnPressedLocation.Broadcast({ 0.0, 0.0, Moved.Z + 1 });
-		SetControlPosition(LocalWidgetLocation + GetPaintSpaceGeometry().GetLocalSize() / 2 * UWidgetLayoutLibrary::GetViewportScale(this));
+		SetControlPosition((LocalWidgetLocation + GetPaintSpaceGeometry().GetLocalSize() / 2) * UWidgetLayoutLibrary::GetViewportScale(this));
 		if (bTriggerUpSpeed == true && UpSpeedImageWidget)
 		{
 			UpSpeedImageWidget->SetBrush(UpSpeedSlateBrush);

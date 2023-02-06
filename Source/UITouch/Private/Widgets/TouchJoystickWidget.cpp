@@ -73,7 +73,7 @@ void UTouchJoystickWidget::TouchIndex(FVector Moved, uint8 FingerIndex)
 		TouchFingerIndex = 255;
 		SetIndexTouchDelegate(false, FingerIndex);
 		OnPressedLocation.Broadcast({ 0.0, 0.0, Moved.Z + 1 });
-		SetControlPosition((LocalWidgetLocation + GetPaintSpaceGeometry().GetLocalSize() / 2) * UWidgetLayoutLibrary::GetViewportScale(this));  /** * 设置操控杆归零位置 */
+		SetControlPosition((LocalWidgetPosition + GetPaintSpaceGeometry().GetLocalSize() / 2) * UWidgetLayoutLibrary::GetViewportScale(this));  /** * 设置操控杆归零位置 */
 		TriggerInedxAnimation(0);
 		return;
 	}
@@ -87,7 +87,7 @@ void UTouchJoystickWidget::TouchMoved(FVector Moved)
 		float ViewportScale = UWidgetLayoutLibrary::GetViewportScale(this);
 		FVector2D SizeLocation = GetPaintSpaceGeometry().GetLocalSize() * ViewportScale / 2;
 		FVector2D OffLocation = { Moved.X, Moved.Y };
-		OffLocation = OffLocation - (LocalWidgetLocation + SizeLocation);  /** * 获取偏移值 */
+		OffLocation = OffLocation - (LocalWidgetPosition + SizeLocation);  /** * 获取偏移值 */
 		/** * 限制的值 */
 		float X = OffLocation.X / (SizeLocation.X * RenderTransform.Scale.X);
 		float Y = OffLocation.Y / (SizeLocation.Y * RenderTransform.Scale.Y) * YShaftTimes;
@@ -112,7 +112,7 @@ void UTouchJoystickWidget::SetControlPosition(FVector2D Position)
 		float ViewportScale = UWidgetLayoutLibrary::GetViewportScale(this); /** * 获取缩放 */
 		FVector2D ControlImageSize = CanvasPanelSlot->GetAutoSize() ? ControlImageWidget->Brush.GetImageSize() : CanvasPanelSlot->GetSize(); /** * 获取偏移值 */
 		FVector2D LocalSize = GetPaintSpaceGeometry().GetLocalSize() / 2;
-		FVector2D SetLocationPosition = Position / ViewportScale - (LocalWidgetLocation + LocalSize); /** * 中心位置 */
+		FVector2D SetLocationPosition = Position / ViewportScale - (LocalWidgetPosition + LocalSize); /** * 中心位置 */
 
 		FVector2D Direction;
 		float Len;

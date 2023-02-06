@@ -37,7 +37,15 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
 		/** * 本地位置,包括嵌套布局后的位置 */
-		FVector2D LocalWidgetLocation;
+		FVector2D LocalWidgetPosition;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+		/** * 自定义偏移位置 */
+		FVector2D CustomOffsetPosition;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
+		/** * 总父类控件,如一个用户控件里添加多个触控,那么那个用户控件是总父类 */
+		UWidget* ParentWidget;
 	
 	/** * 多播指定接收到的调度器 */
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPressed, FVector, Moved);

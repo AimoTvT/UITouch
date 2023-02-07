@@ -87,7 +87,7 @@ void UTouchJoystickWidget::TouchMoved(FVector Moved)
 		float ViewportScale = UWidgetLayoutLibrary::GetViewportScale(this);
 		FVector2D SizeLocation = GetPaintSpaceGeometry().GetLocalSize() * ViewportScale / 2;
 		FVector2D OffLocation = { Moved.X, Moved.Y };
-		OffLocation = OffLocation - (LocalWidgetPosition + SizeLocation);  /** * 获取偏移值 */
+		OffLocation = OffLocation - (LocalWidgetPosition * ViewportScale + SizeLocation);  /** * 获取偏移值 */
 		/** * 限制的值 */
 		float X = OffLocation.X / (SizeLocation.X * RenderTransform.Scale.X);
 		float Y = OffLocation.Y / (SizeLocation.Y * RenderTransform.Scale.Y) * YShaftTimes;

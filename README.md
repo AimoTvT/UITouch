@@ -21,6 +21,14 @@
 > - The cache compilation binaries have been removed
 > - When installing plug-ins manually, remember to compile the UE once
 
+> - Use UE(Unreal Engine) touch plug-in
+> - Find Engine\ Engine\Plugins\Widgets\... Path to create a Widgets folder
+> - If it's a Marketplace <<<<<<<<!!!
+> - Find Engine\ Engine\Plugins\Marketplace\... Path to create a Widgets folder
+
+> - The cache compilation binaries have been removed
+> - When installing plug-ins manually, remember to compile the UE once
+
 ## 引擎版本( >= 5.0.0 )
 
 > - 版权所有权: Aimo\_皑墨
@@ -42,9 +50,15 @@
 > - 已经删除缓存编译二进制文件
 > - 手动安装插件时记得 UE 编译一次
 
+> - 好用的 UE(虚幻引擎)触控插件
+> - 找到引擎文件夹里引擎\Engine\Plugins...路径下创建 Widgets 文件夹
+> - 如果它是一个市场<<<<<<<<!!
+> - 找到引擎文件夹里引擎\Engine\Plugins\Marketplace\...路径下创建 Widgets 文件夹
+
+> - 已经删除缓存编译二进制文件
+> - 手动安装插件时记得 UE 编译一次
+
 > - # 爱心开发不易, 请开发者们喝茶吧 ------- 0.0
-> -
-> - ![喝茶](https://github.com/AimoTvT/UITouch/raw/Aimo/TuPian/ZhiFuMa.png "爱心开发不易, 请开发者们喝茶吧 ------- 0.0")
 
 > ## 版本更新 1.03
 >

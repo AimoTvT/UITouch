@@ -89,8 +89,8 @@ void UTouchAdvancedJoystickWidget::TouchMoved(FVector Moved)
 		FVector2D SizeLocation = GetPaintSpaceGeometry().GetLocalSize() * ViewportScale / 2;
 		FVector2D OffLocation = { Moved.X, Moved.Y };
 		OffLocation = OffLocation - (LocalWidgetPosition * ViewportScale + SizeLocation);
-		float X = OffLocation.X / (SizeLocation.X * RenderTransform.Scale.X);
-		float Y = OffLocation.Y / (SizeLocation.Y * RenderTransform.Scale.Y) * YShaftTimes;
+		float X = OffLocation.X / (SizeLocation.X * GetRenderTransform().Scale.X);
+		float Y = OffLocation.Y / (SizeLocation.Y * GetRenderTransform().Scale.Y) * YShaftTimes;
 		if (Y < IgnoreNumerical.Y && Y > IgnoreNumerical.Y * -1)
 		{
 			if (X < IgnoreNumerical.X && X > IgnoreNumerical.X * -1)

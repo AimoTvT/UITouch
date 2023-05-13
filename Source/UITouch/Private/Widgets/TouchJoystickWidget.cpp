@@ -89,8 +89,8 @@ void UTouchJoystickWidget::TouchMoved(FVector Moved)
 		FVector2D OffLocation = { Moved.X, Moved.Y };
 		OffLocation = OffLocation - (LocalWidgetPosition * ViewportScale + SizeLocation);  /** * 获取偏移值 */
 		/** * 限制的值 */
-		float X = OffLocation.X / (SizeLocation.X * RenderTransform.Scale.X);
-		float Y = OffLocation.Y / (SizeLocation.Y * RenderTransform.Scale.Y) * YShaftTimes;
+		float X = OffLocation.X / (SizeLocation.X * GetRenderTransform().Scale.X);
+		float Y = OffLocation.Y / (SizeLocation.Y * GetRenderTransform().Scale.Y) * YShaftTimes;
 		if (Y < IgnoreNumerical.Y && Y > IgnoreNumerical.Y * -1)
 		{
 			if (X < IgnoreNumerical.X && X > IgnoreNumerical.X * -1)
@@ -110,15 +110,15 @@ void UTouchJoystickWidget::SetControlPosition(FVector2D Position)
 	if (CanvasPanelSlot)
 	{
 		float ViewportScale = UWidgetLayoutLibrary::GetViewportScale(this); /** * 获取缩放 */
-		FVector2D ControlImageSize = CanvasPanelSlot->GetAutoSize() ? ControlImageWidget->Brush.GetImageSize() : CanvasPanelSlot->GetSize(); /** * 获取偏移值 */
+		FVector2D ControlImageSize = CanvasPanelSlot->GetAutoSize() ? ControlImageWidget->GetBrush().GetImageSize() : CanvasPanelSlot->GetSize(); /** * 获取偏移值 */
 		FVector2D LocalSize = GetPaintSpaceGeometry().GetLocalSize() / 2;
 		FVector2D SetLocationPosition = Position / ViewportScale - (LocalWidgetPosition + LocalSize); /** * 中心位置 */
 
 		FVector2D Direction;
 		float Len;
 		SetLocationPosition.ToDirectionAndLength(Direction, Len); /** * 获得圆圈参数 */
-		SetLocationPosition = FVector2D(Len > LocalSize.X * RenderTransform.Scale.X ? LocalSize.X * RenderTransform.Scale.X : Len);
-		SetLocationPosition = Direction * JoystickAnimationRangeMultiple * (SetLocationPosition / RenderTransform.Scale); /** * 获得圆圈位置 */
+		SetLocationPosition = FVector2D(Len > LocalSize.X * GetRenderTransform().Scale.X ? LocalSize.X * GetRenderTransform().Scale.X : Len);
+		SetLocationPosition = Direction * JoystickAnimationRangeMultiple * (SetLocationPosition / GetRenderTransform().Scale); /** * 获得圆圈位置 */
 		SetLocationPosition = SetLocationPosition + LocalSize - ControlImageSize / 2; /** * 设置偏移 */
 		
 		CanvasPanelSlot->SetPosition(SetLocationPosition);

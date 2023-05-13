@@ -18,9 +18,11 @@
 
 
 #include "Widgets/TouchWidget.h"
+#include "Engine/Classes/Engine/Engine.h"
 #include "Components/PanelWidget.h"
 #include "Components/TouchComponent.h"
 #include "Runtime/Engine/Public/DelayAction.h" //延迟的函数库
+
 
 #include "Runtime/UMG/Public/Blueprint/WidgetLayoutLibrary.h"
 
@@ -223,9 +225,9 @@ FVector2D UTouchWidget::GetLocalPosition()
 bool UTouchWidget::IsTouchLocation(FVector Moved)
 {
 	float ViewportScale = UWidgetLayoutLibrary::GetViewportScale(this); /** * 视口触控缩放 */
-	FVector2D SizeLocation = GetPaintSpaceGeometry().GetLocalSize() * ViewportScale * RenderTransform.Scale; /** * 获取控件大小 */
+	FVector2D SizeLocation = GetPaintSpaceGeometry().GetLocalSize() * ViewportScale * GetRenderTransform().Scale; /** * 获取控件大小 */
 	LocalWidgetPosition = GetLocalPosition(); /** * 获取控件左上角位置 */
-	FVector2D TLocalWidgetPosition = LocalWidgetPosition * ViewportScale - SizeLocation / 4 * (RenderTransform.Scale - 1); /** * 计算缩放偏移 */
+	FVector2D TLocalWidgetPosition = LocalWidgetPosition * ViewportScale - SizeLocation / 4 * (GetRenderTransform().Scale - 1); /** * 计算缩放偏移 */
 	return Moved.X >= TLocalWidgetPosition.X && Moved.X <= TLocalWidgetPosition.X + SizeLocation.X  \
 		&& Moved.Y >= TLocalWidgetPosition.Y && Moved.Y <= TLocalWidgetPosition.Y + SizeLocation.Y; // \是链接下一行 后面不许有空格
 }

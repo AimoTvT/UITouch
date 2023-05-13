@@ -18,7 +18,7 @@
 
 
 #include "TouchPlayerController.h"
-
+#include "Components/InputComponent.h"
 
 ATouchPlayerController::ATouchPlayerController()
 {

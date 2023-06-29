@@ -34,17 +34,16 @@ class UITOUCH_API UTouchWidget : public UUserWidget
 	
 public:
 
-
+	/** * 本地位置,包括嵌套布局后的位置 */
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
-		/** * 本地位置,包括嵌套布局后的位置 */
 		FVector2D LocalWidgetPosition;
 
+	/** * 自定义偏移位置 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		/** * 自定义偏移位置 */
 		FVector2D CustomOffsetPosition;
 
+	/** * 总父类控件,如一个用户控件里添加多个触控,那么那个用户控件是总父类 */
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
-		/** * 总父类控件,如一个用户控件里添加多个触控,那么那个用户控件是总父类 */
 		UWidget* ParentWidget;
 	
 	/** * 多播指定接收到的调度器 */
@@ -64,36 +63,36 @@ protected:
 public:
 
 
+	/** * 判断是否进入触控区域 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		/** * 判断是否进入触控区域 */
 		virtual void BindTouchDelegate();
 
+	/** * 接收触发位置和索引 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		/** * 接收触发位置和索引 */
 		virtual void TouchIndex(FVector Moved, uint8 FingerIndex);
 
+	/** * 设置触控是否绑定 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		/** * 设置触控是否绑定 */
 		virtual void SetIndexTouchDelegate(bool bDelegateBind, uint8 FingerIndex);
 
+	/** * 触发移动位置 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		/** * 触发移动位置 */
 		virtual void TouchMoved(FVector Moved);
 
+	/** * 获取本地位置,包括嵌套布局后的偏移 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		/** * 获取本地位置,包括嵌套布局后的偏移 */
 		virtual FVector2D GetLocalPosition();
 
+	/** * 判断是否进入触控区域 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		/** * 判断是否进入触控区域 */
 		virtual bool IsTouchLocation(FVector Moved);
 
+	/** * 播放动画 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		/** * 播放动画 */
 		virtual void TriggerInedxAnimation(int Index);
 
+	/** * 蓝图播放动画 */
 	UFUNCTION(BlueprintImplementableEvent, Category = "Aimo|Function")
-		/** * 蓝图播放动画 */
 		void BPTriggerInedxAnimation(int Index);
 
 };

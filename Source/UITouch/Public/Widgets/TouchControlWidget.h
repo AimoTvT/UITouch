@@ -36,24 +36,24 @@ class UITOUCH_API UTouchControlWidget : public UTouchWidget
 
 public:
 
+	/** 缩放控件变量 */
 	UPROPERTY(BlueprintReadWrite, Meta = (BindWidget), Category = "Aimo|Variable")
-		/** 缩放控件变量 */
 		USizeBox* SizeBoxWidget;
 
+	/** 图像变量 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-		/** 图像变量 */
 		UImage* ImageWidget;
 
+	/** 图片设置 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		/** 图片设置 */
 		FSlateBrush SlateBrush;
 
+	/** * 触控索引组 */
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
-		/** * 触控索引组 */
 		TArray<uint8> TouchFingerIndexs;
 
+	/** * 触控索引位置组 */
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
-		/** * 触控索引位置组 */
 		TArray<FVector2D> TouchLocations;
 
 

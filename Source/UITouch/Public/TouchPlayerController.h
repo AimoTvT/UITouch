@@ -51,16 +51,16 @@ protected:
 
 public:
 
+	/** * 触摸按下 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		/** * 触摸按下 */
 		virtual void TouchPressed(ETouchIndex::Type FingerIndex, FVector Location);
 
+	/** * 触摸松开 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		/** * 触摸松开 */
 		virtual void TouchReleased(ETouchIndex::Type FingerIndex, FVector Location);
 
+	/** * 触摸移动 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		/** * 触摸移动 */
 		virtual void TouchMove(ETouchIndex::Type FingerIndex, FVector Location);
 
 };

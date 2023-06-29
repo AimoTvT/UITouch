@@ -38,44 +38,44 @@ class UITOUCH_API UTouchJoystickWidget : public UTouchWidget
 
 public:
 
+	/** 缩放控件变量 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-		/** 缩放控件变量 */
 		USizeBox* SizeBoxWidget;
 
+	/** 包裹控件的视口 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-		/** 包裹控件的视口 */
 		UCanvasPanel* CanvasPanelWidget;
 
+	/**  操控杆背景图片 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-		/**  操控杆背景图片 */
 		UImage* BackdropImageWidget;
 
+	/** 操控杆背景图片设置 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		/** 操控杆背景图片设置 */
 		FSlateBrush BackdropSlateBrush;
 
+	/** 操控杆图片变量 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-		/** 操控杆图片变量 */
 		UImage* ControlImageWidget;
 
+	/** 操控杆图片设置 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		/** 操控杆图片设置 */
 		FSlateBrush ControlSlateBrush;
 
+	/** * 触控索引 */
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
-		/** * 触控索引 */
 		uint8 TouchFingerIndex = 255;
 
+	/** * Y轴倍数 */
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
-		/** * Y轴倍数 */
 		float YShaftTimes = -1.0f;
 
+	/** * 忽略值 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		/** * 忽略值 */
 		FVector2D IgnoreNumerical;
 
+	/** * 摇杆动画倍数 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		/** * 摇杆动画倍数 */
 		float JoystickAnimationRangeMultiple = 1.0f;
 
 protected:
@@ -91,8 +91,8 @@ public:
 
 	virtual void TouchMoved(FVector Moved) override;
 
+	/** * 设置操控杆位置 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		/** * 设置操控杆位置 */
 		virtual void SetControlPosition(FVector2D Moved);
 
 };

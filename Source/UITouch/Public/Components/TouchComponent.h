@@ -46,8 +46,8 @@ public:
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnIndexTouchDynmic, FVector, Moved);
 
 
+	/** * 接收通讯调度器 */
 	UPROPERTY(BlueprintAssignable, Category = "Aimo|On")
-		/** * 接收通讯调度器 */
 		FTouchDynmic OnAllTouch;
 
 	/** * 多播所有接收到的调度器 */

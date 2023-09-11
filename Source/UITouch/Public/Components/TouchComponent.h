@@ -35,6 +35,9 @@ public:
 	// Sets default values for this component's properties
 	UTouchComponent();
 
+	/** * 触控组 */
+	UPROPERTY(BlueprintReadWrite, Category = "Aimo|On")
+	TArray<uint8> TouchIndexs;
 
 	/** * 接收通讯调度器 */
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FTouchDynmic, FVector, Moved, uint8, FingerIndex);
@@ -46,8 +49,8 @@ public:
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnIndexTouchDynmic, FVector, Moved);
 
 
-	/** * 接收通讯调度器 */
 	UPROPERTY(BlueprintAssignable, Category = "Aimo|On")
+		/** * 接收通讯调度器 */
 		FTouchDynmic OnAllTouch;
 
 	/** * 多播所有接收到的调度器 */
@@ -103,12 +106,17 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	/** * 触控 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
 		virtual void Touch(FVector Moved, uint8 FingerIndex);
 
-
+	/** * 内部执行触控 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
 		virtual void TouchIndex(FVector Moved, uint8 FingerIndex);
+	
+	/** * 判断释放的触控 */
+	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
+		virtual uint8 NoInputTouchIndex(APlayerController* PlayerController);
 
 	
 

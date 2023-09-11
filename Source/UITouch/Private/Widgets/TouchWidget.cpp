@@ -18,11 +18,9 @@
 
 
 #include "Widgets/TouchWidget.h"
-#include "Engine/Classes/Engine/Engine.h"
 #include "Components/PanelWidget.h"
 #include "Components/TouchComponent.h"
 #include "Runtime/Engine/Public/DelayAction.h" //延迟的函数库
-
 
 #include "Runtime/UMG/Public/Blueprint/WidgetLayoutLibrary.h"
 
@@ -56,7 +54,7 @@ void UTouchWidget::BindTouchDelegate()
 			}
 		}
 	}
-	if (UWorld* World = GEngine->GetWorldFromContextObject(this, EGetWorldErrorMode::LogAndReturnNull))
+	if (UWorld* World = GetOwningLocalPlayer()->GetWorld())
 	{
 		FLatentActionManager& LatentActionManager = World->GetLatentActionManager();
 		FLatentActionInfo Latentinfo;

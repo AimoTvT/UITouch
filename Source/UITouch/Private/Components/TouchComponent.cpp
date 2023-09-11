@@ -25,7 +25,7 @@ UTouchComponent::UTouchComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
+	TouchIndexs.SetNum(10); /** * 设置触控位置组的最大索引数 */
 	// ...
 }
 
@@ -53,10 +53,12 @@ void UTouchComponent::Touch(FVector Moved, uint8 FingerIndex)
 	switch (int(Moved.Z))
 	{
 	case 0:
+		TouchIndexs[FingerIndex] = 0;
 		OnPressedTouch.Broadcast(Moved, FingerIndex);
 		TouchIndex(Moved, FingerIndex);
 		break;
 	case 1:
+		TouchIndexs[FingerIndex] = 1;
 		OnPressedTouch.Broadcast( Moved, FingerIndex);
 		TouchIndex(Moved, FingerIndex);
 		break;
@@ -65,6 +67,7 @@ void UTouchComponent::Touch(FVector Moved, uint8 FingerIndex)
 		TouchIndex(Moved, FingerIndex);
 		break;
 	default:
+		TouchIndexs[FingerIndex] = 0;
 		OnPressedTouch.Broadcast( Moved, FingerIndex);
 		break;
 	}
@@ -111,8 +114,22 @@ void UTouchComponent::TouchIndex(FVector Moved, uint8 FingerIndex)
 	}
 }
 
-
-
-
-
+uint8 UTouchComponent::NoInputTouchIndex(APlayerController* PlayerController)
+{
+	float X;
+	float Y;
+	bool bIsCurrentlyPressed;
+	if (PlayerController && PlayerController->PlayerInput)
+	{
+		for (size_t i = 0; i < TouchIndexs.Num(); i++)
+		{
+			PlayerController->GetInputTouchState(static_cast<ETouchIndex::Type>(i), X, Y, bIsCurrentlyPressed);
+			if (TouchIndexs[i] && bIsCurrentlyPressed == false)
+			{
+				return uint8(i);
+			}
+		}
+	}
+	return uint8(-1);
+}
 

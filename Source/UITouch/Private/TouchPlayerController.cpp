@@ -20,6 +20,11 @@
 #include "TouchPlayerController.h"
 #include "Components/InputComponent.h"
 
+ //EnhancedInput
+#include "EnhancedInputComponent.h"
+
+
+
 ATouchPlayerController::ATouchPlayerController()
 {
 	TouchComponent = CreateDefaultSubobject<UTouchComponent>(TEXT("TouchComponent"));
@@ -44,33 +49,47 @@ void ATouchPlayerController::SetupPlayerInputComponent(class UInputComponent* Pl
 {
 	check(PlayerInputComponent); 
 
-	PlayerInputComponent->BindTouch(EInputEvent::IE_Pressed, this, &ATouchPlayerController::TouchPressed);
-	PlayerInputComponent->BindTouch(EInputEvent::IE_Released, this, &ATouchPlayerController::TouchReleased);
-	PlayerInputComponent->BindTouch(EInputEvent::IE_Repeat, this, &ATouchPlayerController::TouchMove);
-
+	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
+	{
+		if (InputActionTouch)
+		{
+			EnhancedInputComponent->BindAction(InputActionTouch, ETriggerEvent::Started, this, &ATouchPlayerController::IA_TouchPressed);
+			EnhancedInputComponent->BindAction(InputActionTouch, ETriggerEvent::Completed, this, &ATouchPlayerController::IA_TouchReleased);
+			EnhancedInputComponent->BindAction(InputActionTouch, ETriggerEvent::Triggered, this, &ATouchPlayerController::IA_TouchMove);
+		}
+	}
 }
 
 
-void ATouchPlayerController::TouchPressed(ETouchIndex::Type FingerIndex, FVector Location)
+
+void ATouchPlayerController::IA_TouchPressed(const FInputActionValue& Value)
 {
 	if (TouchComponent)
 	{
+		FVector Location = Value.Get<FVector>();
+		uint8 FingerIndex = Location.Z;
+		Location.Z = 1;
 		TouchComponent->Touch(Location, FingerIndex);
 	}
 }
 
-void ATouchPlayerController::TouchReleased(ETouchIndex::Type FingerIndex, FVector Location)
+void ATouchPlayerController::IA_TouchReleased(const FInputActionValue& Value)
 {
 	if (TouchComponent)
 	{
+		FVector Location = Value.Get<FVector>();
+		uint8 FingerIndex = TouchComponent->NoInputTouchIndex(this);
+		Location.Z = 0;
 		TouchComponent->Touch(Location, FingerIndex);
 	}
 }
 
-void ATouchPlayerController::TouchMove(ETouchIndex::Type FingerIndex, FVector Location)
+void ATouchPlayerController::IA_TouchMove(const FInputActionValue& Value)
 {
 	if (TouchComponent)
 	{
+		FVector Location = Value.Get<FVector>();
+		uint8 FingerIndex = Location.Z;
 		Location.Z = 2;
 		TouchComponent->Touch(Location, FingerIndex);
 	}

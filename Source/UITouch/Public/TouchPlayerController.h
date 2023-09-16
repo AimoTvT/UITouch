@@ -22,10 +22,8 @@
 #include "GameFramework/PlayerController.h"
 #include "Components/TouchComponent.h"
 
-//EnhancedInput
+ //EnhancedInput
 #include "InputAction.h"
-#include "InputModifiers.h"
-
 
 #include "TouchPlayerController.generated.h"
 
@@ -42,11 +40,13 @@ public:
 
 	ATouchPlayerController();
 
+	/** * 触控组件 */
 	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Aimo|Variable")
 		TObjectPtr <UTouchComponent> TouchComponent;
-
+	
+	/** * 触控组件 */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EnhancedInput|Action", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UInputAction> InputActionTouch;
+		TObjectPtr<UInputAction> InputActionTouch;
 	
 
 protected:
@@ -60,16 +60,16 @@ protected:
 
 public:
 
+	/** * 触摸按下 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		/** * 触摸按下1 */
 		virtual void IA_TouchPressed(const FInputActionValue& Value);
 
+	/** * 触摸松开 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		/** * 触摸松开1 */
 		virtual void IA_TouchReleased(const FInputActionValue& Value);
 
+	/** * 触摸移动 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		/** * 触摸移动1 */
 		virtual void IA_TouchMove(const FInputActionValue& Value);
 
 
@@ -78,50 +78,4 @@ public:
 };
 
 
-/** Scalar
-	*  Scales input by a set factor per axis
-	*/
-UCLASS(NotBlueprintable, MinimalAPI, meta = (DisplayName = "AddScalar"))
-class UInputModifierAddScalar : public UInputModifier
-{
-	GENERATED_BODY()
-
-public:
-
-#if WITH_EDITOR
-	/*
-	virtual EDataValidationResult IsDataValid(class FDataValidationContext& Context) const override
-	{
-		EDataValidationResult Result = CombineDataValidationResults(Super::IsDataValid(Context), EDataValidationResult::Valid);
-
-		// You cannot scale a boolean value
-		if (UInputAction* IA = Cast<UInputAction>(GetOuter()))
-		{
-			if (IA->ValueType == EInputActionValueType::Boolean)
-			{
-				Result = EDataValidationResult::Invalid;
-				Context.AddError(LOCTEXT("InputScalarInvalidActionType", "A Scalar modifier cannot be used on a 'Boolean' input action"));
-			}
-		}
-
-		return Result;
-	};
-	*/
-#endif
-
-	// TODO: Detail customization to only show modifiable axes for the relevant binding? This thing has no idea what it's bound to...
-	UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category = Settings)
-	FVector Scalar = FVector::OneVector;
-
-protected:
-	virtual FInputActionValue ModifyRaw_Implementation(const UEnhancedPlayerInput* PlayerInput, FInputActionValue CurrentValue, float DeltaTime) override
-	{
-		// Don't try and scale bools
-		if (ensureMsgf(CurrentValue.GetValueType() != EInputActionValueType::Boolean, TEXT("Scale modifier doesn't support boolean values.")))
-		{
-			return CurrentValue.Get<FVector>() + Scalar;
-		}
-		return CurrentValue;
-	};
-};
 

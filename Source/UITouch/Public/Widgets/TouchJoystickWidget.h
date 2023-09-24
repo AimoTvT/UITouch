@@ -20,9 +20,9 @@
 
 #include "CoreMinimal.h"
 #include "TouchWidget.h"
-#include "UMG/Public/Components/SizeBox.h"
-#include "UMG/Public/Components/Image.h"
-#include "UMG/Public/Components/CanvasPanel.h"
+#include "Components/SizeBox.h"
+#include "Components/Image.h"
+#include "Components/CanvasPanel.h"
 
 #include "TouchJoystickWidget.generated.h"
 
@@ -38,45 +38,49 @@ class UITOUCH_API UTouchJoystickWidget : public UTouchWidget
 
 public:
 
+	/** 缩放控件变量 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-		/** 缩放控件变量 */
 		USizeBox* SizeBoxWidget;
 
+	/** 包裹控件的视口 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-		/** 包裹控件的视口 */
 		UCanvasPanel* CanvasPanelWidget;
 
+	/**  操控杆背景图片 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-		/**  操控杆背景图片 */
 		UImage* BackdropImageWidget;
 
+	/** 操控杆背景图片设置 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		/** 操控杆背景图片设置 */
 		FSlateBrush BackdropSlateBrush;
 
+	/** 操控杆图片变量 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-		/** 操控杆图片变量 */
 		UImage* ControlImageWidget;
 
+	/** 操控杆图片设置 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		/** 操控杆图片设置 */
 		FSlateBrush ControlSlateBrush;
 
+	/** * 触控索引 */
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
-		/** * 触控索引 */
 		uint8 TouchFingerIndex = 255;
 
+	/** * Y轴倍数 */
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
-		/** * Y轴倍数 */
 		float YShaftTimes = -1.0f;
 
+	/** * 忽略值 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		/** * 忽略值 */
 		FVector2D IgnoreNumerical;
 
+	/** * 摇杆动画倍数 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		/** * 摇杆动画倍数 */
 		float JoystickAnimationRangeMultiple = 1.0f;
+
+	/** * 固定操纵杆 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+		bool bFixedJoystick;
 
 protected:
 
@@ -87,12 +91,16 @@ protected:
 
 public:
 
-	virtual	void TouchIndex(FVector Moved, uint8 FingerIndex) override;
+	virtual	void TouchIndex(const FVector& Moved, uint8 FingerIndex) override;
 
-	virtual void TouchMoved(FVector Moved) override;
+	virtual void TouchMoved(const FVector& Moved) override;
 
+	/** * 设置操控杆位置 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		/** * 设置操控杆位置 */
-		virtual void SetControlPosition(FVector2D Moved);
+		virtual void SetControlPosition(const FVector2D& Moved);
+
+	/** * 设置操控杆位置 */
+	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
+		virtual FVector2D GetPositionScale(const FVector2D& Moved);
 
 };

@@ -22,6 +22,9 @@
 #include "GameFramework/PlayerController.h"
 #include "Components/TouchComponent.h"
 
+ //EnhancedInput
+#include "InputAction.h"
+
 #include "TouchPlayerController.generated.h"
 
 /**
@@ -37,8 +40,14 @@ public:
 
 	ATouchPlayerController();
 
+	/** * 触控组件 */
 	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Aimo|Variable")
 		TObjectPtr <UTouchComponent> TouchComponent;
+	
+	/** * 触控组件 */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EnhancedInput|Action", meta = (AllowPrivateAccess = "true"))
+		TObjectPtr<UInputAction> InputActionTouch;
+	
 
 protected:
 
@@ -51,16 +60,22 @@ protected:
 
 public:
 
+	/** * 触摸按下 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		/** * 触摸按下 */
-		virtual void TouchPressed(ETouchIndex::Type FingerIndex, FVector Location);
+		virtual void IA_TouchPressed(const FInputActionValue& Value);
 
+	/** * 触摸松开 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		/** * 触摸松开 */
-		virtual void TouchReleased(ETouchIndex::Type FingerIndex, FVector Location);
+		virtual void IA_TouchReleased(const FInputActionValue& Value);
 
+	/** * 触摸移动 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		/** * 触摸移动 */
-		virtual void TouchMove(ETouchIndex::Type FingerIndex, FVector Location);
+		virtual void IA_TouchMove(const FInputActionValue& Value);
+
+
+
 
 };
+
+
+

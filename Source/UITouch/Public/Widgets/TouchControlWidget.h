@@ -20,8 +20,8 @@
 
 #include "CoreMinimal.h"
 #include "TouchWidget.h"
-#include "UMG/Public/Components/SizeBox.h"
-#include "UMG/Public/Components/Image.h"
+#include "Components/SizeBox.h"
+#include "Components/Image.h"
 
 #include "TouchControlWidget.generated.h"
 
@@ -36,24 +36,24 @@ class UITOUCH_API UTouchControlWidget : public UTouchWidget
 
 public:
 
+	/** 缩放控件变量 */
 	UPROPERTY(BlueprintReadWrite, Meta = (BindWidget), Category = "Aimo|Variable")
-		/** 缩放控件变量 */
 		USizeBox* SizeBoxWidget;
 
+	/** 图像变量 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-		/** 图像变量 */
 		UImage* ImageWidget;
 
+	/** 图片设置 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		/** 图片设置 */
 		FSlateBrush SlateBrush;
 
+	/** * 触控索引组 */
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
-		/** * 触控索引组 */
 		TArray<uint8> TouchFingerIndexs;
 
+	/** * 触控索引位置组 */
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
-		/** * 触控索引位置组 */
 		TArray<FVector2D> TouchLocations;
 
 
@@ -63,8 +63,8 @@ protected:
 
 public:
 
-	virtual	void TouchIndex(FVector Moved, uint8 FingerIndex) override;
+	virtual	void TouchIndex(const FVector& Moved, uint8 FingerIndex) override;
 
-	virtual void TouchMoved(FVector Moved) override;
+	virtual void TouchMoved(const FVector& Moved) override;
 
 };

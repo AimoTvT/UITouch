@@ -32,20 +32,20 @@ class UITOUCH_API UTouchAdvancedJoystickWidget : public UTouchJoystickWidget
 	
 public:
 
+	/**  加速图片 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-		/**  加速图片 */
 		UImage* UpSpeedImageWidget;
 
+	/** 加速图片设置 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		/** 加速图片设置 */
 		FSlateBrush UpSpeedSlateBrush;
 
+	/** 触发的加速图片设置 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		/** 触发的加速图片设置 */
 		FSlateBrush TriggerUpSpeedSlateBrush;
 
+	/** * 是否触发加速 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		/** * 是否触发加速 */
 		bool bTriggerUpSpeed = false;
 
 protected:
@@ -56,8 +56,8 @@ protected:
 
 public:
 
-	virtual	void TouchIndex(FVector Moved, uint8 FingerIndex) override;
+	virtual	void TouchIndex(const FVector& Moved, uint8 FingerIndex) override;
 
-	virtual void TouchMoved(FVector Moved) override;
+	virtual void TouchMoved(const FVector& Moved) override;
 
 };

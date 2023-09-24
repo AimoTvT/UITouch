@@ -18,7 +18,7 @@
 
 
 #include "Widgets/TouchAdvancedJoystickWidget.h"
-#include "UMG/Public/Components/CanvasPanelSlot.h"
+#include "Components/CanvasPanelSlot.h"
 #include "Runtime/UMG/Public/Blueprint/WidgetLayoutLibrary.h"
 
 
@@ -32,7 +32,7 @@ void UTouchAdvancedJoystickWidget::NativePreConstruct()
 		if (CanvasPanelSlot)
 		{
 			CanvasPanelSlot->SetSize(UpSpeedSlateBrush.GetImageSize()); /** * 设置加速图片大小 */
-			CanvasPanelSlot->SetPosition({0.0, (BackdropSlateBrush.GetImageSize() / 2 * -1).Y}); /** * 设置加速图片位置 */
+			CanvasPanelSlot->SetPosition({0.0, (BackdropSlateBrush.GetImageSize() * -1).Y}); /** * 设置加速图片位置 */
 		}
 	}
 }
@@ -41,13 +41,10 @@ void UTouchAdvancedJoystickWidget::NativePreConstruct()
 void UTouchAdvancedJoystickWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	if (UpSpeedImageWidget->GetVisibility() == ESlateVisibility::Visible)
-	{
-		UpSpeedImageWidget->SetVisibility(ESlateVisibility::Hidden); /** * 设置隐藏加速图片 */
-	}
+
 }
 
-void UTouchAdvancedJoystickWidget::TouchIndex(FVector Moved, uint8 FingerIndex)
+void UTouchAdvancedJoystickWidget::TouchIndex(const FVector& Moved, uint8 FingerIndex)
 {
 	if (TouchFingerIndex == 255 && Moved.Z > 0.0)
 	{
@@ -57,6 +54,28 @@ void UTouchAdvancedJoystickWidget::TouchIndex(FVector Moved, uint8 FingerIndex)
 			OnPressedLocation.Broadcast({ 0.0, 0.0, Moved.Z + 1 });
 			SetIndexTouchDelegate(true, FingerIndex);
 			TriggerInedxAnimation(1);
+			if (bFixedJoystick == false && BackdropImageWidget)
+			{
+				UCanvasPanelSlot* CanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot);
+				if (CanvasPanelSlot)
+				{
+					FVector2D LocalSize = GetPaintSpaceGeometry().GetLocalSize() / 2;
+					LocalSize = TriggerOffsetPosition - LocalSize;
+					CanvasPanelSlot->SetPosition(LocalSize);
+				}
+			}
+			if (bFixedJoystick == false && UpSpeedImageWidget)
+			{
+				UCanvasPanelSlot* CanvasPanelSlot = Cast<UCanvasPanelSlot>(UpSpeedImageWidget->Slot);
+				if (CanvasPanelSlot)
+				{
+					FVector2D LocalSize = GetPaintSpaceGeometry().GetLocalSize() / 2;
+					LocalSize = TriggerOffsetPosition - LocalSize;
+					LocalSize.Y = LocalSize.Y + BackdropSlateBrush.GetImageSize().Y * -1; /** * 偏移Y位置 */
+					CanvasPanelSlot->SetPosition(LocalSize);
+				}
+			}
+			
 			return;
 		}
 	}
@@ -65,46 +84,48 @@ void UTouchAdvancedJoystickWidget::TouchIndex(FVector Moved, uint8 FingerIndex)
 		TouchFingerIndex = 255;
 		SetIndexTouchDelegate(false, FingerIndex);
 		OnPressedLocation.Broadcast({ 0.0, 0.0, Moved.Z + 1 });
-		SetControlPosition((LocalWidgetPosition + GetPaintSpaceGeometry().GetLocalSize() / 2) * UWidgetLayoutLibrary::GetViewportScale(this));
+		SetControlPosition({ 0.0,0.0 });
 		if (bTriggerUpSpeed == true && UpSpeedImageWidget)
 		{
 			UpSpeedImageWidget->SetBrush(UpSpeedSlateBrush);
 			bTriggerUpSpeed = false;
 		}
-		if (UpSpeedImageWidget && UpSpeedImageWidget->GetVisibility() == ESlateVisibility::Visible)
+		if (UpSpeedImageWidget && UpSpeedImageWidget->GetVisibility() != ESlateVisibility::Hidden)
 		{
 			UpSpeedImageWidget->SetVisibility(ESlateVisibility::Hidden);/** * 设置隐藏加速图片 */
 		}
 		TriggerInedxAnimation(0);
+		UCanvasPanelSlot* CanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot);
+		if (bFixedJoystick == false && CanvasPanelSlot)
+		{
+			
+			CanvasPanelSlot->SetPosition({0.0,0.0});
+		}
 		return;
 	}
 	return;
 }
 
-void UTouchAdvancedJoystickWidget::TouchMoved(FVector Moved)
+void UTouchAdvancedJoystickWidget::TouchMoved(const FVector& Moved)
 {
 	if (TouchFingerIndex != 255)
 	{
-		float ViewportScale = UWidgetLayoutLibrary::GetViewportScale(this);
-		FVector2D SizeLocation = GetPaintSpaceGeometry().GetLocalSize() * ViewportScale / 2;
-		FVector2D OffLocation = { Moved.X, Moved.Y };
-		OffLocation = OffLocation - (LocalWidgetPosition * ViewportScale + SizeLocation);
-		float X = OffLocation.X / (SizeLocation.X * RenderTransform.Scale.X);
-		float Y = OffLocation.Y / (SizeLocation.Y * RenderTransform.Scale.Y) * YShaftTimes;
-		if (Y < IgnoreNumerical.Y && Y > IgnoreNumerical.Y * -1)
+		FVector2D PositionScale = { Moved.X, Moved.Y };
+		PositionScale = GetPositionScale(PositionScale);
+		if (PositionScale.Y < IgnoreNumerical.Y && PositionScale.Y > IgnoreNumerical.Y * -1)
 		{
-			if (X < IgnoreNumerical.X && X > IgnoreNumerical.X * -1)
+			if (PositionScale.X < IgnoreNumerical.X && PositionScale.X > IgnoreNumerical.X * -1)
 			{
-				X = 0.0;
-				Y = 0.0;
+				PositionScale.X = 0.0;
+				PositionScale.Y = 0.0;
 			}
 		}
-		if(Y > 0.2 && X > -0.5 && X < 0.5)  /** * 判断是否进入加速模式 */
+		if(PositionScale.Y > 0.2 && PositionScale.X > -0.5 && PositionScale.X < 0.5)  /** * 判断是否进入加速模式 */
 		{
-			if (Y > 1.5) /** * 判断是否进入加速模式 */
+			if (PositionScale.Y > 1.5) /** * 判断是否进入加速模式 */
 			{
-				Y = 2;
-				OnPressedLocation.Broadcast({ FMath::Clamp(X,-1.0,1.0),  FMath::Clamp(Y,-1.0, 2), Moved.Z + 1 }); /** * 返回 Y = 2 是加速模式 */
+				PositionScale.Y = 2;
+				OnPressedLocation.Broadcast({ FMath::Clamp(PositionScale.X,-1.0,1.0),  FMath::Clamp(PositionScale.Y,-1.0, 2), Moved.Z + 1 }); /** * 返回 Y = 2 是加速模式 */
 				if (bTriggerUpSpeed == false && UpSpeedImageWidget)
 				{
 					UpSpeedImageWidget->SetBrush(TriggerUpSpeedSlateBrush);
@@ -113,22 +134,22 @@ void UTouchAdvancedJoystickWidget::TouchMoved(FVector Moved)
 			}
 			else
 			{
-				OnPressedLocation.Broadcast({ FMath::Clamp(X,-1.0,1.0),  FMath::Clamp(Y,-1.0, 1.0), Moved.Z + 1 }); /** * 分发普通移动 */
+				OnPressedLocation.Broadcast({ FMath::Clamp(PositionScale.X,-1.0,1.0),  FMath::Clamp(PositionScale.Y,-1.0, 1.0), Moved.Z + 1 }); /** * 分发普通移动 */
 				if (bTriggerUpSpeed == true && UpSpeedImageWidget)
 				{
 					UpSpeedImageWidget->SetBrush(UpSpeedSlateBrush);
 					bTriggerUpSpeed = false;
 				}
 			}
-			if (UpSpeedImageWidget->GetVisibility() == ESlateVisibility::Hidden)
+			if (UpSpeedImageWidget->GetVisibility() != ESlateVisibility::Visible)
 			{
 				UpSpeedImageWidget->SetVisibility(ESlateVisibility::Visible); /** * 设置显示加速图片 */
 			}
 		}
 		else
 		{
-			OnPressedLocation.Broadcast({ FMath::Clamp(X,-1.0,1.0),  FMath::Clamp(Y,-1.0, 1.0), Moved.Z + 1 });
-			if (UpSpeedImageWidget->GetVisibility() == ESlateVisibility::Visible)
+			OnPressedLocation.Broadcast({ FMath::Clamp(PositionScale.X,-1.0,1.0),  FMath::Clamp(PositionScale.Y,-1.0, 1.0), Moved.Z + 1 });
+			if (UpSpeedImageWidget->GetVisibility() != ESlateVisibility::Hidden)
 			{
 				UpSpeedImageWidget->SetVisibility(ESlateVisibility::Hidden); /** * 设置隐藏加速图片 */
 			}

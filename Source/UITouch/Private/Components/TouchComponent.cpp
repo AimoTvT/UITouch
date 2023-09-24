@@ -18,6 +18,9 @@
 
 
 #include "Components/TouchComponent.h"
+#include "UMG/Public/Blueprint/WidgetLayoutLibrary.h"
+
+
 
 // Sets default values for this component's properties
 UTouchComponent::UTouchComponent()
@@ -25,7 +28,7 @@ UTouchComponent::UTouchComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
+	TouchIndexs.SetNum(10); /** * 设置触控位置组的最大索引数 */
 	// ...
 }
 
@@ -53,10 +56,12 @@ void UTouchComponent::Touch(FVector Moved, uint8 FingerIndex)
 	switch (int(Moved.Z))
 	{
 	case 0:
+		TouchIndexs[FingerIndex] = 0;
 		OnPressedTouch.Broadcast(Moved, FingerIndex);
 		TouchIndex(Moved, FingerIndex);
 		break;
 	case 1:
+		TouchIndexs[FingerIndex] = 1;
 		OnPressedTouch.Broadcast( Moved, FingerIndex);
 		TouchIndex(Moved, FingerIndex);
 		break;
@@ -65,6 +70,7 @@ void UTouchComponent::Touch(FVector Moved, uint8 FingerIndex)
 		TouchIndex(Moved, FingerIndex);
 		break;
 	default:
+		TouchIndexs[FingerIndex] = 0;
 		OnPressedTouch.Broadcast( Moved, FingerIndex);
 		break;
 	}
@@ -111,7 +117,31 @@ void UTouchComponent::TouchIndex(FVector Moved, uint8 FingerIndex)
 	}
 }
 
+bool UTouchComponent::IsClamp(FVector2D& A, FVector2D& B)
+{
+	return A.X >= 0 && A.X <= B.X && A.Y >= 0 && A.Y <= B.Y;
+}
 
+TArray<uint8> UTouchComponent::NoInputTouchIndex(APlayerController* PlayerController)
+{
+
+	FVector2D Vector;
+	FVector2D Vector2 = UWidgetLayoutLibrary::GetViewportSize(GetWorld());
+	bool bIsCurrentlyPressed;
+	TArray<uint8> Indexs = {};
+	if (PlayerController && PlayerController->PlayerInput)
+	{
+		for (size_t i = 0; i < TouchIndexs.Num(); i++)
+		{
+			PlayerController->GetInputTouchState(static_cast<ETouchIndex::Type>(i), Vector.X, Vector.Y, bIsCurrentlyPressed);
+			if (TouchIndexs[i] && bIsCurrentlyPressed == false || IsClamp(Vector, Vector2) == false)
+			{
+				Indexs.Add(i);
+			}
+		}
+	}
+	return Indexs;
+}
 
 
 

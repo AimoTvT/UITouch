@@ -17,6 +17,7 @@
  */
 
 using UnrealBuildTool;
+using UnrealBuildTool.Rules;
 
 public class UITouch : ModuleRules
 {
@@ -56,6 +57,7 @@ public class UITouch : ModuleRules
 				"SlateCore",
 				"UMG",
                 "InputCore",
+                "EnhancedInput",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

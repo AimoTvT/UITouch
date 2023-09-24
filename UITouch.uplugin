@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "1.03",
+	"VersionName": "1.04",
 	"FriendlyName": "UITouch",
 	"Description": "适用于UI的触控",
 	"Category": "Wdigets",
@@ -10,7 +10,7 @@
 	"DocsURL": "https://www.bilibili.com/read/cv19107422",
 	"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/d7b58908e1454aee88239b1022c92a32",
 	"SupportURL": "mailto:3232199020@qq.com",
-	"EngineVersion": "5.0.0",
+	"EngineVersion": "5.3.0",
 	"CanContainContent": true,
 	"IsBetaVersion": true,
 	"IsExperimentalVersion": false,
@@ -28,6 +28,12 @@
 				"Win64",
 				"Android"
 			]
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "EnhancedInput",
+			"Enabled": true
 		}
 	]
 }

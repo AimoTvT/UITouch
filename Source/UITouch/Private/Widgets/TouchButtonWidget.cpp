@@ -38,7 +38,7 @@ void UTouchButtonWidget::NativePreConstruct()
 	}
 }
 
-void UTouchButtonWidget::TouchIndex(FVector Moved, uint8 FingerIndex)
+void UTouchButtonWidget::TouchIndex(const FVector& Moved, uint8 FingerIndex)
 {
 	if (bDisabled)  /** * 是否禁用 */
 	{
@@ -53,8 +53,7 @@ void UTouchButtonWidget::TouchIndex(FVector Moved, uint8 FingerIndex)
 				if (Moved.Z)
 				{
 					bPressed = !bPressed;
-					Moved.Z = bPressed ? Moved.Z : 0.0;
-					OnPressedLocation.Broadcast(Moved);
+					OnPressedLocation.Broadcast({ Moved.X, Moved.Y, bPressed ? Moved.Z : 0.0 });
 					if (ImageWidget)
 					{
 						ImageWidget->SetBrush(bPressed ? PressedSlateBrush : SlateBrush);

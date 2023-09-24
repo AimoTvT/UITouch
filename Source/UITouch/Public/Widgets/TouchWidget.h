@@ -43,6 +43,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
 		FVector2D CustomOffsetPosition;
 
+	/** * 触发偏移位置 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+		FVector2D TriggerOffsetPosition;
+
+	/** * 自定义触发 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+		bool bCustomTrigger;
+
 	/** * 总父类控件,如一个用户控件里添加多个触控,那么那个用户控件是总父类 */
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
 		UWidget* ParentWidget;
@@ -70,7 +78,7 @@ public:
 
 	/** * 接收触发位置和索引 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		virtual void TouchIndex(FVector Moved, uint8 FingerIndex);
+		virtual void TouchIndex(const FVector& Moved, uint8 FingerIndex);
 
 	/** * 设置触控是否绑定 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
@@ -78,7 +86,7 @@ public:
 
 	/** * 触发移动位置 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		virtual void TouchMoved(FVector Moved);
+		virtual void TouchMoved(const FVector& Moved);
 
 	/** * 获取本地位置,包括嵌套布局后的偏移 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
@@ -86,7 +94,7 @@ public:
 
 	/** * 判断是否进入触控区域 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		virtual bool IsTouchLocation(FVector Moved);
+		virtual bool IsTouchLocation(const FVector& Moved);
 
 	/** * 播放动画 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")

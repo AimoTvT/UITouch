@@ -78,6 +78,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
 		float JoystickAnimationRangeMultiple = 1.0f;
 
+	/** * 固定操纵杆 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+		bool bFixedJoystick;
+
 protected:
 
 	virtual void NativePreConstruct() override;
@@ -87,12 +91,16 @@ protected:
 
 public:
 
-	virtual	void TouchIndex(FVector Moved, uint8 FingerIndex) override;
+	virtual	void TouchIndex(const FVector& Moved, uint8 FingerIndex) override;
 
-	virtual void TouchMoved(FVector Moved) override;
+	virtual void TouchMoved(const FVector& Moved) override;
 
 	/** * 设置操控杆位置 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		virtual void SetControlPosition(FVector2D Moved);
+		virtual void SetControlPosition(const FVector2D& Moved);
+
+	/** * 设置操控杆位置 */
+	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
+		virtual FVector2D GetPositionScale(const FVector2D& Moved);
 
 };

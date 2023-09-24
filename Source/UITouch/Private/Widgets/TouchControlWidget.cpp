@@ -30,7 +30,7 @@ void UTouchControlWidget::NativePreConstruct()
 }
 
 
-void UTouchControlWidget::TouchIndex(FVector Moved, uint8 FingerIndex)
+void UTouchControlWidget::TouchIndex(const FVector& Moved, uint8 FingerIndex)
 {
 	if (Moved.Z)
 	{
@@ -58,7 +58,7 @@ void UTouchControlWidget::TouchIndex(FVector Moved, uint8 FingerIndex)
 	}
 }
 
-void UTouchControlWidget::TouchMoved(FVector Moved)
+void UTouchControlWidget::TouchMoved(const FVector& Moved)
 {
 	int32 Index = TouchFingerIndexs.Find(uint8(Moved.Z)); /** * 获取寻找对应的索引 */
 	if (Index != -1 && TouchLocations.Num() > Index) /** * 判断是否寻找成功 */

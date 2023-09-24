@@ -18,6 +18,9 @@
 
 
 #include "Components/TouchComponent.h"
+#include "UMG/Public/Blueprint/WidgetLayoutLibrary.h"
+
+
 
 // Sets default values for this component's properties
 UTouchComponent::UTouchComponent()
@@ -114,22 +117,32 @@ void UTouchComponent::TouchIndex(FVector Moved, uint8 FingerIndex)
 	}
 }
 
-uint8 UTouchComponent::NoInputTouchIndex(APlayerController* PlayerController)
+bool UTouchComponent::IsClamp(FVector2D& A, FVector2D& B)
 {
-	float X;
-	float Y;
+	return A.X >= 0 && A.X <= B.X && A.Y >= 0 && A.Y <= B.Y;
+}
+
+TArray<uint8> UTouchComponent::NoInputTouchIndex(APlayerController* PlayerController)
+{
+
+	FVector2D Vector;
+	FVector2D Vector2 = UWidgetLayoutLibrary::GetViewportSize(GetWorld());
 	bool bIsCurrentlyPressed;
+	TArray<uint8> Indexs = {};
 	if (PlayerController && PlayerController->PlayerInput)
 	{
 		for (size_t i = 0; i < TouchIndexs.Num(); i++)
 		{
-			PlayerController->GetInputTouchState(static_cast<ETouchIndex::Type>(i), X, Y, bIsCurrentlyPressed);
-			if (TouchIndexs[i] && bIsCurrentlyPressed == false)
+			PlayerController->GetInputTouchState(static_cast<ETouchIndex::Type>(i), Vector.X, Vector.Y, bIsCurrentlyPressed);
+			if (TouchIndexs[i] && bIsCurrentlyPressed == false || IsClamp(Vector, Vector2) == false)
 			{
-				return uint8(i);
+				Indexs.Add(i);
 			}
 		}
 	}
-	return uint8(-1);
+	return Indexs;
 }
+
+
+
 

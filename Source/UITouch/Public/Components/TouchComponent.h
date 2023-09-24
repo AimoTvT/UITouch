@@ -114,10 +114,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
 		virtual void TouchIndex(FVector Moved, uint8 FingerIndex);
 	
+	/** * 判断是否限制内最小0 */
+	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
+		virtual bool IsClamp(FVector2D& A, FVector2D& B);
+
 	/** * 判断释放的触控 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		virtual uint8 NoInputTouchIndex(APlayerController* PlayerController);
+		virtual TArray<uint8> NoInputTouchIndex(APlayerController* PlayerController);
 
 	
+		
 
 };

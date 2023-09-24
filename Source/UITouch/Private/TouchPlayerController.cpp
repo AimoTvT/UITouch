@@ -78,9 +78,12 @@ void ATouchPlayerController::IA_TouchReleased(const FInputActionValue& Value)
 	if (TouchComponent)
 	{
 		FVector Location = Value.Get<FVector>();
-		uint8 FingerIndex = TouchComponent->NoInputTouchIndex(this);
+		TArray<uint8> FingerIndexs = TouchComponent->NoInputTouchIndex(this);
 		Location.Z = 0;
-		TouchComponent->Touch(Location, FingerIndex);
+		for (size_t i = 0; i < FingerIndexs.Num(); i++)
+		{
+			TouchComponent->Touch(Location, FingerIndexs[i]);
+		}
 	}
 }
 

@@ -56,8 +56,8 @@ protected:
 
 public:
 
-	virtual	void TouchIndex(FVector Moved, uint8 FingerIndex) override;
+	virtual	void TouchIndex(const FVector& Moved, uint8 FingerIndex) override;
 
-	virtual void TouchMoved(FVector Moved) override;
+	virtual void TouchMoved(const FVector& Moved) override;
 
 };

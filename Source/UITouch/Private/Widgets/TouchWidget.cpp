@@ -34,7 +34,11 @@ void UTouchWidget::NativeConstruct()
 void UTouchWidget::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
-	BindTouchDelegate();
+	if (bCustomTrigger == false)
+	{
+		BindTouchDelegate();
+	}
+	
 }
 
 void UTouchWidget::BindTouchDelegate()
@@ -67,7 +71,7 @@ void UTouchWidget::BindTouchDelegate()
 }
 
 
-void UTouchWidget::TouchIndex(FVector Moved, uint8 FingerIndex)
+void UTouchWidget::TouchIndex(const FVector& Moved, uint8 FingerIndex)
 {
 	if (IsTouchLocation(Moved))
 	{
@@ -192,7 +196,7 @@ void UTouchWidget::SetIndexTouchDelegate(bool bDelegateBind, uint8 FingerIndex)
 	}
 }
 
-void UTouchWidget::TouchMoved(FVector Moved)
+void UTouchWidget::TouchMoved(const FVector& Moved)
 {
 	/** * 子类继承重写使用 */
 }
@@ -220,11 +224,12 @@ FVector2D UTouchWidget::GetLocalPosition()
 
 /** * 判断是否触控位置是否进入触控区域 */
 
-bool UTouchWidget::IsTouchLocation(FVector Moved)
+bool UTouchWidget::IsTouchLocation(const FVector& Moved)
 {
 	float ViewportScale = UWidgetLayoutLibrary::GetViewportScale(this); /** * 视口触控缩放 */
 	FVector2D SizeLocation = GetPaintSpaceGeometry().GetLocalSize() * ViewportScale * GetRenderTransform().Scale; /** * 获取控件大小 */
 	LocalWidgetPosition = GetLocalPosition(); /** * 获取控件左上角位置 */
+	TriggerOffsetPosition = FVector2D(Moved) / ViewportScale - LocalWidgetPosition;
 	FVector2D TLocalWidgetPosition = LocalWidgetPosition * ViewportScale - SizeLocation / 4 * (GetRenderTransform().Scale - 1); /** * 计算缩放偏移 */
 	return Moved.X >= TLocalWidgetPosition.X && Moved.X <= TLocalWidgetPosition.X + SizeLocation.X  \
 		&& Moved.Y >= TLocalWidgetPosition.Y && Moved.Y <= TLocalWidgetPosition.Y + SizeLocation.Y; // \是链接下一行 后面不许有空格

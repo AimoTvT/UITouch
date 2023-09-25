@@ -18,7 +18,7 @@
 
 
 #include "Components/TouchComponent.h"
-#include "UMG/Public/Blueprint/WidgetLayoutLibrary.h"
+#include "Blueprint/WidgetLayoutLibrary.h"
 
 
 

@@ -34,6 +34,9 @@ class UITOUCH_API UTouchWidget : public UUserWidget
 	
 public:
 
+	/** * 总父类控件,如一个用户控件里添加多个触控,那么那个用户控件是总父类 */
+	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
+		UWidget* ParentWidget;
 
 	/** * 本地位置,包括嵌套布局后的位置 */
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
@@ -47,13 +50,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
 		FVector2D TriggerOffsetPosition;
 
+	/** * 最后触发位置 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+		FVector LastTriggerLocation;
+
 	/** * 自定义触发 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
 		bool bCustomTrigger;
 
-	/** * 总父类控件,如一个用户控件里添加多个触控,那么那个用户控件是总父类 */
-	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
-		UWidget* ParentWidget;
+
 	
 	/** * 多播指定接收到的调度器 */
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPressed, FVector, Moved);

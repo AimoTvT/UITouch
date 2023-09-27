@@ -36,6 +36,7 @@ void UTouchControlWidget::TouchIndex(const FVector& Moved, uint8 FingerIndex)
 	{
 		if (IsTouchLocation(Moved) && TouchFingerIndexs.Find(FingerIndex) == -1)
 		{
+			LastTriggerLocation = Moved;
 			int32 Index = TouchFingerIndexs.Add(FingerIndex); /** * 添加触控索引组的索引 */
 			if (Index != -1 && TouchLocations.Num() > Index)
 			{
@@ -60,6 +61,11 @@ void UTouchControlWidget::TouchIndex(const FVector& Moved, uint8 FingerIndex)
 
 void UTouchControlWidget::TouchMoved(const FVector& Moved)
 {
+	if (LastTriggerLocation == Moved)
+	{
+		return;
+	}
+	LastTriggerLocation = Moved;
 	int32 Index = TouchFingerIndexs.Find(uint8(Moved.Z)); /** * 获取寻找对应的索引 */
 	if (Index != -1 && TouchLocations.Num() > Index) /** * 判断是否寻找成功 */
 	{

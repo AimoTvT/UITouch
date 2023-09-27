@@ -48,6 +48,7 @@ void UTouchButtonWidget::TouchIndex(const FVector& Moved, uint8 FingerIndex)
 	{
 		if (IsTouchLocation(Moved))  /** * 是否进入触控区域 */
 		{
+			LastTriggerLocation = Moved;
 			if (bPressedHandover)
 			{
 				if (Moved.Z)

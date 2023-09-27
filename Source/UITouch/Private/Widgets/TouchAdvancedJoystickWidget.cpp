@@ -50,6 +50,7 @@ void UTouchAdvancedJoystickWidget::TouchIndex(const FVector& Moved, uint8 Finger
 	{
 		if (IsTouchLocation(Moved))
 		{
+			LastTriggerLocation += {0.002, 0.002, 0.0};
 			TouchFingerIndex = FingerIndex;
 			OnPressedLocation.Broadcast({ 0.0, 0.0, Moved.Z + 1 });
 			SetIndexTouchDelegate(true, FingerIndex);
@@ -108,6 +109,11 @@ void UTouchAdvancedJoystickWidget::TouchIndex(const FVector& Moved, uint8 Finger
 
 void UTouchAdvancedJoystickWidget::TouchMoved(const FVector& Moved)
 {
+	if (bTickDelegated == false && LastTriggerLocation == Moved)
+	{
+		return;
+	}
+	LastTriggerLocation = Moved;
 	if (TouchFingerIndex != 255)
 	{
 		FVector2D PositionScale = { Moved.X, Moved.Y };

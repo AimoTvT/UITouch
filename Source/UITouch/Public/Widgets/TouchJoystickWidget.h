@@ -82,6 +82,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
 		bool bFixedJoystick;
 
+	/** * 实时调度器(需要实时触发移动) */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+		bool bTickDelegated;
+
 protected:
 
 	virtual void NativePreConstruct() override;

@@ -13,21 +13,6 @@
 > - We welcome the contributions of powerful movers and movers to join this plugin
 > - Build powerful plugins together!!
 
-> - Use UE(Unreal Engine) touch plug-in
-> - Find Engine\ Engine\Plugins\Widgets\... Path to create a Widgets folder
-> - If it's a Marketplace <<<<<<<<!!!
-> - Find Engine\ Engine\Plugins\Marketplace\... Path to create a Widgets folder
-
-> - The cache compilation binaries have been removed
-> - When installing plug-ins manually, remember to compile the UE once
-
-> - Use UE(Unreal Engine) touch plug-in
-> - Find Engine\ Engine\Plugins\Widgets\... Path to create a Widgets folder
-> - If it's a Marketplace <<<<<<<<!!!
-> - Find Engine\ Engine\Plugins\Marketplace\... Path to create a Widgets folder
-
-> - The cache compilation binaries have been removed
-> - When installing plug-ins manually, remember to compile the UE once
 
 ## 引擎版本( >= 5.3.0 )
 
@@ -42,24 +27,6 @@
 > - 欢迎有实力的大佬/萌新加入本插件的贡献
 > - 一起打造强大的插件!!!
 
-> - 好用的 UE(虚幻引擎)触控插件
-> - 找到引擎文件夹里引擎\Engine\Plugins...路径下创建 Widgets 文件夹
-> - 如果它是一个市场<<<<<<<<!!
-> - 找到引擎文件夹里引擎\Engine\Plugins\Marketplace\...路径下创建 Widgets 文件夹
 
-> - 已经删除缓存编译二进制文件
-> - 手动安装插件时记得 UE 编译一次
-
-> - 好用的 UE(虚幻引擎)触控插件
-> - 找到引擎文件夹里引擎\Engine\Plugins...路径下创建 Widgets 文件夹
-> - 如果它是一个市场<<<<<<<<!!
-> - 找到引擎文件夹里引擎\Engine\Plugins\Marketplace\...路径下创建 Widgets 文件夹
-
-> - 已经删除缓存编译二进制文件
-> - 手动安装插件时记得 UE 编译一次
 
 > - # 爱心开发不易, 请开发者们喝茶吧 ------- 0.0
-
-> ## 版本更新 1.03
->
-> - 支持嵌套布局

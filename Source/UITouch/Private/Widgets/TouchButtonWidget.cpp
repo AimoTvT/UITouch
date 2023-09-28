@@ -19,24 +19,6 @@
 
 #include "Widgets/TouchButtonWidget.h"
 
-void UTouchButtonWidget::NativePreConstruct()
-{
-	Super::NativePreConstruct();
-	if (ImageWidget)
-	{
-		if (ImageWidget)
-		{
-			if (bDisabled)
-			{
-				ImageWidget->SetBrush(DisabledSlateBrush);  /** * 设置按下的图片 */
-			}
-			else
-			{
-				ImageWidget->SetBrush(bPressed ? PressedSlateBrush : SlateBrush);  /** * 设置按下的图片 */
-			}
-		}
-	}
-}
 
 void UTouchButtonWidget::TouchIndex(const FVector& Moved, uint8 FingerIndex)
 {
@@ -89,4 +71,25 @@ void UTouchButtonWidget::TouchIndex(const FVector& Moved, uint8 FingerIndex)
 		TriggerInedxAnimation(0);
 	}
 	return;
+}
+
+void UTouchButtonWidget::SetDisabled(bool bIsDisabled)
+{
+	Super::SetDisabled(bIsDisabled);
+	if (bDisabled)
+	{
+		if (ImageWidget)
+		{
+			ImageWidget->SetBrush(DisabledSlateBrush);  /** * 设置按下的图片 */
+		}
+		TriggerInedxAnimation(-1);
+	}
+	else
+	{
+		if (ImageWidget)
+		{
+			ImageWidget->SetBrush(bPressed ? PressedSlateBrush : SlateBrush);  /** * 设置按下的图片 */
+		}
+		TriggerInedxAnimation(0);
+	}
 }

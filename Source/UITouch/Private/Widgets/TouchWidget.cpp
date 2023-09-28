@@ -25,6 +25,12 @@
 #include "Runtime/UMG/Public/Blueprint/WidgetLayoutLibrary.h"
 
 
+void UTouchWidget::NativePreConstruct()
+{
+	Super::NativePreConstruct();
+	SetDisabled(bDisabled);
+}
+
 void UTouchWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -235,6 +241,11 @@ bool UTouchWidget::IsTouchLocation(const FVector& Moved)
 	FVector2D TLocalWidgetPosition = LocalWidgetPosition * ViewportScale - SizeLocation / 4 * (GetRenderTransform().Scale - 1); /** * 计算缩放偏移 */
 	return Moved.X >= TLocalWidgetPosition.X && Moved.X <= TLocalWidgetPosition.X + SizeLocation.X  \
 		&& Moved.Y >= TLocalWidgetPosition.Y && Moved.Y <= TLocalWidgetPosition.Y + SizeLocation.Y; // \是链接下一行 后面不许有空格
+}
+
+void UTouchWidget::SetDisabled(bool bIsDisabled)
+{
+	bDisabled = bIsDisabled;
 }
 
 void UTouchWidget::TriggerInedxAnimation(int Index)

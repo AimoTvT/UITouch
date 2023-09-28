@@ -52,12 +52,12 @@ protected:
 
 	virtual void NativePreConstruct() override;
 
-	virtual void NativeConstruct() override;
-
 public:
 
 	virtual	void TouchIndex(const FVector& Moved, uint8 FingerIndex) override;
 
 	virtual void TouchMoved(const FVector& Moved) override;
+
+	virtual void SetDisabled(bool bIsDisabled) override;
 
 };

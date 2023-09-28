@@ -67,17 +67,12 @@ public:
 		/** * 按下 */
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
 			bool bPressed = false;
-
-		/** * 禁用 */
-		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-			bool bDisabled = false;
 		
-protected:
-
-		virtual void NativePreConstruct() override;
 	
 public:
 
 	virtual	void TouchIndex(const FVector& Moved, uint8 FingerIndex) override;
+
+	virtual void SetDisabled(bool bIsDisabled) override;
 
 };

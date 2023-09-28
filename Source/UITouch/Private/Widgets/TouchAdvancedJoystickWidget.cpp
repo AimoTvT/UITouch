@@ -38,14 +38,12 @@ void UTouchAdvancedJoystickWidget::NativePreConstruct()
 }
 
 
-void UTouchAdvancedJoystickWidget::NativeConstruct()
-{
-	Super::NativeConstruct();
-
-}
-
 void UTouchAdvancedJoystickWidget::TouchIndex(const FVector& Moved, uint8 FingerIndex)
 {
+	if (bDisabled)
+	{
+		return;
+	}
 	if (TouchFingerIndex == 255 && Moved.Z > 0.0)
 	{
 		if (IsTouchLocation(Moved))
@@ -161,5 +159,20 @@ void UTouchAdvancedJoystickWidget::TouchMoved(const FVector& Moved)
 			}
 		}
 		SetControlPosition({ Moved.X, Moved.Y });
+	}
+}
+
+void UTouchAdvancedJoystickWidget::SetDisabled(bool bIsDisabled)
+{
+	Super::SetDisabled(bIsDisabled);
+	if (bDisabled)
+	{
+		if (IsDesignTime() == false)
+		{
+			if (UpSpeedImageWidget->GetVisibility() != ESlateVisibility::Hidden)
+			{
+				UpSpeedImageWidget->SetVisibility(ESlateVisibility::Hidden); /** * 设置隐藏加速图片 */
+			}
+		}
 	}
 }

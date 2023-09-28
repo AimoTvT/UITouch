@@ -89,8 +89,6 @@ public:
 protected:
 
 	virtual void NativePreConstruct() override;
-
-	virtual void NativeConstruct() override;
 	
 
 public:
@@ -98,6 +96,8 @@ public:
 	virtual	void TouchIndex(const FVector& Moved, uint8 FingerIndex) override;
 
 	virtual void TouchMoved(const FVector& Moved) override;
+
+	virtual void SetDisabled(bool bIsDisabled) override;
 
 	/** * 设置操控杆位置 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")

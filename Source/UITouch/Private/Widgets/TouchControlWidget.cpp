@@ -24,7 +24,7 @@ void UTouchControlWidget::NativePreConstruct()
 	Super::NativePreConstruct();
 	if (ImageWidget)
 	{
-		TouchLocations.SetNum(10); /** * 设置触控位置组的最大索引数 */
+		TouchPositions.SetNum(10); /** * 设置触控位置组的最大索引数 */
 		ImageWidget->SetBrush(SlateBrush); /** * 设置触控背景 */
 	}
 }
@@ -32,27 +32,31 @@ void UTouchControlWidget::NativePreConstruct()
 
 void UTouchControlWidget::TouchIndex(const FVector& Moved, uint8 FingerIndex)
 {
+	if (bDisabled)
+	{
+		return;
+	}
 	if (Moved.Z)
 	{
 		if (IsTouchLocation(Moved) && TouchFingerIndexs.Find(FingerIndex) == -1)
 		{
 			LastTriggerLocation = Moved;
 			int32 Index = TouchFingerIndexs.Add(FingerIndex); /** * 添加触控索引组的索引 */
-			if (Index != -1 && TouchLocations.Num() > Index)
+			if (Index != -1 && TouchPositions.Num() > Index)
 			{
-				TouchLocations[Index] = { Moved.X, Moved.Y }; /** * 设置触控位置组的位置 */
+				TouchPositions[Index] = { Moved.X, Moved.Y }; /** * 设置触控位置组的位置 */
 			}
 			SetIndexTouchDelegate(true, FingerIndex); /** * 绑定移动位置调度器 */
 		}
 	}
 	else
 	{
-		if (TouchFingerIndexs.Find(FingerIndex) != -1 && TouchLocations.Num() >= TouchFingerIndexs.Find(FingerIndex))
+		if (TouchFingerIndexs.Find(FingerIndex) != -1 && TouchPositions.Num() >= TouchFingerIndexs.Find(FingerIndex))
 		{
 			int32 Index = TouchFingerIndexs.Remove(FingerIndex);
-			if (Index != -1 && TouchLocations.Num() > Index)
+			if (Index != -1 && TouchPositions.Num() > Index)
 			{
-				TouchLocations[Index] = { 0.0, 0.0 }; /** * 清除触控位置组的位置 */
+				TouchPositions[Index] = { 0.0, 0.0 }; /** * 清除触控位置组的位置 */
 			}
 			SetIndexTouchDelegate(false, FingerIndex); /** * 解除绑定移动位置调度器 */
 		}
@@ -67,11 +71,36 @@ void UTouchControlWidget::TouchMoved(const FVector& Moved)
 	}
 	LastTriggerLocation = Moved;
 	int32 Index = TouchFingerIndexs.Find(uint8(Moved.Z)); /** * 获取寻找对应的索引 */
-	if (Index != -1 && TouchLocations.Num() > Index) /** * 判断是否寻找成功 */
+	if (Index != -1 && TouchPositions.Num() > Index) /** * 判断是否寻找成功 */
 	{
 		FVector2D TouchMoved = { Moved.X, Moved.Y };
-		TouchMoved -= TouchLocations[Index]; /** * 计算移动位置 */
-		TouchLocations[Index] = { Moved.X, Moved.Y }; /** * 覆盖旧位置 */
+		TouchMoved -= TouchPositions[Index]; /** * 计算移动位置 */
+		TouchPositions[Index] = { Moved.X, Moved.Y }; /** * 覆盖旧位置 */
 		OnPressedLocation.Broadcast({ TouchMoved.X, TouchMoved.Y,Moved.Z + 1}); /** * 分发移动位置 */
+	}
+}
+
+void UTouchControlWidget::SetDisabled(bool bIsDisabled)
+{
+	Super::SetDisabled(bIsDisabled);
+	if (bDisabled)
+	{
+		if (IsDesignTime() == false)
+		{
+			for (size_t i = 0; i < TouchPositions.Num(); i++)
+			{
+				FVector2D DefaultPosition = { 0.0, 0.0 };
+				if (TouchPositions[i] != DefaultPosition)
+				{
+					TouchPositions[i] = DefaultPosition; /** * 清除触控位置组的位置 */
+					SetIndexTouchDelegate(false, i); /** * 解除绑定移动位置调度器 */
+				}
+			}
+		}
+		TriggerInedxAnimation(-1);
+	}
+	else
+	{
+		TriggerInedxAnimation(0);
 	}
 }

@@ -54,7 +54,7 @@ public:
 
 	/** * 触控索引位置组 */
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
-		TArray<FVector2D> TouchLocations;
+		TArray<FVector2D> TouchPositions;
 
 
 protected:
@@ -66,5 +66,7 @@ public:
 	virtual	void TouchIndex(const FVector& Moved, uint8 FingerIndex) override;
 
 	virtual void TouchMoved(const FVector& Moved) override;
+
+	virtual void SetDisabled(bool bIsDisabled) override;
 
 };

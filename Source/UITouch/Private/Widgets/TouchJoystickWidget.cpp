@@ -45,15 +45,14 @@ void UTouchJoystickWidget::NativePreConstruct()
 	}
 }
 
-void UTouchJoystickWidget::NativeConstruct()
-{
-	Super::NativeConstruct();
-
-}
 
 
 void UTouchJoystickWidget::TouchIndex(const FVector& Moved, uint8 FingerIndex)
 {
+	if (bDisabled)
+	{
+		return;
+	}
 	if (TouchFingerIndex == 255 && Moved.Z > 0.0)
 	{
 		if (IsTouchLocation(Moved))  /** * 判断进入触控位置 */
@@ -119,6 +118,38 @@ void UTouchJoystickWidget::TouchMoved(const FVector& Moved)
 		}
 		OnPressedLocation.Broadcast({ FMath::Clamp(PositionScale.X, -1.0, 1.0),  FMath::Clamp(PositionScale.Y, -1.0, 1.0), Moved.Z + 1 });
 		SetControlPosition({ Moved.X, Moved.Y });
+	}
+}
+
+void UTouchJoystickWidget::SetDisabled(bool bIsDisabled)
+{
+	Super::SetDisabled(bIsDisabled);
+	if (bDisabled)
+	{
+		if (IsDesignTime() == false)
+		{
+			if (TouchFingerIndex != 255)
+			{
+				SetIndexTouchDelegate(false, TouchFingerIndex);
+				TouchFingerIndex = 255;
+			}
+
+			OnPressedLocation.Broadcast({ 0.0, 0.0, LastTriggerLocation.Z + 1 });
+			SetControlPosition({ 0.0,0.0 });  /** * 设置操控杆归零位置 */
+			if (bFixedJoystick == false)
+			{
+				UCanvasPanelSlot* BackdropCanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot);
+				if (BackdropCanvasPanelSlot)
+				{
+					BackdropCanvasPanelSlot->SetPosition({ 0.0,0.0 });
+				}
+			}
+		}
+		TriggerInedxAnimation(-1);
+	}
+	else
+	{	
+		TriggerInedxAnimation(0);
 	}
 }
 

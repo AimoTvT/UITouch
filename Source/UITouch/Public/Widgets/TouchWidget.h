@@ -51,12 +51,16 @@ public:
 		FVector2D TriggerOffsetPosition;
 
 	/** * 最后触发位置 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
 		FVector LastTriggerLocation;
 
 	/** * 自定义触发 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
 		bool bCustomTrigger;
+
+	/** * 禁用 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+		bool bDisabled = false;
 
 
 	
@@ -68,6 +72,9 @@ public:
 		FOnPressed OnPressedLocation;
 
 protected:
+	
+	virtual void NativePreConstruct() override;
+
 	// Called when the game starts
 	virtual void NativeConstruct() override;
 
@@ -100,6 +107,10 @@ public:
 	/** * 判断是否进入触控区域 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
 		virtual bool IsTouchLocation(const FVector& Moved);
+
+	/** * 设置禁用  */
+	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
+		virtual void SetDisabled(bool bIsDisabled);
 
 	/** * 播放动画 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")

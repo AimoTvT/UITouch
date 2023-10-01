@@ -51,12 +51,16 @@ void ATouchPlayerController::SetupPlayerInputComponent(class UInputComponent* Pl
 
 	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
 	{
-		if (InputActionTouch)
+		for (size_t i = 0; i < InputActionTouchs.Num(); i++)
 		{
-			EnhancedInputComponent->BindAction(InputActionTouch, ETriggerEvent::Started, this, &ATouchPlayerController::IA_TouchPressed);
-			EnhancedInputComponent->BindAction(InputActionTouch, ETriggerEvent::Completed, this, &ATouchPlayerController::IA_TouchReleased);
-			EnhancedInputComponent->BindAction(InputActionTouch, ETriggerEvent::Triggered, this, &ATouchPlayerController::IA_TouchMove);
+			if (InputActionTouchs[i])
+			{
+				EnhancedInputComponent->BindAction(InputActionTouchs[i], ETriggerEvent::Started, this, &ATouchPlayerController::IA_TouchPressed);
+				EnhancedInputComponent->BindAction(InputActionTouchs[i], ETriggerEvent::Completed, this, &ATouchPlayerController::IA_TouchReleased);
+				EnhancedInputComponent->BindAction(InputActionTouchs[i], ETriggerEvent::Triggered, this, &ATouchPlayerController::IA_TouchMove);
+			}
 		}
+		
 	}
 }
 

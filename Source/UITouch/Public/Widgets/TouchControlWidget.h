@@ -48,13 +48,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
 		FSlateBrush SlateBrush;
 
-	/** * 触控索引组 */
-	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
-		TArray<uint8> TouchFingerIndexs;
-
 	/** * 触控索引位置组 */
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
-		TArray<FVector2D> TouchPositions;
+		TArray<FVector> TouchLocations;
 
 
 protected:
@@ -68,5 +64,9 @@ public:
 	virtual void TouchMoved(const FVector& Moved) override;
 
 	virtual void SetDisabled(bool bIsDisabled) override;
+
+	/** * 获取对应位置触控位置组的索引 */
+	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
+		virtual int GetTouchLocationsIndex(int32 Index);
 
 };

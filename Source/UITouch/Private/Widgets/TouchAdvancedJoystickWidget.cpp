@@ -50,7 +50,7 @@ void UTouchAdvancedJoystickWidget::TouchIndex(const FVector& Moved, uint8 Finger
 		{
 			LastTriggerLocation += {0.002, 0.002, 0.0};
 			TouchFingerIndex = FingerIndex;
-			OnPressedLocation.Broadcast({ 0.0, 0.0, Moved.Z + 1 });
+			OnPressedLocation.Broadcast({ 0.0, 0.0, FingerIndex + 1.0 });
 			SetIndexTouchDelegate(true, FingerIndex);
 			TriggerInedxAnimation(1);
 			if (bFixedJoystick == false && BackdropImageWidget)
@@ -82,7 +82,7 @@ void UTouchAdvancedJoystickWidget::TouchIndex(const FVector& Moved, uint8 Finger
 	{
 		TouchFingerIndex = 255;
 		SetIndexTouchDelegate(false, FingerIndex);
-		OnPressedLocation.Broadcast({ 0.0, 0.0, Moved.Z + 1 });
+		OnPressedLocation.Broadcast({ 0.0, 0.0, FingerIndex + 1.0 });
 		SetControlPosition({ 0.0,0.0 });
 		if (bTriggerUpSpeed == true && UpSpeedImageWidget)
 		{
@@ -111,7 +111,6 @@ void UTouchAdvancedJoystickWidget::TouchMoved(const FVector& Moved)
 	{
 		return;
 	}
-	LastTriggerLocation = Moved;
 	if (TouchFingerIndex != 255)
 	{
 		FVector2D PositionScale = { Moved.X, Moved.Y };
@@ -134,6 +133,7 @@ void UTouchAdvancedJoystickWidget::TouchMoved(const FVector& Moved)
 				{
 					UpSpeedImageWidget->SetBrush(TriggerUpSpeedSlateBrush);
 					bTriggerUpSpeed = true;
+					TriggerInedxAnimation(2);
 				}
 			}
 			else
@@ -158,8 +158,12 @@ void UTouchAdvancedJoystickWidget::TouchMoved(const FVector& Moved)
 				UpSpeedImageWidget->SetVisibility(ESlateVisibility::Hidden); /** * 设置隐藏加速图片 */
 			}
 		}
-		SetControlPosition({ Moved.X, Moved.Y });
+		if (LastTriggerLocation != Moved)
+		{
+			SetControlPosition({ Moved.X, Moved.Y });
+		}
 	}
+	LastTriggerLocation = Moved;
 }
 
 void UTouchAdvancedJoystickWidget::SetDisabled(bool bIsDisabled)

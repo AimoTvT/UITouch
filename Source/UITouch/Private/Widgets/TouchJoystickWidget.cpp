@@ -36,7 +36,6 @@ void UTouchJoystickWidget::NativePreConstruct()
 	}
 	if (BackdropImageWidget)
 	{
-		BackdropImageWidget->SetBrush(BackdropSlateBrush);  /** * 设置操控杆背景的图片 */
 		UCanvasPanelSlot* BackdropCanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot);  /** * 获取画布 */
 		if (BackdropCanvasPanelSlot)
 		{
@@ -59,7 +58,7 @@ void UTouchJoystickWidget::TouchIndex(const FVector& Moved, uint8 FingerIndex)
 		{
 			LastTriggerLocation += {0.002, 0.002, 0.0};
 			TouchFingerIndex = FingerIndex;
-			OnPressedLocation.Broadcast({ 0.0, 0.0, Moved.Z + 1 });
+			OnPressedLocation.Broadcast({ 0.0, 0.0, FingerIndex + 1.0 });
 			SetIndexTouchDelegate(true, FingerIndex);
 			TriggerInedxAnimation(1);
 			if (bFixedJoystick == false)
@@ -81,7 +80,7 @@ void UTouchJoystickWidget::TouchIndex(const FVector& Moved, uint8 FingerIndex)
 	{
 		TouchFingerIndex = 255;
 		SetIndexTouchDelegate(false, FingerIndex);
-		OnPressedLocation.Broadcast({ 0.0, 0.0, Moved.Z + 1 });
+		OnPressedLocation.Broadcast({ 0.0, 0.0, FingerIndex + 1.0 });
 		SetControlPosition({ 0.0,0.0 });  /** * 设置操控杆归零位置 */
 		TriggerInedxAnimation(0);
 		if (bFixedJoystick == false)
@@ -103,7 +102,6 @@ void UTouchJoystickWidget::TouchMoved(const FVector& Moved)
 	{
 		return;
 	}
-	LastTriggerLocation = Moved;
 	if (TouchFingerIndex != 255)
 	{
 		FVector2D PositionScale = { Moved.X, Moved.Y };
@@ -117,8 +115,12 @@ void UTouchJoystickWidget::TouchMoved(const FVector& Moved)
 			}
 		}
 		OnPressedLocation.Broadcast({ FMath::Clamp(PositionScale.X, -1.0, 1.0),  FMath::Clamp(PositionScale.Y, -1.0, 1.0), Moved.Z + 1 });
-		SetControlPosition({ Moved.X, Moved.Y });
+		if (LastTriggerLocation != Moved)
+		{
+			SetControlPosition({ Moved.X, Moved.Y });
+		}
 	}
+	LastTriggerLocation = Moved;
 }
 
 void UTouchJoystickWidget::SetDisabled(bool bIsDisabled)
@@ -145,10 +147,18 @@ void UTouchJoystickWidget::SetDisabled(bool bIsDisabled)
 				}
 			}
 		}
+		if (BackdropImageWidget)
+		{
+			BackdropImageWidget->SetBrush(DisabledSlateBrush);  /** * 设置操控杆背景的图片 */
+		}
 		TriggerInedxAnimation(-1);
 	}
 	else
 	{	
+		if (BackdropImageWidget)
+		{
+			BackdropImageWidget->SetBrush(BackdropSlateBrush);  /** * 设置操控杆背景的图片 */
+		}
 		TriggerInedxAnimation(0);
 	}
 }

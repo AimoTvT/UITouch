@@ -36,19 +36,20 @@ void UTouchButtonWidget::TouchIndex(const FVector& Moved, uint8 FingerIndex)
 				if (Moved.Z)
 				{
 					bPressed = !bPressed;
-					OnPressedLocation.Broadcast({ Moved.X, Moved.Y, bPressed ? Moved.Z : 0.0 });
+					OnPressedLocation.Broadcast({ Moved.X, Moved.Y, bPressed ? FingerIndex + 1.0 : 0.0 });
 					if (ImageWidget)
 					{
 						ImageWidget->SetBrush(bPressed ? PressedSlateBrush : SlateBrush);
 					}
 				}
-				TriggerInedxAnimation(1);
+				TriggerInedxAnimation(bPressed ? 1 : 0);
 				return;
 			}
 			else
 			{
+				bPressed = true;
 				TouchFingerIndex = FingerIndex;
-				OnPressedLocation.Broadcast(Moved);
+				OnPressedLocation.Broadcast({ Moved.X, Moved.Y, FingerIndex + 1.0});
 				SetIndexTouchDelegate(true, FingerIndex);
 			}
 			if (ImageWidget)
@@ -62,6 +63,7 @@ void UTouchButtonWidget::TouchIndex(const FVector& Moved, uint8 FingerIndex)
 	if (TouchFingerIndex == FingerIndex)  /** * 判断是否是第二次松下触控 */
 	{
 		TouchFingerIndex = 255;
+		bPressed = false;
 		OnPressedLocation.Broadcast(Moved);
 		SetIndexTouchDelegate(false, FingerIndex);
 		if (ImageWidget)

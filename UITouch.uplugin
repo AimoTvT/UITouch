@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "1.06",
+	"VersionName": "1.07",
 	"FriendlyName": "UITouch",
 	"Description": "适用于UI的触控",
 	"Category": "Wdigets",
@@ -12,7 +12,7 @@
 	"SupportURL": "mailto:3232199020@qq.com",
 	"EngineVersion": "5.3.0",
 	"CanContainContent": true,
-	"IsBetaVersion": true,
+	"IsBetaVersion": false,
 	"IsExperimentalVersion": false,
 	"Installed": false,
 	"Modules": [

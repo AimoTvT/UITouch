@@ -46,7 +46,7 @@ public:
 	
 	/** * 触控组件 */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EnhancedInput|Action", meta = (AllowPrivateAccess = "true"))
-		TObjectPtr<UInputAction> InputActionTouch;
+		TArray<TObjectPtr<UInputAction>> InputActionTouchs;
 	
 
 protected:

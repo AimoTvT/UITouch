@@ -52,10 +52,6 @@ public:
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
 			FSlateBrush PressedSlateBrush;
 
-		/** 图片设置 */
-		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-			FSlateBrush DisabledSlateBrush;
-
 		/** * 触控索引 255=空 */
 		UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
 			uint8 TouchFingerIndex = 255;

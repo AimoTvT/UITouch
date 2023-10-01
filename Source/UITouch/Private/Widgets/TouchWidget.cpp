@@ -82,7 +82,8 @@ void UTouchWidget::TouchIndex(const FVector& Moved, uint8 FingerIndex)
 	if (IsTouchLocation(Moved))
 	{
 		LastTriggerLocation = Moved;
-		OnPressedLocation.Broadcast(Moved); /** * 触发触摸位置 */
+		LastTriggerLocation.Z = FingerIndex;
+		OnPressedLocation.Broadcast(LastTriggerLocation); /** * 触发触摸位置 */
 		TriggerInedxAnimation(0);
 	}
 }

@@ -54,6 +54,10 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
 		FVector LastTriggerLocation;
 
+	/** 禁用图片设置 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+		FSlateBrush DisabledSlateBrush;
+
 	/** * 自定义触发 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
 		bool bCustomTrigger;

@@ -69,11 +69,11 @@ public:
 
 	
 	/** * 多播指定接收到的调度器 */
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPressed, FVector, Moved);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPressed, FVector, Location);
 
 	/** * 多播所有接收到的调度器 */
 	UPROPERTY(BlueprintAssignable, Category = "Aimo|On")
-		FOnPressed OnPressedLocation;
+		FOnPressed OnTouchLocation;
 
 protected:
 	
@@ -94,7 +94,7 @@ public:
 
 	/** * 接收触发位置和索引 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		virtual void TouchIndex(const FVector& Moved, uint8 FingerIndex);
+		virtual void TouchIndexLocation(const FVector& Location, uint8 FingerIndex);
 
 	/** * 设置触控是否绑定 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
@@ -102,7 +102,7 @@ public:
 
 	/** * 触发移动位置 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		virtual void TouchMoved(const FVector& Moved);
+		virtual void TouchMovedLocation(const FVector& Location);
 
 	/** * 获取本地位置,包括嵌套布局后的偏移 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
@@ -110,7 +110,7 @@ public:
 
 	/** * 判断是否进入触控区域 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		virtual bool IsTouchLocation(const FVector& Moved);
+		virtual bool IsTouchLocation(const FVector& Location);
 
 	/** * 设置禁用  */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
@@ -123,5 +123,9 @@ public:
 	/** * 蓝图播放动画 */
 	UFUNCTION(BlueprintImplementableEvent, Category = "Aimo|Function")
 		void BPTriggerInedxAnimation(int Index);
+
+	/** * 组件销毁回调 */
+	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
+		virtual void ComponentDeactivated(UActorComponent* ActorComponent);
 
 };

@@ -42,15 +42,15 @@ public:
 
 		/** 图像变量 */
 		UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-			UImage* ImageWidget;
+			UImage* ButtonImageWidget;
 
 		/** 图片设置 */
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-			FSlateBrush SlateBrush;
+			FSlateBrush ButtonSlateBrush;
 
 		/** 图片设置 */
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-			FSlateBrush PressedSlateBrush;
+			FSlateBrush PressedButtonSlateBrush;
 
 		/** * 触控索引 255=空 */
 		UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
@@ -67,7 +67,7 @@ public:
 	
 public:
 
-	virtual	void TouchIndex(const FVector& Moved, uint8 FingerIndex) override;
+	virtual	void TouchIndexLocation(const FVector& Location, uint8 FingerIndex) override;
 
 	virtual void SetDisabled(bool bIsDisabled) override;
 

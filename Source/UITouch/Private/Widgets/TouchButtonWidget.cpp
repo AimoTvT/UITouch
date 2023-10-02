@@ -18,9 +18,10 @@
 
 
 #include "Widgets/TouchButtonWidget.h"
+#include "Components/CanvasPanelSlot.h"
 
 
-void UTouchButtonWidget::TouchIndex(const FVector& Moved, uint8 FingerIndex)
+void UTouchButtonWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex)
 {
 	if (bDisabled)  /** * 是否禁用 */
 	{
@@ -28,18 +29,18 @@ void UTouchButtonWidget::TouchIndex(const FVector& Moved, uint8 FingerIndex)
 	}
 	if (TouchFingerIndex == 255)  /** * 触控索引是否空 */
 	{
-		if (IsTouchLocation(Moved))  /** * 是否进入触控区域 */
+		if (IsTouchLocation(Location))  /** * 是否进入触控区域 */
 		{
-			LastTriggerLocation = Moved;
+			LastTriggerLocation = Location;
 			if (bPressedHandover)
 			{
-				if (Moved.Z)
+				if (Location.Z)
 				{
 					bPressed = !bPressed;
-					OnPressedLocation.Broadcast({ Moved.X, Moved.Y, bPressed ? FingerIndex + 1.0 : 0.0 });
-					if (ImageWidget)
+					OnTouchLocation.Broadcast({ Location.X, Location.Y, bPressed ? FingerIndex + 1.0 : 0.0 });
+					if (ButtonImageWidget)
 					{
-						ImageWidget->SetBrush(bPressed ? PressedSlateBrush : SlateBrush);
+						ButtonImageWidget->SetBrush(bPressed ? PressedButtonSlateBrush : ButtonSlateBrush);
 					}
 				}
 				TriggerInedxAnimation(bPressed ? 1 : 0);
@@ -49,12 +50,12 @@ void UTouchButtonWidget::TouchIndex(const FVector& Moved, uint8 FingerIndex)
 			{
 				bPressed = true;
 				TouchFingerIndex = FingerIndex;
-				OnPressedLocation.Broadcast({ Moved.X, Moved.Y, FingerIndex + 1.0});
+				OnTouchLocation.Broadcast({ Location.X, Location.Y, FingerIndex + 1.0});
 				SetIndexTouchDelegate(true, FingerIndex);
 			}
-			if (ImageWidget)
+			if (ButtonImageWidget)
 			{
-				ImageWidget->SetBrush(PressedSlateBrush);
+				ButtonImageWidget->SetBrush(PressedButtonSlateBrush);
 			}
 			TriggerInedxAnimation(1);
 			return;
@@ -64,11 +65,11 @@ void UTouchButtonWidget::TouchIndex(const FVector& Moved, uint8 FingerIndex)
 	{
 		TouchFingerIndex = 255;
 		bPressed = false;
-		OnPressedLocation.Broadcast(Moved);
+		OnTouchLocation.Broadcast(Location);
 		SetIndexTouchDelegate(false, FingerIndex);
-		if (ImageWidget)
+		if (ButtonImageWidget)
 		{
-			ImageWidget->SetBrush(SlateBrush);
+			ButtonImageWidget->SetBrush(ButtonSlateBrush);
 		}
 		TriggerInedxAnimation(0);
 	}
@@ -80,17 +81,27 @@ void UTouchButtonWidget::SetDisabled(bool bIsDisabled)
 	Super::SetDisabled(bIsDisabled);
 	if (bDisabled)
 	{
-		if (ImageWidget)
+		if (ButtonImageWidget)
 		{
-			ImageWidget->SetBrush(DisabledSlateBrush);  /** * 设置按下的图片 */
+			UCanvasPanelSlot* ButtonCanvasPanelSlot = Cast<UCanvasPanelSlot>(ButtonImageWidget->Slot);  /** * 获取画布 */
+			if (ButtonCanvasPanelSlot)
+			{
+				ButtonCanvasPanelSlot->SetSize(DisabledSlateBrush.GetImageSize());  /** * 设置大小 */
+			}
+			ButtonImageWidget->SetBrush(DisabledSlateBrush);  /** * 设置按下的图片 */
 		}
 		TriggerInedxAnimation(-1);
 	}
 	else
 	{
-		if (ImageWidget)
+		if (ButtonImageWidget)
 		{
-			ImageWidget->SetBrush(bPressed ? PressedSlateBrush : SlateBrush);  /** * 设置按下的图片 */
+			UCanvasPanelSlot* ButtonCanvasPanelSlot = Cast<UCanvasPanelSlot>(ButtonImageWidget->Slot);  /** * 获取画布 */
+			if (ButtonCanvasPanelSlot)
+			{
+				ButtonCanvasPanelSlot->SetSize(bPressed ? PressedButtonSlateBrush.GetImageSize() : ButtonSlateBrush.GetImageSize());  /** * 设置大小 */
+			}
+			ButtonImageWidget->SetBrush(bPressed ? PressedButtonSlateBrush : ButtonSlateBrush);  /** * 设置按下的图片 */
 		}
 		TriggerInedxAnimation(0);
 	}

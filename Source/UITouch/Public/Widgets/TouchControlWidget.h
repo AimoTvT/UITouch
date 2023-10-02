@@ -42,11 +42,11 @@ public:
 
 	/** 图像变量 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-		UImage* ImageWidget;
+		UImage* ControlImageWidget;
 
 	/** 图片设置 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		FSlateBrush SlateBrush;
+		FSlateBrush ControlSlateBrush;
 
 	/** * 触控索引位置组 */
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
@@ -59,9 +59,9 @@ protected:
 
 public:
 
-	virtual	void TouchIndex(const FVector& Moved, uint8 FingerIndex) override;
+	virtual	void TouchIndexLocation(const FVector& Location, uint8 FingerIndex) override;
 
-	virtual void TouchMoved(const FVector& Moved) override;
+	virtual void TouchMovedLocation(const FVector& Location) override;
 
 	virtual void SetDisabled(bool bIsDisabled) override;
 

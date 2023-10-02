@@ -20,6 +20,7 @@
 #include "Widgets/TouchWidget.h"
 #include "Components/PanelWidget.h"
 #include "Components/TouchComponent.h"
+#include "Kismet/KismetMathLibrary.h" //官方函数库
 #include "Runtime/Engine/Public/DelayAction.h" //延迟的函数库
 
 #include "Runtime/UMG/Public/Blueprint/WidgetLayoutLibrary.h"
@@ -49,7 +50,7 @@ void UTouchWidget::NativeOnInitialized()
 
 void UTouchWidget::BindTouchDelegate()
 {
-	if (GetOwningPlayer() && GetWorld())
+	if (GetOwningPlayer())
 	{
 		UActorComponent* ActorComponent = GetOwningPlayer()->GetComponentByClass(UTouchComponent::StaticClass());
 		if (ActorComponent)
@@ -57,33 +58,34 @@ void UTouchWidget::BindTouchDelegate()
 			UTouchComponent* TouchComponent = Cast<UTouchComponent>(ActorComponent);
 			if (TouchComponent)
 			{
-				TScriptDelegate<FWeakObjectPtr> OnSetDragPrt; //建立对接变量
-				OnSetDragPrt.BindUFunction(this, "TouchIndex"); //对接变量绑定函数
-				TouchComponent->OnPressedTouch.Add(OnSetDragPrt); //绑定对接变量
+				TouchComponent->DelegateBind(10, true, this, "TouchIndexLocation");
+				FScriptDelegate ScriptDelegate; //建立对接变量
+				ScriptDelegate.BindUFunction(this, "ComponentDeactivated"); //对接变量绑定函数
+				TouchComponent->OnComponentDeactivated.Add(ScriptDelegate);
 				return;
 			}
 		}
 	}
-	if (UWorld* World = GetOwningLocalPlayer()->GetWorld())
+	if(GetWorld())
 	{
-		FLatentActionManager& LatentActionManager = World->GetLatentActionManager();
+		FLatentActionManager& LatentActionManager = GetWorld()->GetLatentActionManager();
 		FLatentActionInfo Latentinfo;
 		Latentinfo.CallbackTarget = this;
 		Latentinfo.ExecutionFunction = "BindTouchDelegate";
 		Latentinfo.Linkage = 0;
-		Latentinfo.UUID = 22;
+		Latentinfo.UUID = UKismetMathLibrary::RandomIntegerInRange(0, 222);
 		LatentActionManager.AddNewAction(this, Latentinfo.UUID, new FDelayAction(0.2, Latentinfo));
 	}
 }
 
 
-void UTouchWidget::TouchIndex(const FVector& Moved, uint8 FingerIndex)
+void UTouchWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex)
 {
-	if (IsTouchLocation(Moved))
+	if (IsTouchLocation(Location))
 	{
-		LastTriggerLocation = Moved;
+		LastTriggerLocation = Location;
 		LastTriggerLocation.Z = FingerIndex;
-		OnPressedLocation.Broadcast(LastTriggerLocation); /** * 触发触摸位置 */
+		OnTouchLocation.Broadcast(LastTriggerLocation); /** * 触发触摸位置 */
 		TriggerInedxAnimation(0);
 	}
 }
@@ -93,120 +95,13 @@ void UTouchWidget::SetIndexTouchDelegate(bool bDelegateBind, uint8 FingerIndex)
 	UTouchComponent* TouchComponent = Cast<UTouchComponent>(GetOwningPlayer()->GetComponentByClass(UTouchComponent::StaticClass()));
 	if (TouchComponent)
 	{
-		TScriptDelegate<FWeakObjectPtr> OnSetDragPrt; //建立对接变量
-		OnSetDragPrt.BindUFunction(this, "TouchMoved"); //对接变量绑定函数
-		
-		switch (FingerIndex)
-		{
-		case 0:
-			if (bDelegateBind)
-			{
-				TouchComponent->OnTouch1.Add(OnSetDragPrt); //绑定对接变量
-			}
-			else
-			{
-				TouchComponent->OnTouch1.Remove(OnSetDragPrt);
-			}
-			break;
-		case 1:
-			if (bDelegateBind)
-			{
-				TouchComponent->OnTouch2.Add(OnSetDragPrt); //绑定对接变量
-			}
-			else
-			{
-				TouchComponent->OnTouch2.Remove(OnSetDragPrt);
-			}
-			break;
-		case 2:
-			if (bDelegateBind)
-			{
-				TouchComponent->OnTouch3.Add(OnSetDragPrt); //绑定对接变量
-			}
-			else
-			{
-				TouchComponent->OnTouch3.Remove(OnSetDragPrt);
-			}
-			break;
-		case 3:
-			if (bDelegateBind)
-			{
-				TouchComponent->OnTouch4.Add(OnSetDragPrt); //绑定对接变量
-			}
-			else
-			{
-				TouchComponent->OnTouch4.Remove(OnSetDragPrt);
-			}
-			break;
-		case 4:
-			if (bDelegateBind)
-			{
-				TouchComponent->OnTouch5.Add(OnSetDragPrt); //绑定对接变量
-			}
-			else
-			{
-				TouchComponent->OnTouch5.Remove(OnSetDragPrt);
-			}
-			break;
-		case 5:
-			if (bDelegateBind)
-			{
-				TouchComponent->OnTouch6.Add(OnSetDragPrt); //绑定对接变量
-			}
-			else
-			{
-				TouchComponent->OnTouch6.Remove(OnSetDragPrt);
-			}
-			break;
-		case 6:
-			if (bDelegateBind)
-			{
-				TouchComponent->OnTouch7.Add(OnSetDragPrt); //绑定对接变量
-			}
-			else
-			{
-				TouchComponent->OnTouch7.Remove(OnSetDragPrt);
-			}
-			break;
-		case 7:
-			if (bDelegateBind)
-			{
-				TouchComponent->OnTouch8.Add(OnSetDragPrt); //绑定对接变量
-			}
-			else
-			{
-				TouchComponent->OnTouch8.Remove(OnSetDragPrt);
-			}
-			break;
-		case 8:
-			if (bDelegateBind)
-			{
-				TouchComponent->OnTouch9.Add(OnSetDragPrt); //绑定对接变量
-			}
-			else
-			{
-				TouchComponent->OnTouch9.Remove(OnSetDragPrt);
-			}
-			break;
-		case 9:
-			if (bDelegateBind)
-			{
-				TouchComponent->OnTouch10.Add(OnSetDragPrt); //绑定对接变量
-			}
-			else
-			{
-				TouchComponent->OnTouch10.Remove(OnSetDragPrt);
-			}
-			break;
-		default:
-			break;
-		}
+		TouchComponent->DelegateBind(FingerIndex, bDelegateBind, this, "TouchMovedLocation");
 	}
 }
 
-void UTouchWidget::TouchMoved(const FVector& Moved)
+void UTouchWidget::TouchMovedLocation(const FVector& Location)
 {
-	LastTriggerLocation = Moved;
+	LastTriggerLocation = Location;
 	/** * 子类继承重写使用 */
 }
 
@@ -233,15 +128,15 @@ FVector2D UTouchWidget::GetLocalPosition()
 
 /** * 判断是否触控位置是否进入触控区域 */
 
-bool UTouchWidget::IsTouchLocation(const FVector& Moved)
+bool UTouchWidget::IsTouchLocation(const FVector& Location)
 {
 	float ViewportScale = UWidgetLayoutLibrary::GetViewportScale(this); /** * 视口触控缩放 */
 	FVector2D SizeLocation = GetPaintSpaceGeometry().GetLocalSize() * ViewportScale * GetRenderTransform().Scale; /** * 获取控件大小 */
 	LocalWidgetPosition = GetLocalPosition(); /** * 获取控件左上角位置 */
-	TriggerOffsetPosition = FVector2D(Moved) / ViewportScale - LocalWidgetPosition;
+	TriggerOffsetPosition = FVector2D(Location) / ViewportScale - LocalWidgetPosition;
 	FVector2D TLocalWidgetPosition = LocalWidgetPosition * ViewportScale - SizeLocation / 4 * (GetRenderTransform().Scale - 1); /** * 计算缩放偏移 */
-	return Moved.X >= TLocalWidgetPosition.X && Moved.X <= TLocalWidgetPosition.X + SizeLocation.X  \
-		&& Moved.Y >= TLocalWidgetPosition.Y && Moved.Y <= TLocalWidgetPosition.Y + SizeLocation.Y; // \是链接下一行 后面不许有空格
+	return Location.X >= TLocalWidgetPosition.X && Location.X <= TLocalWidgetPosition.X + SizeLocation.X  \
+		&& Location.Y >= TLocalWidgetPosition.Y && Location.Y <= TLocalWidgetPosition.Y + SizeLocation.Y; // \是链接下一行 后面不许有空格
 }
 
 void UTouchWidget::SetDisabled(bool bIsDisabled)
@@ -252,6 +147,11 @@ void UTouchWidget::SetDisabled(bool bIsDisabled)
 void UTouchWidget::TriggerInedxAnimation(int Index)
 {
 	BPTriggerInedxAnimation(Index);
+}
+
+void UTouchWidget::ComponentDeactivated(UActorComponent* ActorComponent)
+{
+	BindTouchDelegate();
 }
 
 

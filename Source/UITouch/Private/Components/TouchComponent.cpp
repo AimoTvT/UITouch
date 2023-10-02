@@ -21,13 +21,12 @@
 #include "Blueprint/WidgetLayoutLibrary.h"
 
 
-
 // Sets default values for this component's properties
 UTouchComponent::UTouchComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 	TouchIndexs.SetNum(10); /** * 设置触控位置组的最大索引数 */
 	// ...
 }
@@ -51,66 +50,65 @@ void UTouchComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	// ...
 }
 
-void UTouchComponent::Touch(FVector Moved, uint8 FingerIndex)
+void UTouchComponent::TouchIndexLocation(FVector Location, uint8 FingerIndex)
 {
-	switch (int(Moved.Z))
+	switch (int(Location.Z))
 	{
 	case 0:
 		TouchIndexs[FingerIndex] = 0;
-		OnPressedTouch.Broadcast(Moved, FingerIndex);
-		TouchIndex(Moved, FingerIndex);
+		OnTriggerTouch.Broadcast(Location, FingerIndex);
+		TouchIndexLocationDelegate(Location, FingerIndex);
 		break;
 	case 1:
 		TouchIndexs[FingerIndex] = 1;
-		OnPressedTouch.Broadcast( Moved, FingerIndex);
-		TouchIndex(Moved, FingerIndex);
+		OnTriggerTouch.Broadcast(Location, FingerIndex);
+		TouchIndexLocationDelegate(Location, FingerIndex);
 		break;
 	case 2:
-		//OnPressedTouch.Broadcast(true, Moved, FingerIndex);
-		TouchIndex(Moved, FingerIndex);
+		TouchIndexLocationDelegate(Location, FingerIndex);
 		break;
 	default:
 		TouchIndexs[FingerIndex] = 0;
-		OnPressedTouch.Broadcast( Moved, FingerIndex);
+		OnTriggerTouch.Broadcast(Location, FingerIndex);
 		break;
 	}
 }
 
 
-void UTouchComponent::TouchIndex(FVector Moved, uint8 FingerIndex)
+void UTouchComponent::TouchIndexLocationDelegate(FVector Location, uint8 FingerIndex)
 {
-	Moved.Z = FingerIndex;
+	Location.Z = FingerIndex;
 	switch (FingerIndex)
 	{
 	case 0:
-		OnTouch1.Broadcast(Moved);
+		OnMovedTouch1.Broadcast(Location);
 		break;
 	case 1:
-		OnTouch2.Broadcast(Moved);
+		OnMovedTouch2.Broadcast(Location);
 		break;
 	case 2:
-		OnTouch3.Broadcast(Moved);
+		OnMovedTouch3.Broadcast(Location);
 		break;
 	case 3:
-		OnTouch4.Broadcast(Moved);
+		OnMovedTouch4.Broadcast(Location);
 		break;
 	case 4:
-		OnTouch5.Broadcast(Moved);
+		OnMovedTouch5.Broadcast(Location);
 		break;
 	case 5:
-		OnTouch6.Broadcast(Moved);
+		OnMovedTouch6.Broadcast(Location);
 		break;
 	case 6:
-		OnTouch7.Broadcast(Moved);
+		OnMovedTouch7.Broadcast(Location);
 		break;
 	case 7:
-		OnTouch8.Broadcast(Moved);
+		OnMovedTouch8.Broadcast(Location);
 		break;
 	case 8:
-		OnTouch9.Broadcast(Moved);
+		OnMovedTouch9.Broadcast(Location);
 		break;
 	case 9:
-		OnTouch10.Broadcast(Moved);
+		OnMovedTouch10.Broadcast(Location);
 		break;
 	default:
 		break;
@@ -141,6 +139,133 @@ TArray<uint8> UTouchComponent::NoInputTouchIndex(APlayerController* PlayerContro
 		}
 	}
 	return Indexs;
+}
+
+bool UTouchComponent::DelegateBind(uint8 FingerIndex, bool bDelegateBind, UObject* InFunctionObject, const FName& InFunctionName)
+{
+	if (InFunctionObject == nullptr)
+	{
+		return false;
+	}
+	FScriptDelegate ScriptDelegate; //建立对接变量
+	ScriptDelegate.BindUFunction(InFunctionObject, InFunctionName); //对接变量绑定函数
+	switch (FingerIndex)
+	{
+		case 0:
+			if (bDelegateBind)
+			{
+				OnMovedTouch1.Add(ScriptDelegate); //绑定对接变量
+			}
+			else
+			{
+				OnMovedTouch1.Remove(ScriptDelegate);
+			}
+			break;
+		case 1:
+			if (bDelegateBind)
+			{
+				OnMovedTouch2.Add(ScriptDelegate); //绑定对接变量
+			}
+			else
+			{
+				OnMovedTouch2.Remove(ScriptDelegate);
+			}
+			break;
+		case 2:
+			if (bDelegateBind)
+			{
+				OnMovedTouch3.Add(ScriptDelegate); //绑定对接变量
+			}
+			else
+			{
+				OnMovedTouch3.Remove(ScriptDelegate);
+			}
+			break;
+		case 3:
+			if (bDelegateBind)
+			{
+				OnMovedTouch4.Add(ScriptDelegate); //绑定对接变量
+			}
+			else
+			{
+				OnMovedTouch4.Remove(ScriptDelegate);
+			}
+			break;
+		case 4:
+			if (bDelegateBind)
+			{
+				OnMovedTouch5.Add(ScriptDelegate); //绑定对接变量
+			}
+			else
+			{
+				OnMovedTouch5.Remove(ScriptDelegate);
+			}
+			break;
+		case 5:
+			if (bDelegateBind)
+			{
+				OnMovedTouch6.Add(ScriptDelegate); //绑定对接变量
+			}
+			else
+			{
+				OnMovedTouch6.Remove(ScriptDelegate);
+			}
+			break;
+		case 6:
+			if (bDelegateBind)
+			{
+				OnMovedTouch7.Add(ScriptDelegate); //绑定对接变量
+			}
+			else
+			{
+				OnMovedTouch7.Remove(ScriptDelegate);
+			}
+			break;
+		case 7:
+			if (bDelegateBind)
+			{
+				OnMovedTouch8.Add(ScriptDelegate); //绑定对接变量
+			}
+			else
+			{
+				OnMovedTouch8.Remove(ScriptDelegate);
+			}
+			break;
+		case 8:
+			if (bDelegateBind)
+			{
+				OnMovedTouch9.Add(ScriptDelegate); //绑定对接变量
+			}
+			else
+			{
+				OnMovedTouch9.Remove(ScriptDelegate);
+			}
+			break;
+		case 9:
+			if (bDelegateBind)
+			{
+				OnMovedTouch10.Add(ScriptDelegate); //绑定对接变量
+			}
+			else
+			{
+				OnMovedTouch10.Remove(ScriptDelegate);
+			}
+			break;
+		case 10:
+			if (bDelegateBind)
+			{
+				OnTriggerTouch.Add(ScriptDelegate); //绑定对接变量
+			}
+			else
+			{
+				OnTriggerTouch.Remove(ScriptDelegate);
+			}
+			break;
+		default:
+			FingerIndex = 255;
+			break;
+	}
+	return FingerIndex != 255;
 }
 
 

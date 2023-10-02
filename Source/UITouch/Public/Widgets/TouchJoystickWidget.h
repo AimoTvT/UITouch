@@ -93,18 +93,18 @@ protected:
 
 public:
 
-	virtual	void TouchIndex(const FVector& Moved, uint8 FingerIndex) override;
+	virtual	void TouchIndexLocation(const FVector& Location, uint8 FingerIndex) override;
 
-	virtual void TouchMoved(const FVector& Moved) override;
+	virtual void TouchMovedLocation(const FVector& Location) override;
 
 	virtual void SetDisabled(bool bIsDisabled) override;
 
 	/** * 设置操控杆位置 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		virtual void SetControlPosition(const FVector2D& Moved);
+		virtual void SetControlPosition(const FVector2D& Position);
 
 	/** * 设置操控杆位置 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		virtual FVector2D GetPositionScale(const FVector2D& Moved);
+		virtual FVector2D GetPositionScale(const FVector2D& Position);
 
 };

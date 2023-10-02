@@ -73,7 +73,7 @@ void ATouchPlayerController::IA_TouchPressed(const FInputActionValue& Value)
 		FVector Location = Value.Get<FVector>();
 		uint8 FingerIndex = Location.Z;
 		Location.Z = 1;
-		TouchComponent->Touch(Location, FingerIndex);
+		TouchComponent->TouchIndexLocation(Location, FingerIndex);
 	}
 }
 
@@ -86,7 +86,7 @@ void ATouchPlayerController::IA_TouchReleased(const FInputActionValue& Value)
 		Location.Z = 0;
 		for (size_t i = 0; i < FingerIndexs.Num(); i++)
 		{
-			TouchComponent->Touch(Location, FingerIndexs[i]);
+			TouchComponent->TouchIndexLocation(Location, FingerIndexs[i]);
 		}
 	}
 }
@@ -98,7 +98,7 @@ void ATouchPlayerController::IA_TouchMove(const FInputActionValue& Value)
 		FVector Location = Value.Get<FVector>();
 		uint8 FingerIndex = Location.Z;
 		Location.Z = 2;
-		TouchComponent->Touch(Location, FingerIndex);
+		TouchComponent->TouchIndexLocation(Location, FingerIndex);
 	}
 }
 

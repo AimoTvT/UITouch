@@ -27,51 +27,48 @@ void UTouchButtonWidget::TouchIndexLocation(const FVector& Location, uint8 Finge
 	{
 		return;
 	}
-	if (TouchFingerIndex == 255)  /** * 触控索引是否空 */
+	if (TouchFingerIndex == 255 && IsTouchLocation(Location))  /** * 触控索引是否空 && 是否进入触控区域 */
 	{
-		if (IsTouchLocation(Location))  /** * 是否进入触控区域 */
+		LastTriggerLocation = Location;
+		if (bPressedHandover)
 		{
-			LastTriggerLocation = Location;
-			if (bPressedHandover)
+			if (Location.Z)
 			{
-				if (Location.Z)
+				bPressed = !bPressed;
+				OnTouchLocation.Broadcast({ Location.X, Location.Y, bPressed ? FingerIndex + 1.0 : 0.0 });
+				if (ButtonImageWidget)
 				{
-					bPressed = !bPressed;
-					OnTouchLocation.Broadcast({ Location.X, Location.Y, bPressed ? FingerIndex + 1.0 : 0.0 });
-					if (ButtonImageWidget)
-					{
-						ButtonImageWidget->SetBrush(bPressed ? PressedButtonSlateBrush : ButtonSlateBrush);
-					}
+					ButtonImageWidget->SetBrush(bPressed ? PressedButtonSlateBrush : ButtonSlateBrush);
 				}
 				TriggerInedxAnimation(bPressed ? 1 : 0);
 				return;
 			}
-			else
-			{
-				bPressed = true;
-				TouchFingerIndex = FingerIndex;
-				OnTouchLocation.Broadcast({ Location.X, Location.Y, FingerIndex + 1.0});
-				SetIndexTouchDelegate(true, FingerIndex);
-			}
+		}
+		else
+		{
+			bPressed = true;
+			TouchFingerIndex = FingerIndex;
+			OnTouchLocation.Broadcast({ Location.X, Location.Y, FingerIndex + 1.0 });
 			if (ButtonImageWidget)
 			{
 				ButtonImageWidget->SetBrush(PressedButtonSlateBrush);
 			}
 			TriggerInedxAnimation(1);
-			return;
 		}
 	}
-	if (TouchFingerIndex == FingerIndex)  /** * 判断是否是第二次松下触控 */
+	else
 	{
-		TouchFingerIndex = 255;
-		bPressed = false;
-		OnTouchLocation.Broadcast(Location);
-		SetIndexTouchDelegate(false, FingerIndex);
-		if (ButtonImageWidget)
+		if (TouchFingerIndex == FingerIndex)  /** * 判断是否是第二次松下触控 */
 		{
-			ButtonImageWidget->SetBrush(ButtonSlateBrush);
+			TouchFingerIndex = 255;
+			bPressed = false;
+			OnTouchLocation.Broadcast({ LastTriggerLocation.X, LastTriggerLocation.Y,  0.0 });
+			if (ButtonImageWidget)
+			{
+				ButtonImageWidget->SetBrush(ButtonSlateBrush);
+			}
+			TriggerInedxAnimation(0);
 		}
-		TriggerInedxAnimation(0);
 	}
 	return;
 }

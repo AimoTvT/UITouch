@@ -57,12 +57,10 @@ void UTouchComponent::TouchIndexLocation(FVector Location, uint8 FingerIndex)
 	case 0:
 		TouchIndexs[FingerIndex] = 0;
 		OnTriggerTouch.Broadcast(Location, FingerIndex);
-		TouchIndexLocationDelegate(Location, FingerIndex);
 		break;
 	case 1:
 		TouchIndexs[FingerIndex] = 1;
 		OnTriggerTouch.Broadcast(Location, FingerIndex);
-		TouchIndexLocationDelegate(Location, FingerIndex);
 		break;
 	case 2:
 		TouchIndexLocationDelegate(Location, FingerIndex);

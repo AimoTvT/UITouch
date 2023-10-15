@@ -38,11 +38,11 @@ public:
 
 		/** 缩放控件变量 */
 		UPROPERTY(BlueprintReadWrite, Meta = (BindWidget), Category = "Aimo|Variable")
-			USizeBox* SizeBoxWidget;
+			TObjectPtr<USizeBox> SizeBoxWidget;
 
 		/** 图像变量 */
 		UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-			UImage* ButtonImageWidget;
+			TObjectPtr<UImage> ButtonImageWidget;
 
 		/** 图片设置 */
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")

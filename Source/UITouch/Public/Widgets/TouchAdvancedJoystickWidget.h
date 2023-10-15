@@ -34,7 +34,7 @@ public:
 
 	/**  加速图片 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-		UImage* UpSpeedImageWidget;
+		TObjectPtr<UImage> UpSpeedImageWidget;
 
 	/** 加速图片设置 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")

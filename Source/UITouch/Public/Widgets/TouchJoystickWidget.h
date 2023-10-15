@@ -40,23 +40,23 @@ public:
 
 	/** 缩放控件变量 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-		USizeBox* SizeBoxWidget;
+		TObjectPtr<USizeBox> SizeBoxWidget;
 
 	/** 包裹控件的视口 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-		UCanvasPanel* CanvasPanelWidget;
+		TObjectPtr<UCanvasPanel> CanvasPanelWidget;
 
 	/**  操控杆背景图片 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-		UImage* BackdropImageWidget;
+		TObjectPtr<UImage> BackdropImageWidget;
+
+	/** 操控杆图片变量 */
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
+		TObjectPtr<UImage> ControlImageWidget;
 
 	/** 操控杆背景图片设置 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
 		FSlateBrush BackdropSlateBrush;
-
-	/** 操控杆图片变量 */
-	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-		UImage* ControlImageWidget;
 
 	/** 操控杆图片设置 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")

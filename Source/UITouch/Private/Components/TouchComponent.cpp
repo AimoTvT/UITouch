@@ -124,7 +124,7 @@ TArray<uint8> UTouchComponent::NoInputTouchIndex(APlayerController* PlayerContro
 	FVector2D Vector;
 	FVector2D Vector2 = UWidgetLayoutLibrary::GetViewportSize(GetWorld());
 	bool bIsCurrentlyPressed;
-	TArray<uint8> Indexs = {};
+	TArray<uint8> Indexs;
 	if (PlayerController && PlayerController->PlayerInput)
 	{
 		for (size_t i = 0; i < TouchIndexs.Num(); i++)

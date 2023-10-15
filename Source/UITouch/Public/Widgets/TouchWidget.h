@@ -36,7 +36,7 @@ public:
 
 	/** * 总父类控件,如一个用户控件里添加多个触控,那么那个用户控件是总父类 */
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
-		UWidget* ParentWidget;
+		TObjectPtr<UWidget> ParentWidget;
 
 	/** * 本地位置,包括嵌套布局后的位置 */
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")

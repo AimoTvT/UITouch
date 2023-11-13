@@ -82,7 +82,7 @@ void UTouchAdvancedJoystickWidget::TouchIndexLocation(const FVector& Location, u
 	{
 		TouchFingerIndex = 255;
 		SetIndexTouchDelegate(false, FingerIndex);
-		OnTouchLocation.Broadcast({ 0.0, 0.0, FingerIndex + 1.0 });
+		OnTouchLocation.Broadcast({ 0.0, 0.0, 0.0 });
 		SetControlPosition({ 0.0,0.0 });
 		if (bTriggerUpSpeed == true && UpSpeedImageWidget)
 		{

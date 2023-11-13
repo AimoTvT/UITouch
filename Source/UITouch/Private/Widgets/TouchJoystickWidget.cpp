@@ -72,7 +72,6 @@ void UTouchJoystickWidget::TouchIndexLocation(const FVector& Location, uint8 Fin
 					BackdropCanvasPanelSlot->SetPosition(TriggerOffsetPosition - LocalSize);
 				}
 			}
-			
 			return;
 		}
 	}
@@ -80,7 +79,7 @@ void UTouchJoystickWidget::TouchIndexLocation(const FVector& Location, uint8 Fin
 	{
 		TouchFingerIndex = 255;
 		SetIndexTouchDelegate(false, FingerIndex);
-		OnTouchLocation.Broadcast({ 0.0, 0.0, FingerIndex + 1.0 });
+		OnTouchLocation.Broadcast({ 0.0, 0.0, 0.0 });
 		SetControlPosition({ 0.0,0.0 });  /** * 设置操控杆归零位置 */
 		TriggerInedxAnimation(0);
 		if (bFixedJoystick == false)

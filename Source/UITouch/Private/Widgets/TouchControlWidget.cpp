@@ -39,7 +39,7 @@ void UTouchControlWidget::TouchIndexLocation(const FVector& Location, uint8 Fing
 		if (IsTouchLocation(Location) && Index == -1)
 		{
 			LastTriggerLocation = Location;
-			TouchLocations.Add({ Location.X, Location.Y , float(FingerIndex)}); /** * 设置触控位置组的位置 */
+			TouchLocations.Add({ Location.X, Location.Y , float(FingerIndex) }); /** * 设置触控位置组的位置 */
 			SetIndexTouchDelegate(true, FingerIndex); /** * 绑定移动位置调度器 */
 		}
 	}
@@ -65,7 +65,7 @@ void UTouchControlWidget::TouchMovedLocation(const FVector& Location)
 	{
 		FVector TouchMovedLocation = Location - TouchLocations[Index];/** * 计算移动位置 */
 		TouchLocations[Index] = Location; /** * 覆盖旧位置 */
-		OnTouchLocation.Broadcast({ TouchMovedLocation.X, TouchMovedLocation.Y, Location.Z + 1}); /** * 分发移动位置 */
+		OnTouchLocation.Broadcast({ TouchMovedLocation.X, TouchMovedLocation.Y, Location.Z + 1 }); /** * 分发移动位置 */
 	}
 }
 
@@ -82,12 +82,12 @@ void UTouchControlWidget::SetDisabled(bool bIsDisabled)
 			}
 		}
 		if (ControlImageWidget)
-		{	
+		{
 			/*
 			UCanvasPanelSlot* ControlCanvasPanelSlot = Cast<UCanvasPanelSlot>(ControlImageWidget->Slot);
 			if (ControlCanvasPanelSlot && DisabledSlateBrush.GetImageSize().X > 0)
 			{
-				ControlCanvasPanelSlot->SetSize(DisabledSlateBrush.GetImageSize()); 
+				ControlCanvasPanelSlot->SetSize(DisabledSlateBrush.GetImageSize());
 			}
 			*/
 			ControlImageWidget->SetBrush(DisabledSlateBrush);  /** * 设置背景的图片 */
@@ -99,10 +99,10 @@ void UTouchControlWidget::SetDisabled(bool bIsDisabled)
 		if (ControlImageWidget)
 		{
 			/*
-			UCanvasPanelSlot* ControlCanvasPanelSlot = Cast<UCanvasPanelSlot>(ControlImageWidget->Slot); 
+			UCanvasPanelSlot* ControlCanvasPanelSlot = Cast<UCanvasPanelSlot>(ControlImageWidget->Slot);
 			if (ControlCanvasPanelSlot && DisabledSlateBrush.GetImageSize().X > 0)
 			{
-				ControlCanvasPanelSlot->SetSize(ControlSlateBrush.GetImageSize());  
+				ControlCanvasPanelSlot->SetSize(ControlSlateBrush.GetImageSize());
 			}
 			*/
 			ControlImageWidget->SetBrush(ControlSlateBrush);  /** * 设置背景的图片 */

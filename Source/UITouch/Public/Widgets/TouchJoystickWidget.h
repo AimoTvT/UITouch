@@ -26,70 +26,70 @@
 
 #include "TouchJoystickWidget.generated.h"
 
-/**
- * 
- */
+ /**
+  *
+  */
 UCLASS()
 class UITOUCH_API UTouchJoystickWidget : public UTouchWidget
 {
 	GENERATED_BODY()
-	
+
 
 
 public:
 
 	/** 缩放控件变量 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-		TObjectPtr<USizeBox> SizeBoxWidget;
+	TObjectPtr<USizeBox> SizeBoxWidget;
 
 	/** 包裹控件的视口 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-		TObjectPtr<UCanvasPanel> CanvasPanelWidget;
+	TObjectPtr<UCanvasPanel> CanvasPanelWidget;
 
 	/**  操控杆背景图片 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-		TObjectPtr<UImage> BackdropImageWidget;
+	TObjectPtr<UImage> BackdropImageWidget;
 
 	/** 操控杆图片变量 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-		TObjectPtr<UImage> ControlImageWidget;
+	TObjectPtr<UImage> ControlImageWidget;
 
 	/** 操控杆背景图片设置 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		FSlateBrush BackdropSlateBrush;
+	FSlateBrush BackdropSlateBrush;
 
 	/** 操控杆图片设置 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		FSlateBrush ControlSlateBrush;
+	FSlateBrush ControlSlateBrush;
 
 	/** * 触控索引 */
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
-		uint8 TouchFingerIndex = 255;
+	uint8 TouchFingerIndex = 255;
 
 	/** * Y轴倍数 */
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
-		float YShaftTimes = -1.0f;
+	float YShaftTimes = -1.0f;
 
 	/** * 忽略值 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		FVector2D IgnoreNumerical;
+	FVector2D IgnoreNumerical;
 
 	/** * 摇杆动画倍数 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		float JoystickAnimationRangeMultiple = 1.0f;
+	float JoystickAnimationRangeMultiple = 1.0f;
 
 	/** * 固定操纵杆 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		bool bFixedJoystick;
+	bool bFixedJoystick;
 
 	/** * 实时调度器(需要实时触发移动) */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		bool bTickDelegated;
+	bool bTickDelegated;
 
 protected:
 
 	virtual void NativePreConstruct() override;
-	
+
 
 public:
 
@@ -101,10 +101,10 @@ public:
 
 	/** * 设置操控杆位置 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		virtual void SetControlPosition(const FVector2D& Position);
+	virtual void SetControlPosition(const FVector2D& Position);
 
 	/** * 设置操控杆位置 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		virtual FVector2D GetPositionScale(const FVector2D& Position);
+	virtual FVector2D GetPositionScale(const FVector2D& Position);
 
 };

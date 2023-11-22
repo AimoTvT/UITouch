@@ -26,12 +26,12 @@
 #include "TouchComponent.generated.h"
 
 
-UCLASS(Blueprintable, meta=(DisplayName = "TouchComponent", BlueprintSpawnableComponent))
+UCLASS(Blueprintable, meta = (DisplayName = "TouchComponent", BlueprintSpawnableComponent))
 class UITOUCH_API UTouchComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	// Sets default values for this component's properties
 	UTouchComponent();
 
@@ -40,7 +40,7 @@ public:
 	TArray<uint8> TouchIndexs;
 
 	/** * 多播所有接收到的调度器 */
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnIndexTouchDynmic,FVector, Moved, uint8, FingerIndex);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnIndexTouchDynmic, FVector, Moved, uint8, FingerIndex);
 
 	/** * 多播指定接收到的调度器 */
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnTouchDynmic, FVector, Moved);
@@ -48,76 +48,76 @@ public:
 
 	/** * 多播收到触发的调度器 */
 	UPROPERTY(BlueprintAssignable, Category = "Aimo|On")
-		FOnIndexTouchDynmic OnTriggerTouch;
+	FOnIndexTouchDynmic OnTriggerTouch;
 
 	/** * 多播指定接收到的调度器1 */
 	UPROPERTY(BlueprintAssignable, Category = "Aimo|On")
-		FOnTouchDynmic OnMovedTouch1;
+	FOnTouchDynmic OnMovedTouch1;
 
 	/** * 多播指定接收到的调度器2 */
 	UPROPERTY(BlueprintAssignable, Category = "Aimo|On")
-		FOnTouchDynmic OnMovedTouch2;
+	FOnTouchDynmic OnMovedTouch2;
 
 	/** * 多播指定接收到的调度器3 */
 	UPROPERTY(BlueprintAssignable, Category = "Aimo|On")
-		FOnTouchDynmic OnMovedTouch3;
+	FOnTouchDynmic OnMovedTouch3;
 
 	/** * 多播指定接收到的调度器4 */
 	UPROPERTY(BlueprintAssignable, Category = "Aimo|On")
-		FOnTouchDynmic OnMovedTouch4;
+	FOnTouchDynmic OnMovedTouch4;
 
 	/** * 多播指定接收到的调度器5 */
 	UPROPERTY(BlueprintAssignable, Category = "Aimo|On")
-		FOnTouchDynmic OnMovedTouch5;
+	FOnTouchDynmic OnMovedTouch5;
 
 	/** * 多播指定接收到的调度器6 */
 	UPROPERTY(BlueprintAssignable, Category = "Aimo|On")
-		FOnTouchDynmic OnMovedTouch6;
+	FOnTouchDynmic OnMovedTouch6;
 
 	/** * 多播指定接收到的调度器7 */
 	UPROPERTY(BlueprintAssignable, Category = "Aimo|On")
-		FOnTouchDynmic OnMovedTouch7;
+	FOnTouchDynmic OnMovedTouch7;
 
 	/** * 多播指定接收到的调度器8 */
 	UPROPERTY(BlueprintAssignable, Category = "Aimo|On")
-		FOnTouchDynmic OnMovedTouch8;
+	FOnTouchDynmic OnMovedTouch8;
 
 	/** * 多播指定接收到的调度器9 */
 	UPROPERTY(BlueprintAssignable, Category = "Aimo|On")
-		FOnTouchDynmic OnMovedTouch9;
+	FOnTouchDynmic OnMovedTouch9;
 
 	/** * 多播指定接收到的调度器10 */
 	UPROPERTY(BlueprintAssignable, Category = "Aimo|On")
-		FOnTouchDynmic OnMovedTouch10;
+	FOnTouchDynmic OnMovedTouch10;
 
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	/** * 触控 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		virtual void TouchIndexLocation(FVector Location, uint8 FingerIndex);
+	virtual void TouchIndexLocation(FVector Location, uint8 FingerIndex);
 
 	/** * 内部执行触控 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		virtual void TouchIndexLocationDelegate(FVector Location, uint8 FingerIndex);
-	
+	virtual void TouchIndexLocationDelegate(FVector Location, uint8 FingerIndex);
+
 	/** * 判断是否限制内最小0 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		virtual bool IsClamp(FVector2D& A, FVector2D& B);
+	virtual bool IsClamp(FVector2D& A, FVector2D& B);
 
 	/** * 判断释放的触控 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		virtual TArray<uint8> NoInputTouchIndex(APlayerController* PlayerController);
+	virtual TArray<uint8> NoInputTouchIndex(APlayerController* PlayerController);
 
-	
+
 	/** * 绑定触控 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		virtual bool DelegateBind(uint8 FingerIndex, bool bDelegateBind, UObject* InFunctionObject, const FName& InFunctionName);
+	virtual bool DelegateBind(uint8 FingerIndex, bool bDelegateBind, UObject* InFunctionObject, const FName& InFunctionName);
 
 };

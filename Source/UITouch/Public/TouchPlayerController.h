@@ -28,13 +28,13 @@
 #include "TouchPlayerController.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class UITOUCH_API ATouchPlayerController : public APlayerController
 {
 	GENERATED_BODY()
-	
+
 
 public:
 
@@ -42,12 +42,12 @@ public:
 
 	/** * 触控组件 */
 	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Aimo|Variable")
-		TObjectPtr <UTouchComponent> TouchComponent;
-	
+	TObjectPtr <UTouchComponent> TouchComponent;
+
 	/** * 触控组件 */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EnhancedInput|Action", meta = (AllowPrivateAccess = "true"))
-		TArray<TObjectPtr<UInputAction>> InputActionTouchs;
-	
+	TArray<TObjectPtr<UInputAction>> InputActionTouchs;
+
 
 protected:
 
@@ -62,15 +62,15 @@ public:
 
 	/** * 触摸按下 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		virtual void IA_TouchPressed(const FInputActionValue& Value);
+	virtual void IA_TouchPressed(const FInputActionValue& Value);
 
 	/** * 触摸松开 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		virtual void IA_TouchReleased(const FInputActionValue& Value);
+	virtual void IA_TouchReleased(const FInputActionValue& Value);
 
 	/** * 触摸移动 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		virtual void IA_TouchMove(const FInputActionValue& Value);
+	virtual void IA_TouchMove(const FInputActionValue& Value);
 
 
 

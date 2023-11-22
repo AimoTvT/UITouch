@@ -27,12 +27,12 @@ void UTouchAdvancedJoystickWidget::NativePreConstruct()
 	Super::NativePreConstruct();
 	if (UpSpeedImageWidget)
 	{
-		UpSpeedImageWidget->SetBrush(bTriggerUpSpeed ? TriggerUpSpeedSlateBrush :  UpSpeedSlateBrush);
+		UpSpeedImageWidget->SetBrush(bTriggerUpSpeed ? TriggerUpSpeedSlateBrush : UpSpeedSlateBrush);
 		UCanvasPanelSlot* UpSpeedCanvasPanelSlot = Cast<UCanvasPanelSlot>(UpSpeedImageWidget->Slot);
 		if (UpSpeedCanvasPanelSlot)
 		{
 			UpSpeedCanvasPanelSlot->SetSize(UpSpeedSlateBrush.GetImageSize()); /** * 设置加速图片大小 */
-			UpSpeedCanvasPanelSlot->SetPosition({0.0, (BackdropSlateBrush.GetImageSize() * -1).Y}); /** * 设置加速图片位置 */
+			UpSpeedCanvasPanelSlot->SetPosition({ 0.0, (BackdropSlateBrush.GetImageSize() * -1).Y }); /** * 设置加速图片位置 */
 		}
 	}
 }
@@ -74,7 +74,6 @@ void UTouchAdvancedJoystickWidget::TouchIndexLocation(const FVector& Location, u
 					UpSpeedCanvasPanelSlot->SetPosition(LocalSize);
 				}
 			}
-			
 			return;
 		}
 	}
@@ -97,10 +96,9 @@ void UTouchAdvancedJoystickWidget::TouchIndexLocation(const FVector& Location, u
 		UCanvasPanelSlot* BackdropCanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot);
 		if (bFixedJoystick == false && BackdropCanvasPanelSlot)
 		{
-			
-			BackdropCanvasPanelSlot->SetPosition({0.0,0.0});
+
+			BackdropCanvasPanelSlot->SetPosition({ 0.0,0.0 });
 		}
-		return;
 	}
 	return;
 }
@@ -123,7 +121,7 @@ void UTouchAdvancedJoystickWidget::TouchMovedLocation(const FVector& Location)
 				PositionScale.Y = 0.0;
 			}
 		}
-		if(PositionScale.Y > 0.2 && PositionScale.X > -0.5 && PositionScale.X < 0.5)  /** * 判断是否进入加速模式 */
+		if (PositionScale.Y > 0.2 && PositionScale.X > -0.5 && PositionScale.X < 0.5)  /** * 判断是否进入加速模式 */
 		{
 			if (PositionScale.Y > 1.5) /** * 判断是否进入加速模式 */
 			{

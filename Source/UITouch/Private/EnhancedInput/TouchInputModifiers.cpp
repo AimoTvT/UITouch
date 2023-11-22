@@ -18,24 +18,24 @@
 
 #include "EnhancedInput/TouchInputModifiers.h"
 
-/*  //暂时停用修改
-virtual EDataValidationResult IsDataValid(class FDataValidationContext& Context) const override
-{
-	EDataValidationResult Result = CombineDataValidationResults(Super::IsDataValid(Context), EDataValidationResult::Valid);
+ /*  //暂时停用修改
+ virtual EDataValidationResult IsDataValid(class FDataValidationContext& Context) const override
+ {
+	 EDataValidationResult Result = CombineDataValidationResults(Super::IsDataValid(Context), EDataValidationResult::Valid);
 
-	// You cannot scale a boolean value
-	if (UInputAction* IA = Cast<UInputAction>(GetOuter()))
-	{
-		if (IA->ValueType == EInputActionValueType::Boolean)
-		{
-			Result = EDataValidationResult::Invalid;
-			Context.AddError(LOCTEXT("InputScalarInvalidActionType", "A Scalar modifier cannot be used on a 'Boolean' input action"));
-		}
-	}
+	 // You cannot scale a boolean value
+	 if (UInputAction* IA = Cast<UInputAction>(GetOuter()))
+	 {
+		 if (IA->ValueType == EInputActionValueType::Boolean)
+		 {
+			 Result = EDataValidationResult::Invalid;
+			 Context.AddError(LOCTEXT("InputScalarInvalidActionType", "A Scalar modifier cannot be used on a 'Boolean' input action"));
+		 }
+	 }
 
-	return Result;
-};
-*/
+	 return Result;
+ };
+ */
 
 FInputActionValue UInputModifierAddScalar::ModifyRaw_Implementation(const UEnhancedPlayerInput* PlayerInput, FInputActionValue CurrentValue, float DeltaTime)
 {

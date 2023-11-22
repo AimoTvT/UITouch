@@ -22,7 +22,6 @@
 #include "Components/TouchComponent.h"
 #include "Kismet/KismetMathLibrary.h" //官方函数库
 #include "Runtime/Engine/Public/DelayAction.h" //延迟的函数库
-
 #include "Runtime/UMG/Public/Blueprint/WidgetLayoutLibrary.h"
 
 
@@ -35,7 +34,7 @@ void UTouchWidget::NativePreConstruct()
 void UTouchWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	
+
 }
 
 void UTouchWidget::NativeOnInitialized()
@@ -45,7 +44,7 @@ void UTouchWidget::NativeOnInitialized()
 	{
 		BindTouchDelegate();
 	}
-	
+
 }
 
 void UTouchWidget::BindTouchDelegate()
@@ -66,7 +65,7 @@ void UTouchWidget::BindTouchDelegate()
 			}
 		}
 	}
-	if(GetWorld())
+	if (GetWorld())
 	{
 		FLatentActionManager& LatentActionManager = GetWorld()->GetLatentActionManager();
 		FLatentActionInfo Latentinfo;

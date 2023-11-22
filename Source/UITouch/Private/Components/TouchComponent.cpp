@@ -21,7 +21,7 @@
 #include "Blueprint/WidgetLayoutLibrary.h"
 
 
-// Sets default values for this component's properties
+ // Sets default values for this component's properties
 UTouchComponent::UTouchComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
@@ -38,7 +38,7 @@ void UTouchComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-	
+
 }
 
 
@@ -149,119 +149,119 @@ bool UTouchComponent::DelegateBind(uint8 FingerIndex, bool bDelegateBind, UObjec
 	ScriptDelegate.BindUFunction(InFunctionObject, InFunctionName); //对接变量绑定函数
 	switch (FingerIndex)
 	{
-		case 0:
-			if (bDelegateBind)
-			{
-				OnMovedTouch1.Add(ScriptDelegate); //绑定对接变量
-			}
-			else
-			{
-				OnMovedTouch1.Remove(ScriptDelegate);
-			}
-			break;
-		case 1:
-			if (bDelegateBind)
-			{
-				OnMovedTouch2.Add(ScriptDelegate); //绑定对接变量
-			}
-			else
-			{
-				OnMovedTouch2.Remove(ScriptDelegate);
-			}
-			break;
-		case 2:
-			if (bDelegateBind)
-			{
-				OnMovedTouch3.Add(ScriptDelegate); //绑定对接变量
-			}
-			else
-			{
-				OnMovedTouch3.Remove(ScriptDelegate);
-			}
-			break;
-		case 3:
-			if (bDelegateBind)
-			{
-				OnMovedTouch4.Add(ScriptDelegate); //绑定对接变量
-			}
-			else
-			{
-				OnMovedTouch4.Remove(ScriptDelegate);
-			}
-			break;
-		case 4:
-			if (bDelegateBind)
-			{
-				OnMovedTouch5.Add(ScriptDelegate); //绑定对接变量
-			}
-			else
-			{
-				OnMovedTouch5.Remove(ScriptDelegate);
-			}
-			break;
-		case 5:
-			if (bDelegateBind)
-			{
-				OnMovedTouch6.Add(ScriptDelegate); //绑定对接变量
-			}
-			else
-			{
-				OnMovedTouch6.Remove(ScriptDelegate);
-			}
-			break;
-		case 6:
-			if (bDelegateBind)
-			{
-				OnMovedTouch7.Add(ScriptDelegate); //绑定对接变量
-			}
-			else
-			{
-				OnMovedTouch7.Remove(ScriptDelegate);
-			}
-			break;
-		case 7:
-			if (bDelegateBind)
-			{
-				OnMovedTouch8.Add(ScriptDelegate); //绑定对接变量
-			}
-			else
-			{
-				OnMovedTouch8.Remove(ScriptDelegate);
-			}
-			break;
-		case 8:
-			if (bDelegateBind)
-			{
-				OnMovedTouch9.Add(ScriptDelegate); //绑定对接变量
-			}
-			else
-			{
-				OnMovedTouch9.Remove(ScriptDelegate);
-			}
-			break;
-		case 9:
-			if (bDelegateBind)
-			{
-				OnMovedTouch10.Add(ScriptDelegate); //绑定对接变量
-			}
-			else
-			{
-				OnMovedTouch10.Remove(ScriptDelegate);
-			}
-			break;
-		case 10:
-			if (bDelegateBind)
-			{
-				OnTriggerTouch.Add(ScriptDelegate); //绑定对接变量
-			}
-			else
-			{
-				OnTriggerTouch.Remove(ScriptDelegate);
-			}
-			break;
-		default:
-			FingerIndex = 255;
-			break;
+	case 0:
+		if (bDelegateBind)
+		{
+			OnMovedTouch1.Add(ScriptDelegate); //绑定对接变量
+		}
+		else
+		{
+			OnMovedTouch1.Remove(ScriptDelegate);
+		}
+		break;
+	case 1:
+		if (bDelegateBind)
+		{
+			OnMovedTouch2.Add(ScriptDelegate); //绑定对接变量
+		}
+		else
+		{
+			OnMovedTouch2.Remove(ScriptDelegate);
+		}
+		break;
+	case 2:
+		if (bDelegateBind)
+		{
+			OnMovedTouch3.Add(ScriptDelegate); //绑定对接变量
+		}
+		else
+		{
+			OnMovedTouch3.Remove(ScriptDelegate);
+		}
+		break;
+	case 3:
+		if (bDelegateBind)
+		{
+			OnMovedTouch4.Add(ScriptDelegate); //绑定对接变量
+		}
+		else
+		{
+			OnMovedTouch4.Remove(ScriptDelegate);
+		}
+		break;
+	case 4:
+		if (bDelegateBind)
+		{
+			OnMovedTouch5.Add(ScriptDelegate); //绑定对接变量
+		}
+		else
+		{
+			OnMovedTouch5.Remove(ScriptDelegate);
+		}
+		break;
+	case 5:
+		if (bDelegateBind)
+		{
+			OnMovedTouch6.Add(ScriptDelegate); //绑定对接变量
+		}
+		else
+		{
+			OnMovedTouch6.Remove(ScriptDelegate);
+		}
+		break;
+	case 6:
+		if (bDelegateBind)
+		{
+			OnMovedTouch7.Add(ScriptDelegate); //绑定对接变量
+		}
+		else
+		{
+			OnMovedTouch7.Remove(ScriptDelegate);
+		}
+		break;
+	case 7:
+		if (bDelegateBind)
+		{
+			OnMovedTouch8.Add(ScriptDelegate); //绑定对接变量
+		}
+		else
+		{
+			OnMovedTouch8.Remove(ScriptDelegate);
+		}
+		break;
+	case 8:
+		if (bDelegateBind)
+		{
+			OnMovedTouch9.Add(ScriptDelegate); //绑定对接变量
+		}
+		else
+		{
+			OnMovedTouch9.Remove(ScriptDelegate);
+		}
+		break;
+	case 9:
+		if (bDelegateBind)
+		{
+			OnMovedTouch10.Add(ScriptDelegate); //绑定对接变量
+		}
+		else
+		{
+			OnMovedTouch10.Remove(ScriptDelegate);
+		}
+		break;
+	case 10:
+		if (bDelegateBind)
+		{
+			OnTriggerTouch.Add(ScriptDelegate); //绑定对接变量
+		}
+		else
+		{
+			OnTriggerTouch.Remove(ScriptDelegate);
+		}
+		break;
+	default:
+		FingerIndex = 255;
+		break;
 	}
 	return FingerIndex != 255;
 }

@@ -22,31 +22,31 @@
 #include "TouchJoystickWidget.h"
 #include "TouchAdvancedJoystickWidget.generated.h"
 
-/**
- * 
- */
+ /**
+  *
+  */
 UCLASS()
 class UITOUCH_API UTouchAdvancedJoystickWidget : public UTouchJoystickWidget
 {
 	GENERATED_BODY()
-	
+
 public:
 
 	/**  加速图片 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-		TObjectPtr<UImage> UpSpeedImageWidget;
+	TObjectPtr<UImage> UpSpeedImageWidget;
 
 	/** 加速图片设置 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		FSlateBrush UpSpeedSlateBrush;
+	FSlateBrush UpSpeedSlateBrush;
 
 	/** 触发的加速图片设置 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		FSlateBrush TriggerUpSpeedSlateBrush;
+	FSlateBrush TriggerUpSpeedSlateBrush;
 
 	/** * 是否触发加速 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		bool bTriggerUpSpeed = false;
+	bool bTriggerUpSpeed = false;
 
 protected:
 

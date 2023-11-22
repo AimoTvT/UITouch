@@ -20,7 +20,6 @@
 #include "TouchPlayerController.h"
 #include "Components/InputComponent.h"
 
- //EnhancedInput
 #include "EnhancedInputComponent.h"
 
 
@@ -28,7 +27,7 @@
 ATouchPlayerController::ATouchPlayerController()
 {
 	TouchComponent = CreateDefaultSubobject<UTouchComponent>(TEXT("TouchComponent"));
-	
+
 }
 
 void ATouchPlayerController::BeginPlay()
@@ -43,11 +42,11 @@ void ATouchPlayerController::BeginPlay()
 		SetupPlayerInputComponent(InputComponent);
 	}
 }
-	
+
 
 void ATouchPlayerController::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
-	check(PlayerInputComponent); 
+	check(PlayerInputComponent);
 
 	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
 	{
@@ -60,7 +59,6 @@ void ATouchPlayerController::SetupPlayerInputComponent(class UInputComponent* Pl
 				EnhancedInputComponent->BindAction(InputActionTouchs[i], ETriggerEvent::Triggered, this, &ATouchPlayerController::IA_TouchMove);
 			}
 		}
-		
 	}
 }
 

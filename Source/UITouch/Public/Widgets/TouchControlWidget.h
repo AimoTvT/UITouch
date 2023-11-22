@@ -25,32 +25,32 @@
 
 #include "TouchControlWidget.generated.h"
 
-/**
- * 
- */
+ /**
+  *
+  */
 UCLASS()
 class UITOUCH_API UTouchControlWidget : public UTouchWidget
 {
 	GENERATED_BODY()
-	
+
 
 public:
 
 	/** 缩放控件变量 */
 	UPROPERTY(BlueprintReadWrite, Meta = (BindWidget), Category = "Aimo|Variable")
-		TObjectPtr<USizeBox> SizeBoxWidget;
+	TObjectPtr<USizeBox> SizeBoxWidget;
 
 	/** 图像变量 */
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-		TObjectPtr<UImage> ControlImageWidget;
+	TObjectPtr<UImage> ControlImageWidget;
 
 	/** 图片设置 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-		FSlateBrush ControlSlateBrush;
+	FSlateBrush ControlSlateBrush;
 
 	/** * 触控索引位置组 */
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
-		TArray<FVector> TouchLocations;
+	TArray<FVector> TouchLocations;
 
 
 protected:
@@ -67,6 +67,6 @@ public:
 
 	/** * 获取对应位置触控位置组的索引 */
 	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
-		virtual int GetTouchLocationsIndex(int32 Index);
+	virtual int GetTouchLocationsIndex(int32 Index);
 
 };

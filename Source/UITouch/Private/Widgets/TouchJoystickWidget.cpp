@@ -87,10 +87,9 @@ void UTouchJoystickWidget::TouchIndexLocation(const FVector& Location, uint8 Fin
 			UCanvasPanelSlot* BackdropCanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot);
 			if (BackdropCanvasPanelSlot)
 			{
-				BackdropCanvasPanelSlot->SetPosition({0.0,0.0});
+				BackdropCanvasPanelSlot->SetPosition({ 0.0,0.0 });
 			}
 		}
-		return;
 	}
 	return;
 }
@@ -158,7 +157,7 @@ void UTouchJoystickWidget::SetDisabled(bool bIsDisabled)
 		TriggerInedxAnimation(-1);
 	}
 	else
-	{	
+	{
 		if (BackdropImageWidget)
 		{
 			UCanvasPanelSlot* BackdropCanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot);  /** * 获取画布 */
@@ -176,7 +175,8 @@ void UTouchJoystickWidget::SetControlPosition(const FVector2D& Position)
 {
 	UCanvasPanelSlot* ControlCanvasPanelSlot = Cast<UCanvasPanelSlot>(ControlImageWidget->Slot);
 	if (ControlCanvasPanelSlot)
-	{	if(Position != FVector2D({0.0, 0.0}))
+	{
+		if (Position != FVector2D({ 0.0, 0.0 }))
 		{
 			float ViewportScale = UWidgetLayoutLibrary::GetViewportScale(this); /** * 获取缩放 */
 			FVector2D LocalSize = GetPaintSpaceGeometry().GetLocalSize() / 2;

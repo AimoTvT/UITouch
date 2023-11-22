@@ -26,9 +26,9 @@
 
 #include "TouchButtonWidget.generated.h"
 
-/**
- * 
- */
+ /**
+  *
+  */
 UCLASS()
 class UITOUCH_API UTouchButtonWidget : public UTouchWidget
 {
@@ -36,35 +36,35 @@ class UITOUCH_API UTouchButtonWidget : public UTouchWidget
 
 public:
 
-		/** 缩放控件变量 */
-		UPROPERTY(BlueprintReadWrite, Meta = (BindWidget), Category = "Aimo|Variable")
-			TObjectPtr<USizeBox> SizeBoxWidget;
+	/** 缩放控件变量 */
+	UPROPERTY(BlueprintReadWrite, Meta = (BindWidget), Category = "Aimo|Variable")
+	TObjectPtr<USizeBox> SizeBoxWidget;
 
-		/** 图像变量 */
-		UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
-			TObjectPtr<UImage> ButtonImageWidget;
+	/** 图像变量 */
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
+	TObjectPtr<UImage> ButtonImageWidget;
 
-		/** 图片设置 */
-		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-			FSlateBrush ButtonSlateBrush;
+	/** 图片设置 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+	FSlateBrush ButtonSlateBrush;
 
-		/** 图片设置 */
-		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-			FSlateBrush PressedButtonSlateBrush;
+	/** 图片设置 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+	FSlateBrush PressedButtonSlateBrush;
 
-		/** * 触控索引 255=空 */
-		UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
-			uint8 TouchFingerIndex = 255;
+	/** * 触控索引 255=空 */
+	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
+	uint8 TouchFingerIndex = 255;
 
-		/** * 切换按下模式 */
-		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-			bool bPressedHandover = false;
+	/** * 切换按下模式 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+	bool bPressedHandover = false;
 
-		/** * 按下 */
-		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
-			bool bPressed = false;
-		
-	
+	/** * 按下 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+	bool bPressed = false;
+
+
 public:
 
 	virtual	void TouchIndexLocation(const FVector& Location, uint8 FingerIndex) override;

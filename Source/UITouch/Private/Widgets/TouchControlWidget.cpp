@@ -65,7 +65,12 @@ void UTouchControlWidget::TouchMovedLocation(const FVector& Location)
 	{
 		FVector TouchMovedLocation = Location - TouchLocations[Index];/** * 计算移动位置 */
 		TouchLocations[Index] = Location; /** * 覆盖旧位置 */
-		OnTouchLocation.Broadcast({ TouchMovedLocation.X, TouchMovedLocation.Y, Location.Z + 1 }); /** * 分发移动位置 */
+		if (ClampDifferenceDistance != 0 && FVector2D(TouchMovedLocation).Size() > ClampDifferenceDistance)
+		{
+			return;
+		}
+		TouchMovedLocation.Z = Location.Z + 1;
+		OnTouchLocation.Broadcast(TouchMovedLocation); /** * 分发移动位置 */
 	}
 }
 

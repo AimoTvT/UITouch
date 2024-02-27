@@ -52,6 +52,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
 	TArray<FVector> TouchLocations;
 
+	/** 限制差值距离,0.0代表不启用,2次位置变化过大会忽略*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+	float ClampDifferenceDistance = 0.0f;
 
 protected:
 

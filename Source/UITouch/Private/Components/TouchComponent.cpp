@@ -19,6 +19,8 @@
 
 #include "Components/TouchComponent.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
+#include "Components/InputComponent.h"
+#include "EnhancedInputComponent.h"
 
 
  // Sets default values for this component's properties
@@ -28,6 +30,7 @@ UTouchComponent::UTouchComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
 	TouchIndexs.SetNum(10); /** * 设置触控位置组的最大索引数 */
+
 	// ...
 }
 
@@ -38,7 +41,21 @@ void UTouchComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-
+	if (TouchPlayerController)
+	{
+		SetPlayerController(TouchPlayerController);
+	}
+	else
+	{
+		if (GetOwner())
+		{
+			TouchPlayerController = Cast<APlayerController>(GetOwner());
+			if (TouchPlayerController)
+			{
+				SetPlayerController(TouchPlayerController);
+			}
+		}
+	}
 }
 
 
@@ -120,7 +137,6 @@ bool UTouchComponent::IsClamp(FVector2D& A, FVector2D& B)
 
 TArray<uint8> UTouchComponent::NoInputTouchIndex(APlayerController* PlayerController)
 {
-
 	FVector2D Vector;
 	FVector2D Vector2 = UWidgetLayoutLibrary::GetViewportSize(GetWorld());
 	bool bIsCurrentlyPressed;
@@ -137,6 +153,52 @@ TArray<uint8> UTouchComponent::NoInputTouchIndex(APlayerController* PlayerContro
 		}
 	}
 	return Indexs;
+}
+
+void UTouchComponent::DefaultInputActionTouchs()
+{
+	InputActionTouchs.Empty();
+	InputActionTouchs.Add(LoadObject<UInputAction>(this, TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch1.EnhancedInputActionTouch1'")));
+	InputActionTouchs.Add(LoadObject<UInputAction>(this, TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch2.EnhancedInputActionTouch2'")));
+	InputActionTouchs.Add(LoadObject<UInputAction>(this, TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch3.EnhancedInputActionTouch3'")));
+	InputActionTouchs.Add(LoadObject<UInputAction>(this, TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch4.EnhancedInputActionTouch4'")));
+	InputActionTouchs.Add(LoadObject<UInputAction>(this, TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch5.EnhancedInputActionTouch5'")));
+	InputActionTouchs.Add(LoadObject<UInputAction>(this, TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch6.EnhancedInputActionTouch6'")));
+	InputActionTouchs.Add(LoadObject<UInputAction>(this, TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch7.EnhancedInputActionTouch7'")));
+	InputActionTouchs.Add(LoadObject<UInputAction>(this, TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch8.EnhancedInputActionTouch8'")));
+	InputActionTouchs.Add(LoadObject<UInputAction>(this, TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch9.EnhancedInputActionTouch9'")));
+	InputActionTouchs.Add(LoadObject<UInputAction>(this, TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch10.EnhancedInputActionTouch10'")));
+}
+
+void UTouchComponent::SetPlayerController(APlayerController* PlayerController)
+{
+	if (PlayerController)
+	{
+		TouchPlayerController = PlayerController;
+		if (TouchPlayerController->IsLocalController())
+		{
+			InputComponent = Cast<UInputComponent>(PlayerController->FindComponentByClass(UInputComponent::StaticClass()));
+			if (InputComponent == nullptr)
+			{
+				InputComponent = NewObject<UInputComponent>(PlayerController);
+			}
+			if (InputActionTouchs.Num() == 0)
+			{
+				DefaultInputActionTouchs();
+			}
+			SetupPlayerInputComponent(InputComponent);
+		}
+	}
+	else
+	{
+		TouchPlayerController = nullptr;
+	}
+}
+
+void UTouchComponent::SetInputActionTouchs(TArray<UInputAction*> InputActions)
+{
+	InputActionTouchs = InputActions;
+	SetupPlayerInputComponent(InputComponent);
 }
 
 bool UTouchComponent::DelegateBind(uint8 FingerIndex, bool bDelegateBind, UObject* InFunctionObject, const FName& InFunctionName)
@@ -268,4 +330,56 @@ bool UTouchComponent::DelegateBind(uint8 FingerIndex, bool bDelegateBind, UObjec
 
 
 
+void UTouchComponent::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
+{
+	if (PlayerInputComponent == nullptr)
+	{
+		return;
+	}
+	check(PlayerInputComponent);
+	if (EnhancedInputComponent == nullptr)
+	{
+		EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent);
+	}
+	if (EnhancedInputComponent)
+	{
+		for (size_t i = 0; i < InputActionTouchs.Num(); i++)
+		{
+			if (InputActionTouchs[i])
+			{
+				EnhancedInputComponent->BindAction(InputActionTouchs[i], ETriggerEvent::Started, this, &UTouchComponent::IA_TouchPressed);
+				EnhancedInputComponent->BindAction(InputActionTouchs[i], ETriggerEvent::Completed, this, &UTouchComponent::IA_TouchReleased);
+				EnhancedInputComponent->BindAction(InputActionTouchs[i], ETriggerEvent::Triggered, this, &UTouchComponent::IA_TouchMove);
+			}
+		}
+	}
+}
 
+
+
+void UTouchComponent::IA_TouchPressed(const FInputActionValue& Value)
+{
+	FVector Location = Value.Get<FVector>();
+	uint8 FingerIndex = Location.Z;
+	Location.Z = 1;
+	TouchIndexLocation(Location, FingerIndex);
+}
+
+void UTouchComponent::IA_TouchReleased(const FInputActionValue& Value)
+{
+	FVector Location = Value.Get<FVector>();
+	TArray<uint8> FingerIndexs = NoInputTouchIndex(TouchPlayerController);
+	Location.Z = 0;
+	for (size_t i = 0; i < FingerIndexs.Num(); i++)
+	{
+		TouchIndexLocation(Location, FingerIndexs[i]);
+	}
+}
+
+void UTouchComponent::IA_TouchMove(const FInputActionValue& Value)
+{
+	FVector Location = Value.Get<FVector>();
+	uint8 FingerIndex = Location.Z;
+	Location.Z = 2;
+	TouchIndexLocation(Location, FingerIndex);
+}

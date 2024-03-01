@@ -32,21 +32,33 @@ class UITOUCH_API UTouchAdvancedJoystickWidget : public UTouchJoystickWidget
 
 public:
 
-	/**  加速图片 */
-	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
+	/**  * 加速图片 */
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "UITouch|Variable")
 	TObjectPtr<UImage> UpSpeedImageWidget;
 
-	/** 加速图片设置 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+	/** * 加速图片设置 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Appearance")
 	FSlateBrush UpSpeedSlateBrush;
 
-	/** 触发的加速图片设置 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+	/** * 触发的加速图片设置 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Appearance")
 	FSlateBrush TriggerUpSpeedSlateBrush;
 
 	/** * 是否触发加速 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
 	bool bTriggerUpSpeed = false;
+
+	/** * 触发加速,如果值过高可能无法触发加速和加速图片显示 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
+	float TriggerUpSpeedValue = 1.5f;
+
+	/** * XShowUpSpeedValue 在 (X * -1)~ X 值内,显示加速UI */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
+	float XShowUpSpeedValue = 0.5f;
+
+	/** * Y > YShowUpSpeedValue 值,显示加速UI */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
+	float YShowUpSpeedValue = 0.2f;
 
 protected:
 

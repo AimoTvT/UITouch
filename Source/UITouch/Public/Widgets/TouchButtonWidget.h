@@ -36,32 +36,32 @@ class UITOUCH_API UTouchButtonWidget : public UTouchWidget
 
 public:
 
-	/** 缩放控件变量 */
-	UPROPERTY(BlueprintReadWrite, Meta = (BindWidget), Category = "Aimo|Variable")
+	/** * 缩放控件变量 */
+	UPROPERTY(BlueprintReadWrite, Meta = (BindWidget), Category = "UITouch|Variable")
 	TObjectPtr<USizeBox> SizeBoxWidget;
 
-	/** 图像变量 */
-	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
+	/** * 图像变量 */
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "UITouch|Variable")
 	TObjectPtr<UImage> ButtonImageWidget;
 
-	/** 图片设置 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+	/** * 图片设置 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Appearance")
 	FSlateBrush ButtonSlateBrush;
 
-	/** 图片设置 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+	/** * 图片设置 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Appearance")
 	FSlateBrush PressedButtonSlateBrush;
 
-	/** * 触控索引 255=空 */
-	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
+	/** * 触控索引,255=空 */
+	UPROPERTY(BlueprintReadWrite, Category = "UITouch|Variable")
 	uint8 TouchFingerIndex = 255;
 
 	/** * 切换按下模式 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
 	bool bPressedHandover = false;
 
 	/** * 按下 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
 	bool bPressed = false;
 
 

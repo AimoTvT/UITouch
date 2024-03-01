@@ -38,53 +38,57 @@ class UITOUCH_API UTouchJoystickWidget : public UTouchWidget
 
 public:
 
-	/** 缩放控件变量 */
-	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
+	/** * 缩放控件变量 */
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "UITouch|Variable")
 	TObjectPtr<USizeBox> SizeBoxWidget;
 
-	/** 包裹控件的视口 */
-	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
+	/** * 包裹控件的视口 */
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "UITouch|Variable")
 	TObjectPtr<UCanvasPanel> CanvasPanelWidget;
 
-	/**  操控杆背景图片 */
-	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
+	/**  * 操控杆背景图片 */
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "UITouch|Variable")
 	TObjectPtr<UImage> BackdropImageWidget;
 
-	/** 操控杆图片变量 */
-	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
+	/** * 操控杆图片变量 */
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "UITouch|Variable")
 	TObjectPtr<UImage> ControlImageWidget;
 
-	/** 操控杆背景图片设置 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+	/** * 操控杆背景图片设置 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Appearance")
 	FSlateBrush BackdropSlateBrush;
 
-	/** 操控杆图片设置 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+	/** * 操控杆图片设置 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Appearance")
 	FSlateBrush ControlSlateBrush;
 
-	/** * 触控索引 */
-	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
+	/** * 触控索引,255 = 空 */
+	UPROPERTY(BlueprintReadWrite, Category = "UITouch|Variable")
 	uint8 TouchFingerIndex = 255;
 
-	/** * Y轴倍数 */
-	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
+	/** * Y轴倍数,-1符合直觉 */
+	UPROPERTY(BlueprintReadWrite, Category = "UITouch|Variable")
 	float YShaftTimes = -1.0f;
 
-	/** * 忽略值 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+	/** * 忽略值,XY < IgnoreNumerical && XY > IgnoreNumerical * -1,则返回0.0f */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
 	FVector2D IgnoreNumerical;
 
 	/** * 摇杆动画倍数 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
 	float JoystickAnimationRangeMultiple = 1.0f;
 
 	/** * 固定操纵杆 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
 	bool bFixedJoystick;
 
 	/** * 实时调度器(需要实时触发移动) */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
 	bool bTickDelegated;
+
+	/** * 限制XY轴,0不限制,1限制X轴,2限制Y轴 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
+	uint8 ClampXY;
 
 protected:
 
@@ -100,11 +104,11 @@ public:
 	virtual void SetDisabled(bool bIsDisabled) override;
 
 	/** * 设置操控杆位置 */
-	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
+	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual void SetControlPosition(const FVector2D& Position);
 
 	/** * 设置操控杆位置 */
-	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
+	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual FVector2D GetPositionScale(const FVector2D& Position);
 
 };

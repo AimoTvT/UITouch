@@ -35,28 +35,28 @@ class UITOUCH_API UTouchDetectionWidget : public UTouchWidget
 
 public:
 
-	/** 缩放控件变量 */
-	UPROPERTY(BlueprintReadWrite, Meta = (BindWidget), Category = "Aimo|Variable")
+	/** * 缩放控件变量 */
+	UPROPERTY(BlueprintReadWrite, Meta = (BindWidget), Category = "UITouch|Variable")
 	TObjectPtr<USizeBox> SizeBoxWidget;
 
-	/** 图像变量 */
-	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
+	/** * 图像变量 */
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "UITouch|Variable")
 	TObjectPtr<UImage> DetectionImageWidget;
 
-	/** 图片设置 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+	/** * 图片设置 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Appearance")
 	FSlateBrush DetectionSlateBrush;
 
-	/** 检测图片设置 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+	/** * 检测图片设置 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Appearance")
 	FSlateBrush TriggerDetectionSlateBrush;
 
-	/** * 触控索引 */
-	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
+	/** * 触控索引,255 = 空 */
+	UPROPERTY(BlueprintReadWrite, Category = "UITouch|Variable")
 	uint8 TouchFingerIndex = 255;
 
 	/** * 是否触控 */
-	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
+	UPROPERTY(BlueprintReadWrite, Category = "UITouch|Variable")
 	bool bDetectionTouch;
 
 
@@ -69,7 +69,7 @@ public:
 
 
 	/** * 设置触发索引调用 255=取消 */
-	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
+	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual void SetOnIndexTouchDelegate(uint8 FingerIndex);
 
 };

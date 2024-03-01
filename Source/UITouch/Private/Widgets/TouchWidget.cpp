@@ -132,6 +132,7 @@ bool UTouchWidget::IsTouchLocation(const FVector& Location)
 	float ViewportScale = UWidgetLayoutLibrary::GetViewportScale(this); /** * 视口触控缩放 */
 	FVector2D SizeLocation = GetPaintSpaceGeometry().GetLocalSize() * ViewportScale * GetRenderTransform().Scale; /** * 获取控件大小 */
 	LocalWidgetPosition = GetLocalPosition(); /** * 获取控件左上角位置 */
+	LocalCentreWidgetPosition = LocalWidgetPosition + SizeLocation / 2;
 	TriggerOffsetPosition = FVector2D(Location) / ViewportScale - LocalWidgetPosition;
 	FVector2D TLocalWidgetPosition = LocalWidgetPosition * ViewportScale - SizeLocation / 4 * (GetRenderTransform().Scale - 1); /** * 计算缩放偏移 */
 	return Location.X >= TLocalWidgetPosition.X && Location.X <= TLocalWidgetPosition.X + SizeLocation.X  \

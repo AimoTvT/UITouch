@@ -36,22 +36,25 @@ class UITOUCH_API UTouchControlWidget : public UTouchWidget
 
 public:
 
-	/** 缩放控件变量 */
-	UPROPERTY(BlueprintReadWrite, Meta = (BindWidget), Category = "Aimo|Variable")
+	/** * 缩放控件变量 */
+	UPROPERTY(BlueprintReadWrite, Meta = (BindWidget), Category = "UITouch|Variable")
 	TObjectPtr<USizeBox> SizeBoxWidget;
 
-	/** 图像变量 */
-	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Aimo|Variable")
+	/** * 图像变量 */
+	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "UITouch|Variable")
 	TObjectPtr<UImage> ControlImageWidget;
 
-	/** 图片设置 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aimo|Variable")
+	/** * 图片设置 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Appearance")
 	FSlateBrush ControlSlateBrush;
 
-	/** * 触控索引位置组 */
-	UPROPERTY(BlueprintReadWrite, Category = "Aimo|Variable")
+	/** * 触控索引位置组,255 = 空 */
+	UPROPERTY(BlueprintReadWrite, Category = "UITouch|Variable")
 	TArray<FVector> TouchLocations;
 
+	/** 限制差值距离,0.0代表不启用,2次位置变化过大会忽略*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
+	float ClampDifferenceDistance = 0.0f;
 
 protected:
 
@@ -66,7 +69,7 @@ public:
 	virtual void SetDisabled(bool bIsDisabled) override;
 
 	/** * 获取对应位置触控位置组的索引 */
-	UFUNCTION(BlueprintCallable, Category = "Aimo|Function")
+	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual int GetTouchLocationsIndex(int32 Index);
 
 };

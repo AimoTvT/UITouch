@@ -45,7 +45,7 @@ class UInputModifierAddScalar : public UInputModifier
 public:
 
 #if WITH_EDITOR
-	/* //暂时停用修改
+	/** * 暂时停用修改
 	virtual EDataValidationResult IsDataValid(class FDataValidationContext& Context) const override;
 	*/
 #endif

@@ -178,14 +178,31 @@ void UTouchJoystickWidget::SetControlPosition(const FVector2D& Position)
 	{
 		if (Position != FVector2D({ 0.0, 0.0 }))
 		{
+
+			FVector2D SetPosition = Position;
 			float ViewportScale = UWidgetLayoutLibrary::GetViewportScale(this); /** * 获取缩放 */
 			FVector2D LocalSize = GetPaintSpaceGeometry().GetLocalSize() / 2;
-			FVector2D SetPosition = Position / ViewportScale - LocalWidgetPosition - (bFixedJoystick ? LocalSize : TriggerOffsetPosition); /** * 中心位置 */
+			SetPosition = SetPosition / ViewportScale - LocalWidgetPosition - (bFixedJoystick ? LocalSize : TriggerOffsetPosition); /** * 中心位置 */
 			float Len;
-			FVector2D Direction;
+			FVector2D Direction = BackdropSlateBrush.GetImageSize(); /** * 临时存放图片大小,后续引用设置距离 */
 			FVector2D GetRenderScale = GetRenderTransform().Scale; /** * 渲染大小 */
+			float ImageSize;
+			switch (ClampXY)
+			{
+			case 1:
+				ImageSize = Direction.Y / 2;
+				SetPosition.X = 0;
+				break;
+			case 2:
+				ImageSize = Direction.X / 2;
+				SetPosition.Y = 0;
+				break;
+			default:
+				ImageSize = Direction.X > Direction.Y ? Direction.Y / 2 : Direction.X / 2;
+				break;
+			}
 			SetPosition.ToDirectionAndLength(Direction, Len); /** * 获得圆圈参数 */
-			SetPosition = FVector2D(Len > BackdropSlateBrush.GetImageSize().X / 2 * GetRenderScale.X ? BackdropSlateBrush.GetImageSize().X / 2 * GetRenderScale.X : Len); /** * 获得圆圈大小 */
+			SetPosition = FVector2D(Len > ImageSize * GetRenderScale.X ? ImageSize * GetRenderScale.X : Len); /** * 获得圆圈大小 */
 			SetPosition = Direction * JoystickAnimationRangeMultiple * (SetPosition / GetRenderScale); /** * 获得圆圈位置 */
 			if (bFixedJoystick == false)
 			{

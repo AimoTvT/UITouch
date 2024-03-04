@@ -174,5 +174,5 @@ public:
 	/** * 删除触发调用组 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual void RemoveObjectTouchs(UObject* Object);
-	
+
 };

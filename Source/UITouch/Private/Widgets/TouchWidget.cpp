@@ -58,7 +58,7 @@ void UTouchWidget::BindTouchDelegate()
 			{
 				if (TriggerIndex != 255)
 				{
-					TouchComponent->AddObjectTouchs(this, TriggerIndex); 
+					TouchComponent->AddObjectTouchs(this, TriggerIndex);
 				}
 				TouchComponent->DelegateBind(10, true, this, "NativeTouchIndexLocation");
 				FScriptDelegate ScriptDelegate; //建立对接变量
@@ -82,7 +82,7 @@ void UTouchWidget::BindTouchDelegate()
 
 void UTouchWidget::NativeTouchIndexLocation(const FVector& Location, uint8 FingerIndex)
 {
-	if (Location.Z  == 0.0f || TriggerIndex == 255)
+	if (Location.Z == 0.0f || TriggerIndex == 255)
 	{
 		TouchIndexLocation(Location, FingerIndex);
 	}

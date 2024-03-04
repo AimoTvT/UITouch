@@ -21,6 +21,7 @@
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Components/InputComponent.h"
 #include "EnhancedInputComponent.h"
+#include "Widgets/TouchWidget.h"
 
 
  // Sets default values for this component's properties
@@ -40,6 +41,7 @@ void UTouchComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
+	OnTriggerTouch.GetAllObjectRefsEvenIfUnreachable();
 	// ...
 	if (TouchPlayerController)
 	{
@@ -362,6 +364,25 @@ void UTouchComponent::IA_TouchPressed(const FInputActionValue& Value)
 	FVector Location = Value.Get<FVector>();
 	uint8 FingerIndex = Location.Z;
 	Location.Z = 1;
+	uint8 Index = 255;
+	for (size_t i = 0; i < ObjectTouchs.Num(); i++)
+	{
+		UTouchWidget* TouchWidget = Cast<UTouchWidget>(ObjectTouchs[i]);
+		if (TouchWidget)
+		{
+			if ((Index == 255 || TouchWidget->TriggerIndex == Index))
+			{
+				if (TouchWidget->TouchIndexLocation(Location, FingerIndex))
+				{
+					Index = TouchWidget->TriggerIndex;
+				}
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
 	TouchIndexLocation(Location, FingerIndex);
 }
 
@@ -382,4 +403,37 @@ void UTouchComponent::IA_TouchMove(const FInputActionValue& Value)
 	uint8 FingerIndex = Location.Z;
 	Location.Z = 2;
 	TouchIndexLocation(Location, FingerIndex);
+}
+
+void UTouchComponent::AddObjectTouchs(UObject* Object, uint8 Index)
+{
+	if (Object)
+	{
+		int TIndex = -1;
+		for (size_t i = 0; i < ObjectTouchs.Num(); i++)
+		{
+			UTouchWidget* TouchWidget = Cast<UTouchWidget>(ObjectTouchs[i]);
+			if (TouchWidget && (TouchWidget->TriggerIndex <= Index))
+			{
+				TIndex = i;
+				break;
+			}
+		}
+		if (TIndex == -1)
+		{
+			ObjectTouchs.Add(Object);
+		}
+		else
+		{
+			ObjectTouchs.Insert(Object, TIndex);
+		}
+	}
+}
+
+void UTouchComponent::RemoveObjectTouchs(UObject* Object)
+{
+	if (Object)
+	{
+		ObjectTouchs.Remove(Object);
+	}
 }

@@ -21,11 +21,11 @@
 #include "Components/CanvasPanelSlot.h"
 
 
-void UTouchButtonWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex)
+bool UTouchButtonWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex)
 {
 	if (bDisabled)  /** * 是否禁用 */
 	{
-		return;
+		return false;
 	}
 	if (TouchFingerIndex == 255 && IsTouchLocation(Location))  /** * 触控索引是否空 && 是否进入触控区域 */
 	{
@@ -41,8 +41,8 @@ void UTouchButtonWidget::TouchIndexLocation(const FVector& Location, uint8 Finge
 					ButtonImageWidget->SetBrush(bPressed ? PressedButtonSlateBrush : ButtonSlateBrush);
 				}
 				TriggerInedxAnimation(bPressed ? 1 : 0);
-				return;
 			}
+			return true;
 		}
 		else
 		{
@@ -54,6 +54,7 @@ void UTouchButtonWidget::TouchIndexLocation(const FVector& Location, uint8 Finge
 				ButtonImageWidget->SetBrush(PressedButtonSlateBrush);
 			}
 			TriggerInedxAnimation(1);
+			return true;
 		}
 	}
 	else
@@ -70,7 +71,7 @@ void UTouchButtonWidget::TouchIndexLocation(const FVector& Location, uint8 Finge
 			TriggerInedxAnimation(0);
 		}
 	}
-	return;
+	return false;
 }
 
 void UTouchButtonWidget::SetDisabled(bool bIsDisabled)

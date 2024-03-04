@@ -56,6 +56,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EnhancedInput|Action", meta = (AllowPrivateAccess = "true"))
 	TArray<TObjectPtr<UInputAction>> InputActionTouchs;
 
+	/** * 触发调用组 */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EnhancedInput|Action", meta = (AllowPrivateAccess = "true"))
+	TArray<TObjectPtr<UObject>> ObjectTouchs;
+
 	/** * 多播所有接收到的调度器 */
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnIndexTouchDynmic, FVector, Moved, uint8, FingerIndex);
 
@@ -163,6 +167,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual void IA_TouchMove(const FInputActionValue& Value);
 
+	/** * 添加触发调用组 */
+	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
+	virtual void AddObjectTouchs(UObject* Object, uint8 Index);
 
+	/** * 删除触发调用组 */
+	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
+	virtual void RemoveObjectTouchs(UObject* Object);
 	
 };

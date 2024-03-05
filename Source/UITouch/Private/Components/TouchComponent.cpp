@@ -148,7 +148,7 @@ TArray<uint8> UTouchComponent::NoInputTouchIndex(APlayerController* PlayerContro
 		for (size_t i = 0; i < TouchIndexs.Num(); i++)
 		{
 			PlayerController->GetInputTouchState(static_cast<ETouchIndex::Type>(i), Vector.X, Vector.Y, bIsCurrentlyPressed);
-			if (TouchIndexs[i] && bIsCurrentlyPressed == false || IsClamp(Vector, Vector2) == false)
+			if ((TouchIndexs[i] && bIsCurrentlyPressed == false) || IsClamp(Vector, Vector2) == false)
 			{
 				Indexs.Add(i);
 			}

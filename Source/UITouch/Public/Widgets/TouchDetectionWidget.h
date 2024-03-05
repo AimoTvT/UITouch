@@ -25,9 +25,9 @@
 #include "Components/Image.h"
 #include "TouchDetectionWidget.generated.h"
 
-/**
- *
- */
+ /**
+  *
+  */
 UCLASS()
 class UITOUCH_API UTouchDetectionWidget : public UTouchWidget
 {

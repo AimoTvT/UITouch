@@ -62,7 +62,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Appearance")
 	FSlateBrush DisabledSlateBrush;
 
-	/** * 自定义触发 */
+	/** * 自定义触发,后续需要手动触发 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
 	bool bCustomTrigger;
 
@@ -70,6 +70,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
 	bool bDisabled = false;
 
+	/** * 触发索引,255不限制触发, 0~254 等级越高越优先, 如果有相等那么都会触发,触发后等级低下会停止触发 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
+	uint8 TriggerIndex;
 
 
 	/** * 多播指定接收到的调度器 */
@@ -98,7 +101,11 @@ public:
 
 	/** * 接收触发位置和索引 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
-	virtual void TouchIndexLocation(const FVector& Location, uint8 FingerIndex);
+	virtual void NativeTouchIndexLocation(const FVector& Location, uint8 FingerIndex);
+
+	/** * 接收触发位置和索引 */
+	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
+	virtual bool TouchIndexLocation(const FVector& Location, uint8 FingerIndex);
 
 	/** * 设置触控是否绑定 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
@@ -131,5 +138,9 @@ public:
 	/** * 组件销毁回调 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual void ComponentDeactivated(UActorComponent* ActorComponent);
+
+	/** * 触发索引,255不限制触发, 0~254 等级越高越优先, 如果有相等那么都会触发,触发后等级低下会停止触发 */
+	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
+	virtual void SetTriggerIndex(uint8 Index);
 
 };

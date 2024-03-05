@@ -46,11 +46,11 @@ void UTouchJoystickWidget::NativePreConstruct()
 
 
 
-void UTouchJoystickWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex)
+bool UTouchJoystickWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex)
 {
 	if (bDisabled)
 	{
-		return;
+		return false;
 	}
 	if (TouchFingerIndex == 255 && Location.Z > 0.0)
 	{
@@ -72,7 +72,7 @@ void UTouchJoystickWidget::TouchIndexLocation(const FVector& Location, uint8 Fin
 					BackdropCanvasPanelSlot->SetPosition(TriggerOffsetPosition - LocalSize);
 				}
 			}
-			return;
+			return true;
 		}
 	}
 	if (TouchFingerIndex == FingerIndex)
@@ -91,7 +91,7 @@ void UTouchJoystickWidget::TouchIndexLocation(const FVector& Location, uint8 Fin
 			}
 		}
 	}
-	return;
+	return false;
 }
 
 void UTouchJoystickWidget::TouchMovedLocation(const FVector& Location)

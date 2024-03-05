@@ -44,7 +44,6 @@ void UTouchWidget::NativeOnInitialized()
 	{
 		BindTouchDelegate();
 	}
-
 }
 
 void UTouchWidget::BindTouchDelegate()
@@ -57,7 +56,11 @@ void UTouchWidget::BindTouchDelegate()
 			UTouchComponent* TouchComponent = Cast<UTouchComponent>(ActorComponent);
 			if (TouchComponent)
 			{
-				TouchComponent->DelegateBind(10, true, this, "TouchIndexLocation");
+				if (TriggerIndex != 255)
+				{
+					TouchComponent->AddObjectTouchs(this, TriggerIndex);
+				}
+				TouchComponent->DelegateBind(10, true, this, "NativeTouchIndexLocation");
 				FScriptDelegate ScriptDelegate; //建立对接变量
 				ScriptDelegate.BindUFunction(this, "ComponentDeactivated"); //对接变量绑定函数
 				TouchComponent->OnComponentDeactivated.Add(ScriptDelegate);
@@ -77,8 +80,15 @@ void UTouchWidget::BindTouchDelegate()
 	}
 }
 
+void UTouchWidget::NativeTouchIndexLocation(const FVector& Location, uint8 FingerIndex)
+{
+	if (Location.Z == 0.0f || TriggerIndex == 255)
+	{
+		TouchIndexLocation(Location, FingerIndex);
+	}
+}
 
-void UTouchWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex)
+bool UTouchWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex)
 {
 	if (IsTouchLocation(Location))
 	{
@@ -87,7 +97,10 @@ void UTouchWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex
 		OnTouchLocation.Broadcast(LastTriggerLocation); /** * 触发触摸位置 */
 		TriggerInedxAnimation(0);
 	}
+	return true;
 }
+
+
 
 void UTouchWidget::SetIndexTouchDelegate(bool bDelegateBind, uint8 FingerIndex)
 {
@@ -152,6 +165,30 @@ void UTouchWidget::TriggerInedxAnimation(int Index)
 void UTouchWidget::ComponentDeactivated(UActorComponent* ActorComponent)
 {
 	BindTouchDelegate();
+}
+
+void UTouchWidget::SetTriggerIndex(uint8 Index)
+{
+	if (GetOwningPlayer())
+	{
+		UActorComponent* ActorComponent = GetOwningPlayer()->GetComponentByClass(UTouchComponent::StaticClass());
+		if (ActorComponent)
+		{
+			UTouchComponent* TouchComponent = Cast<UTouchComponent>(ActorComponent);
+			if (TouchComponent)
+			{
+				if (TriggerIndex != 255)
+				{
+					TouchComponent->RemoveObjectTouchs(this);
+				}
+				if (Index != 255)
+				{
+					TouchComponent->AddObjectTouchs(this, TriggerIndex);
+				}
+				TriggerIndex = Index;
+			}
+		}
+	}
 }
 
 

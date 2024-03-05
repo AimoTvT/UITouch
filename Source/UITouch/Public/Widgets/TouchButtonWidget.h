@@ -67,7 +67,7 @@ public:
 
 public:
 
-	virtual	void TouchIndexLocation(const FVector& Location, uint8 FingerIndex) override;
+	virtual	bool TouchIndexLocation(const FVector& Location, uint8 FingerIndex) override;
 
 	virtual void SetDisabled(bool bIsDisabled) override;
 

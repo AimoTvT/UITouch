@@ -27,11 +27,11 @@ void UTouchControlWidget::NativePreConstruct()
 }
 
 
-void UTouchControlWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex)
+bool UTouchControlWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex)
 {
 	if (bDisabled)
 	{
-		return;
+		return false;
 	}
 	int32 Index = GetTouchLocationsIndex(FingerIndex);
 	if (Location.Z)
@@ -41,6 +41,7 @@ void UTouchControlWidget::TouchIndexLocation(const FVector& Location, uint8 Fing
 			LastTriggerLocation = Location;
 			TouchLocations.Add({ Location.X, Location.Y , float(FingerIndex) }); /** * 设置触控位置组的位置 */
 			SetIndexTouchDelegate(true, FingerIndex); /** * 绑定移动位置调度器 */
+			return true;
 		}
 	}
 	else
@@ -51,6 +52,7 @@ void UTouchControlWidget::TouchIndexLocation(const FVector& Location, uint8 Fing
 			SetIndexTouchDelegate(false, FingerIndex); /** * 解除绑定移动位置调度器 */
 		}
 	}
+	return false;
 }
 
 void UTouchControlWidget::TouchMovedLocation(const FVector& Location)

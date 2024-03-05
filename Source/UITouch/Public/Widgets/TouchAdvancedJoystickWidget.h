@@ -66,7 +66,7 @@ protected:
 
 public:
 
-	virtual	void TouchIndexLocation(const FVector& Location, uint8 FingerIndex) override;
+	virtual	bool TouchIndexLocation(const FVector& Location, uint8 FingerIndex) override;
 
 	virtual void TouchMovedLocation(const FVector& Location) override;
 

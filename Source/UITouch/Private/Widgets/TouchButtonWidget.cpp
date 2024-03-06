@@ -21,6 +21,18 @@
 #include "Components/CanvasPanelSlot.h"
 
 
+void UTouchButtonWidget::RemoveTouchDelegate(UTouchComponent* TouchComponent)
+{
+	Super::RemoveTouchDelegate(TouchComponent);
+	if (TouchFingerIndex != 255)
+	{
+		if (TouchComponent)
+		{
+			TouchComponent->DelegateBind(TouchFingerIndex, false, this, "TouchMovedLocation");
+		}
+	}
+}
+
 bool UTouchButtonWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex)
 {
 	if (bDisabled || GetVisibility() == ESlateVisibility::Hidden)  /** * 是否禁用,隐藏是禁用 */

@@ -19,7 +19,6 @@
 
 #include "Widgets/TouchWidget.h"
 #include "Components/PanelWidget.h"
-#include "Components/TouchComponent.h"
 #include "Kismet/KismetMathLibrary.h" //官方函数库
 #include "Runtime/Engine/Public/DelayAction.h" //延迟的函数库
 #include "Runtime/UMG/Public/Blueprint/WidgetLayoutLibrary.h"
@@ -49,46 +48,31 @@ void UTouchWidget::NativeOnInitialized()
 void UTouchWidget::NativeDestruct()
 {
 	Super::NativeDestruct();
-	if (GetOwningPlayer())
-	{
-		UActorComponent* ActorComponent = GetOwningPlayer()->GetComponentByClass(UTouchComponent::StaticClass());
-		if (ActorComponent)
-		{
-			UTouchComponent* TouchComponent = Cast<UTouchComponent>(ActorComponent);
-			if (TouchComponent)
-			{
-				if (TriggerIndex != 255)
-				{
-					TouchComponent->AddObjectTouchs(this, TriggerIndex);
-				}
-				TouchComponent->DelegateBind(10, false, this, "NativeTouchIndexLocation");
-				FScriptDelegate ScriptDelegate; //建立对接变量
-				ScriptDelegate.BindUFunction(this, "ComponentDeactivated"); //对接变量绑定函数
-				TouchComponent->OnComponentDeactivated.Remove(ScriptDelegate);
-				return;
-			}
-		}
-	}
+	RemoveTouchDelegate(WidgetTouchComponent);
 }
 
 void UTouchWidget::BindTouchDelegate()
 {
 	if (GetOwningPlayer())
 	{
+		if (WidgetTouchComponent)
+		{
+			RemoveTouchDelegate(WidgetTouchComponent);
+		}
 		UActorComponent* ActorComponent = GetOwningPlayer()->GetComponentByClass(UTouchComponent::StaticClass());
 		if (ActorComponent)
 		{
-			UTouchComponent* TouchComponent = Cast<UTouchComponent>(ActorComponent);
-			if (TouchComponent)
+			WidgetTouchComponent = Cast<UTouchComponent>(ActorComponent);
+			if (WidgetTouchComponent)
 			{
 				if (TriggerIndex != 255)
 				{
-					TouchComponent->AddObjectTouchs(this, TriggerIndex);
+					WidgetTouchComponent->AddObjectTouchs(this, TriggerIndex);
 				}
-				TouchComponent->DelegateBind(10, true, this, "NativeTouchIndexLocation");
+				WidgetTouchComponent->DelegateBind(10, true, this, "NativeTouchIndexLocation");
 				FScriptDelegate ScriptDelegate; //建立对接变量
 				ScriptDelegate.BindUFunction(this, "ComponentDeactivated"); //对接变量绑定函数
-				TouchComponent->OnComponentDeactivated.Add(ScriptDelegate);
+				WidgetTouchComponent->OnComponentDeactivated.Add(ScriptDelegate);
 				return;
 			}
 		}
@@ -102,6 +86,25 @@ void UTouchWidget::BindTouchDelegate()
 		Latentinfo.Linkage = 0;
 		Latentinfo.UUID = UKismetMathLibrary::RandomIntegerInRange(0, 222);
 		LatentActionManager.AddNewAction(this, Latentinfo.UUID, new FDelayAction(0.2, Latentinfo));
+	}
+}
+
+void UTouchWidget::RemoveTouchDelegate(UTouchComponent* TouchComponent)
+{
+	if (TouchComponent)
+	{
+		if (TriggerIndex != 255)
+		{
+			TouchComponent->RemoveObjectTouchs(this);
+		}
+		TouchComponent->DelegateBind(10, false, this, "NativeTouchIndexLocation");
+		FScriptDelegate ScriptDelegate; //建立对接变量
+		ScriptDelegate.BindUFunction(this, "ComponentDeactivated"); //对接变量绑定函数
+		TouchComponent->OnComponentDeactivated.Remove(ScriptDelegate);
+		if (TouchComponent == WidgetTouchComponent)
+		{
+			WidgetTouchComponent = nullptr;
+		}
 	}
 }
 
@@ -135,10 +138,9 @@ void UTouchWidget::SetIndexTouchDelegate(bool bDelegateBind, uint8 FingerIndex)
 {
 	if (GetOwningPlayer())
 	{
-		UTouchComponent* TouchComponent = Cast<UTouchComponent>(GetOwningPlayer()->GetComponentByClass(UTouchComponent::StaticClass()));
-		if (TouchComponent)
+		if (WidgetTouchComponent)
 		{
-			TouchComponent->DelegateBind(FingerIndex, bDelegateBind, this, "TouchMovedLocation");
+			WidgetTouchComponent->DelegateBind(FingerIndex, bDelegateBind, this, "TouchMovedLocation");
 		}
 	}
 }
@@ -200,24 +202,12 @@ void UTouchWidget::TriggerInedxAnimation(int Index)
 
 void UTouchWidget::ComponentDeactivated(UActorComponent* ActorComponent)
 {
-	if (GetOwningPlayer())
+	if (ActorComponent)
 	{
-		UActorComponent* ActorComponent = GetOwningPlayer()->GetComponentByClass(UTouchComponent::StaticClass());
-		if (ActorComponent)
+		UTouchComponent* TouchComponent = Cast<UTouchComponent>(ActorComponent);
+		if (TouchComponent)
 		{
-			UTouchComponent* TouchComponent = Cast<UTouchComponent>(ActorComponent);
-			if (TouchComponent)
-			{
-				if (TriggerIndex != 255)
-				{
-					TouchComponent->AddObjectTouchs(this, TriggerIndex);
-				}
-				TouchComponent->DelegateBind(10, false, this, "NativeTouchIndexLocation");
-				FScriptDelegate ScriptDelegate; //建立对接变量
-				ScriptDelegate.BindUFunction(this, "ComponentDeactivated"); //对接变量绑定函数
-				TouchComponent->OnComponentDeactivated.Remove(ScriptDelegate);
-				return;
-			}
+			RemoveTouchDelegate(TouchComponent);
 		}
 	}
 }

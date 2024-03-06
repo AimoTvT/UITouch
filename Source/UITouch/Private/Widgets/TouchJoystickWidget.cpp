@@ -44,6 +44,18 @@ void UTouchJoystickWidget::NativePreConstruct()
 	}
 }
 
+void UTouchJoystickWidget::RemoveTouchDelegate(UTouchComponent* TouchComponent)
+{
+	Super::RemoveTouchDelegate(TouchComponent);
+	if (TouchFingerIndex != 255)
+	{
+		if (TouchComponent)
+		{
+			TouchComponent->DelegateBind(TouchFingerIndex, false, this, "TouchMovedLocation");
+		}
+	}
+}
+
 
 
 bool UTouchJoystickWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex)

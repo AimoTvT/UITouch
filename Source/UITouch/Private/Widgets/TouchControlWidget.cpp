@@ -27,6 +27,21 @@ void UTouchControlWidget::NativePreConstruct()
 }
 
 
+void UTouchControlWidget::RemoveTouchDelegate(UTouchComponent* TouchComponent)
+{
+	Super::RemoveTouchDelegate(TouchComponent);
+	for (size_t i = 0; i < TouchLocations.Num(); i++)
+	{
+		if (TouchLocations[i] != FVector())
+		{
+			if (TouchComponent)
+			{
+				TouchComponent->DelegateBind(uint8(TouchLocations[i].Z), false, this, "TouchMovedLocation");
+			}
+		}
+	}
+}
+
 bool UTouchControlWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex)
 {
 	if (bDisabled || GetVisibility() == ESlateVisibility::Hidden)  /** * 是否禁用,隐藏是禁用 */

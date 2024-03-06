@@ -20,7 +20,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-
+#include "Components/TouchComponent.h"
 
 #include "TouchWidget.generated.h"
 
@@ -74,6 +74,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
 	uint8 TriggerIndex;
 
+	/** * 绑定的默认控件触控组件 */
+	UPROPERTY(BlueprintReadWrite, Category = "UITouch|Variable")
+	TObjectPtr<UTouchComponent> WidgetTouchComponent;
+
 
 	/** * 多播指定接收到的调度器 */
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPressed, FVector, Location);
@@ -100,6 +104,10 @@ public:
 	/** * 绑定组件委托,绑定失败后0.2秒后重新绑定,直至绑定成功 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual void BindTouchDelegate();
+
+	/** * 删除触控组件委托绑定 */
+	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
+	virtual void RemoveTouchDelegate(UTouchComponent* TouchComponent);
 
 	/** * 接收触发位置和索引 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")

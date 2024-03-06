@@ -91,11 +91,13 @@ protected:
 
 	virtual void NativeOnInitialized() override;
 
+	virtual void NativeDestruct() override;
+
 
 public:
 
 
-	/** * 判断是否进入触控区域 */
+	/** * 绑定组件委托,绑定失败后0.2秒后重新绑定,直至绑定成功 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual void BindTouchDelegate();
 

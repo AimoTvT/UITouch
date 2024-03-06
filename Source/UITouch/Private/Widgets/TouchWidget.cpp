@@ -46,6 +46,31 @@ void UTouchWidget::NativeOnInitialized()
 	}
 }
 
+void UTouchWidget::NativeDestruct()
+{
+	Super::NativeDestruct();
+	if (GetOwningPlayer())
+	{
+		UActorComponent* ActorComponent = GetOwningPlayer()->GetComponentByClass(UTouchComponent::StaticClass());
+		if (ActorComponent)
+		{
+			UTouchComponent* TouchComponent = Cast<UTouchComponent>(ActorComponent);
+			if (TouchComponent)
+			{
+				if (TriggerIndex != 255)
+				{
+					TouchComponent->AddObjectTouchs(this, TriggerIndex);
+				}
+				TouchComponent->DelegateBind(10, false, this, "NativeTouchIndexLocation");
+				FScriptDelegate ScriptDelegate; //建立对接变量
+				ScriptDelegate.BindUFunction(this, "ComponentDeactivated"); //对接变量绑定函数
+				TouchComponent->OnComponentDeactivated.Remove(ScriptDelegate);
+				return;
+			}
+		}
+	}
+}
+
 void UTouchWidget::BindTouchDelegate()
 {
 	if (GetOwningPlayer())
@@ -175,7 +200,26 @@ void UTouchWidget::TriggerInedxAnimation(int Index)
 
 void UTouchWidget::ComponentDeactivated(UActorComponent* ActorComponent)
 {
-	BindTouchDelegate();
+	if (GetOwningPlayer())
+	{
+		UActorComponent* ActorComponent = GetOwningPlayer()->GetComponentByClass(UTouchComponent::StaticClass());
+		if (ActorComponent)
+		{
+			UTouchComponent* TouchComponent = Cast<UTouchComponent>(ActorComponent);
+			if (TouchComponent)
+			{
+				if (TriggerIndex != 255)
+				{
+					TouchComponent->AddObjectTouchs(this, TriggerIndex);
+				}
+				TouchComponent->DelegateBind(10, false, this, "NativeTouchIndexLocation");
+				FScriptDelegate ScriptDelegate; //建立对接变量
+				ScriptDelegate.BindUFunction(this, "ComponentDeactivated"); //对接变量绑定函数
+				TouchComponent->OnComponentDeactivated.Remove(ScriptDelegate);
+				return;
+			}
+		}
+	}
 }
 
 void UTouchWidget::SetTriggerIndex(uint8 Index)

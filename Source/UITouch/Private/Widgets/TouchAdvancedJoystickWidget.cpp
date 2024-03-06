@@ -83,30 +83,32 @@ bool UTouchAdvancedJoystickWidget::TouchIndexLocation(const FVector& Location, u
 		SetIndexTouchDelegate(false, FingerIndex);
 		OnTouchLocation.Broadcast({ 0.0, 0.0, 0.0 });
 		SetControlPosition({ 0.0,0.0 });
-		if (bTriggerUpSpeed == true && UpSpeedImageWidget)
+		if (bTriggerUpSpeed == true)
 		{
-			UpSpeedImageWidget->SetBrush(UpSpeedSlateBrush);
 			bTriggerUpSpeed = false;
 		}
 		if (UpSpeedImageWidget)
 		{
+			UpSpeedImageWidget->SetBrush(UpSpeedSlateBrush);
 			UCanvasPanelSlot* UpSpeedCanvasPanelSlot = Cast<UCanvasPanelSlot>(UpSpeedImageWidget->Slot);
 			if (UpSpeedCanvasPanelSlot)
 			{
 				UpSpeedCanvasPanelSlot->SetSize(UpSpeedSlateBrush.GetImageSize()); /** * 设置加速图片大小 */
 			}
-			UpSpeedImageWidget->SetBrush(UpSpeedSlateBrush);
 			if (UpSpeedImageWidget->GetVisibility() != ESlateVisibility::Hidden)
 			{
 				UpSpeedImageWidget->SetVisibility(ESlateVisibility::Hidden);/** * 设置隐藏加速图片 */
 			}
 		}
-		TriggerInedxAnimation(0);
-		UCanvasPanelSlot* BackdropCanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot);
-		if (bFixedJoystick == false && BackdropCanvasPanelSlot)
+		if (BackdropImageWidget)
 		{
-			BackdropCanvasPanelSlot->SetPosition({ 0.0,0.0 });
+			UCanvasPanelSlot* BackdropCanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot);
+			if (bFixedJoystick == false && BackdropCanvasPanelSlot)
+			{
+				BackdropCanvasPanelSlot->SetPosition({ 0.0,0.0 });
+			}
 		}
+		TriggerInedxAnimation(0);
 	}
 	return false;
 }
@@ -135,44 +137,50 @@ void UTouchAdvancedJoystickWidget::TouchMovedLocation(const FVector& Location)
 			{
 				PositionScale.Y = 2;
 				OnTouchLocation.Broadcast({ FMath::Clamp(PositionScale.X,-1.0,1.0),  FMath::Clamp(PositionScale.Y,-1.0, 2), Location.Z + 1 }); /** * 返回 Y = 2 是加速模式 */
-				if (bTriggerUpSpeed == false && UpSpeedImageWidget)
+				if (bTriggerUpSpeed == false)
 				{
-					UCanvasPanelSlot* UpSpeedCanvasPanelSlot = Cast<UCanvasPanelSlot>(UpSpeedImageWidget->Slot);
-					if (UpSpeedCanvasPanelSlot)
-					{
-						if (bFixedJoystick == false)
-						{
-							FVector2D LocalSize = GetPaintSpaceGeometry().GetLocalSize() / 2;
-							LocalSize = TriggerOffsetPosition - LocalSize;
-							LocalSize.Y = LocalSize.Y + BackdropSlateBrush.GetImageSize().Y / -2 * TriggerUpSpeedValue + TriggerUpSpeedSlateBrush.GetImageSize().Y / -2; /** * 偏移Y位置 */
-							UpSpeedCanvasPanelSlot->SetPosition(LocalSize);
-						}
-						UpSpeedCanvasPanelSlot->SetSize(TriggerUpSpeedSlateBrush.GetImageSize()); /** * 设置触发加速图片大小 */
-					}
-					UpSpeedImageWidget->SetBrush(TriggerUpSpeedSlateBrush);
 					bTriggerUpSpeed = true;
-					TriggerInedxAnimation(2);
+					if (UpSpeedImageWidget)
+					{
+						UpSpeedImageWidget->SetBrush(TriggerUpSpeedSlateBrush);
+						UCanvasPanelSlot* UpSpeedCanvasPanelSlot = Cast<UCanvasPanelSlot>(UpSpeedImageWidget->Slot);
+						if (UpSpeedCanvasPanelSlot)
+						{
+							if (bFixedJoystick == false)
+							{
+								FVector2D LocalSize = GetPaintSpaceGeometry().GetLocalSize() / 2;
+								LocalSize = TriggerOffsetPosition - LocalSize;
+								LocalSize.Y = LocalSize.Y + BackdropSlateBrush.GetImageSize().Y / -2 * TriggerUpSpeedValue + TriggerUpSpeedSlateBrush.GetImageSize().Y / -2; /** * 偏移Y位置 */
+								UpSpeedCanvasPanelSlot->SetPosition(LocalSize);
+							}
+							UpSpeedCanvasPanelSlot->SetSize(TriggerUpSpeedSlateBrush.GetImageSize()); /** * 设置触发加速图片大小 */
+						}
+						TriggerInedxAnimation(2);
+					}
 				}
 			}
 			else
 			{
 				OnTouchLocation.Broadcast({ FMath::Clamp(PositionScale.X,-1.0,1.0),  FMath::Clamp(PositionScale.Y,-1.0, 1.0), Location.Z + 1 }); /** * 分发普通移动 */
-				if (bTriggerUpSpeed == true && UpSpeedImageWidget)
+				if (bTriggerUpSpeed == true)
 				{
-					UCanvasPanelSlot* UpSpeedCanvasPanelSlot = Cast<UCanvasPanelSlot>(UpSpeedImageWidget->Slot);
-					if (UpSpeedCanvasPanelSlot)
-					{
-						if (bFixedJoystick == false)
-						{
-							FVector2D LocalSize = GetPaintSpaceGeometry().GetLocalSize() / 2;
-							LocalSize = TriggerOffsetPosition - LocalSize;
-							LocalSize.Y = LocalSize.Y + BackdropSlateBrush.GetImageSize().Y / -2 * TriggerUpSpeedValue + UpSpeedSlateBrush.GetImageSize().Y / -2; /** * 偏移Y位置 */
-							UpSpeedCanvasPanelSlot->SetPosition(LocalSize);
-						}
-						UpSpeedCanvasPanelSlot->SetSize(UpSpeedSlateBrush.GetImageSize()); /** * 设置加速图片大小 */
-					}
-					UpSpeedImageWidget->SetBrush(UpSpeedSlateBrush);
 					bTriggerUpSpeed = false;
+					if (UpSpeedImageWidget)
+					{
+						UpSpeedImageWidget->SetBrush(UpSpeedSlateBrush);
+						UCanvasPanelSlot* UpSpeedCanvasPanelSlot = Cast<UCanvasPanelSlot>(UpSpeedImageWidget->Slot);
+						if (UpSpeedCanvasPanelSlot)
+						{
+							if (bFixedJoystick == false)
+							{
+								FVector2D LocalSize = GetPaintSpaceGeometry().GetLocalSize() / 2;
+								LocalSize = TriggerOffsetPosition - LocalSize;
+								LocalSize.Y = LocalSize.Y + BackdropSlateBrush.GetImageSize().Y / -2 * TriggerUpSpeedValue + UpSpeedSlateBrush.GetImageSize().Y / -2; /** * 偏移Y位置 */
+								UpSpeedCanvasPanelSlot->SetPosition(LocalSize);
+							}
+							UpSpeedCanvasPanelSlot->SetSize(UpSpeedSlateBrush.GetImageSize()); /** * 设置加速图片大小 */
+						}
+					}
 				}
 			}
 			if (UpSpeedImageWidget && UpSpeedImageWidget->GetVisibility() != ESlateVisibility::Visible)

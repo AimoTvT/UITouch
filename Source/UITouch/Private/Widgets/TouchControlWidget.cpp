@@ -90,13 +90,6 @@ void UTouchControlWidget::SetDisabled(bool bIsDisabled)
 		}
 		if (ControlImageWidget)
 		{
-			/*
-			UCanvasPanelSlot* ControlCanvasPanelSlot = Cast<UCanvasPanelSlot>(ControlImageWidget->Slot);
-			if (ControlCanvasPanelSlot && DisabledSlateBrush.GetImageSize().X > 0)
-			{
-				ControlCanvasPanelSlot->SetSize(DisabledSlateBrush.GetImageSize());
-			}
-			*/
 			ControlImageWidget->SetBrush(DisabledSlateBrush);  /** * 设置背景的图片 */
 		}
 		TriggerInedxAnimation(-1);
@@ -105,13 +98,6 @@ void UTouchControlWidget::SetDisabled(bool bIsDisabled)
 	{
 		if (ControlImageWidget)
 		{
-			/*
-			UCanvasPanelSlot* ControlCanvasPanelSlot = Cast<UCanvasPanelSlot>(ControlImageWidget->Slot);
-			if (ControlCanvasPanelSlot && DisabledSlateBrush.GetImageSize().X > 0)
-			{
-				ControlCanvasPanelSlot->SetSize(ControlSlateBrush.GetImageSize());
-			}
-			*/
 			ControlImageWidget->SetBrush(ControlSlateBrush);  /** * 设置背景的图片 */
 		}
 		TriggerInedxAnimation(0);

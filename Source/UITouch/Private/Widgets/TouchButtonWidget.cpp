@@ -39,6 +39,11 @@ bool UTouchButtonWidget::TouchIndexLocation(const FVector& Location, uint8 Finge
 				if (ButtonImageWidget)
 				{
 					ButtonImageWidget->SetBrush(bPressed ? PressedButtonSlateBrush : ButtonSlateBrush);
+					UCanvasPanelSlot* UpSpeedCanvasPanelSlot = Cast<UCanvasPanelSlot>(ButtonImageWidget->Slot);
+					if (UpSpeedCanvasPanelSlot)
+					{
+						UpSpeedCanvasPanelSlot->SetSize((bPressed ? PressedButtonSlateBrush : ButtonSlateBrush).GetImageSize()); /** * 设置图片大小 */
+					}
 				}
 				TriggerInedxAnimation(bPressed ? 1 : 0);
 			}
@@ -52,6 +57,11 @@ bool UTouchButtonWidget::TouchIndexLocation(const FVector& Location, uint8 Finge
 			if (ButtonImageWidget)
 			{
 				ButtonImageWidget->SetBrush(PressedButtonSlateBrush);
+				UCanvasPanelSlot* UpSpeedCanvasPanelSlot = Cast<UCanvasPanelSlot>(ButtonImageWidget->Slot);
+				if (UpSpeedCanvasPanelSlot)
+				{
+					UpSpeedCanvasPanelSlot->SetSize(PressedButtonSlateBrush.GetImageSize()); /** * 设置图片大小 */
+				}
 			}
 			TriggerInedxAnimation(1);
 			return true;
@@ -67,6 +77,11 @@ bool UTouchButtonWidget::TouchIndexLocation(const FVector& Location, uint8 Finge
 			if (ButtonImageWidget)
 			{
 				ButtonImageWidget->SetBrush(ButtonSlateBrush);
+				UCanvasPanelSlot* UpSpeedCanvasPanelSlot = Cast<UCanvasPanelSlot>(ButtonImageWidget->Slot);
+				if (UpSpeedCanvasPanelSlot)
+				{
+					UpSpeedCanvasPanelSlot->SetSize(ButtonSlateBrush.GetImageSize()); /** * 设置图片大小 */
+				}
 			}
 			TriggerInedxAnimation(0);
 		}
@@ -81,12 +96,12 @@ void UTouchButtonWidget::SetDisabled(bool bIsDisabled)
 	{
 		if (ButtonImageWidget)
 		{
+			ButtonImageWidget->SetBrush(DisabledSlateBrush);  /** * 设置按下的图片 */
 			UCanvasPanelSlot* ButtonCanvasPanelSlot = Cast<UCanvasPanelSlot>(ButtonImageWidget->Slot);  /** * 获取画布 */
 			if (ButtonCanvasPanelSlot)
 			{
 				ButtonCanvasPanelSlot->SetSize(DisabledSlateBrush.GetImageSize());  /** * 设置大小 */
 			}
-			ButtonImageWidget->SetBrush(DisabledSlateBrush);  /** * 设置按下的图片 */
 		}
 		TriggerInedxAnimation(-1);
 	}
@@ -94,12 +109,12 @@ void UTouchButtonWidget::SetDisabled(bool bIsDisabled)
 	{
 		if (ButtonImageWidget)
 		{
+			ButtonImageWidget->SetBrush(bPressed ? PressedButtonSlateBrush : ButtonSlateBrush);  /** * 设置按下的图片 */
 			UCanvasPanelSlot* ButtonCanvasPanelSlot = Cast<UCanvasPanelSlot>(ButtonImageWidget->Slot);  /** * 获取画布 */
 			if (ButtonCanvasPanelSlot)
 			{
 				ButtonCanvasPanelSlot->SetSize(bPressed ? PressedButtonSlateBrush.GetImageSize() : ButtonSlateBrush.GetImageSize());  /** * 设置大小 */
 			}
-			ButtonImageWidget->SetBrush(bPressed ? PressedButtonSlateBrush : ButtonSlateBrush);  /** * 设置按下的图片 */
 		}
 		TriggerInedxAnimation(0);
 	}

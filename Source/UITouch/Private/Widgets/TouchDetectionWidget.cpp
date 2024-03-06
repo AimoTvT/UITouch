@@ -24,6 +24,10 @@
 
 void UTouchDetectionWidget::TouchMovedLocation(const FVector& Location)
 {
+	if (bDisabled || GetVisibility() == ESlateVisibility::Hidden)  /** * 是否禁用,隐藏是禁用 */
+	{
+		return;
+	}
 	if (LastTriggerLocation == Location)
 	{
 		return;

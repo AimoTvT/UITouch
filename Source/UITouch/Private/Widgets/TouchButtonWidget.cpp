@@ -23,7 +23,7 @@
 
 bool UTouchButtonWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex)
 {
-	if (bDisabled)  /** * 是否禁用 */
+	if (bDisabled || GetVisibility() == ESlateVisibility::Hidden)  /** * 是否禁用,隐藏是禁用 */
 	{
 		return false;
 	}

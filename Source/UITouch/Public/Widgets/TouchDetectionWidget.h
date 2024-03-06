@@ -63,6 +63,8 @@ public:
 
 public:
 
+	virtual void RemoveTouchDelegate(UTouchComponent* TouchComponent) override;
+
 	virtual void TouchMovedLocation(const FVector& Location) override;
 
 	virtual void SetDisabled(bool bIsDisabled) override;

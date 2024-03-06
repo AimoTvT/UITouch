@@ -37,7 +37,12 @@ void UTouchDetectionWidget::TouchMovedLocation(const FVector& Location)
 			OnTouchLocation.Broadcast({ LastTriggerLocation.X, LastTriggerLocation.Y, LastTriggerLocation.Z + 1 }); /** * 触发触摸位置 */
 			if (DetectionImageWidget)
 			{
-				DetectionImageWidget->SetBrush(TriggerDetectionSlateBrush);  /** * 设置按下的图片 */
+				DetectionImageWidget->SetBrush(TriggerDetectionSlateBrush);  /** * 设置的图片 */
+				UCanvasPanelSlot* UpSpeedCanvasPanelSlot = Cast<UCanvasPanelSlot>(DetectionImageWidget->Slot);
+				if (UpSpeedCanvasPanelSlot)
+				{
+					UpSpeedCanvasPanelSlot->SetSize(TriggerDetectionSlateBrush.GetImageSize()); /** * 设置图片大小 */
+				}
 			}
 			TriggerInedxAnimation(1);
 		}
@@ -50,7 +55,12 @@ void UTouchDetectionWidget::TouchMovedLocation(const FVector& Location)
 			OnTouchLocation.Broadcast({ LastTriggerLocation.X, LastTriggerLocation.Y, 0.0 }); /** * 触发触摸位置 */
 			if (DetectionImageWidget)
 			{
-				DetectionImageWidget->SetBrush(DetectionSlateBrush);  /** * 设置按下的图片 */
+				DetectionImageWidget->SetBrush(DetectionSlateBrush);  /** * 设置的图片 */
+				UCanvasPanelSlot* UpSpeedCanvasPanelSlot = Cast<UCanvasPanelSlot>(DetectionImageWidget->Slot);
+				if (UpSpeedCanvasPanelSlot)
+				{
+					UpSpeedCanvasPanelSlot->SetSize(DetectionSlateBrush.GetImageSize()); /** * 设置图片大小 */
+				}
 			}
 			TriggerInedxAnimation(0);
 		}
@@ -71,12 +81,12 @@ void UTouchDetectionWidget::SetDisabled(bool bIsDisabled)
 		}
 		if (DetectionImageWidget)
 		{
+			DetectionImageWidget->SetBrush(DisabledSlateBrush);  /** * 设置按下的图片 */
 			UCanvasPanelSlot* DetectionCanvasPanelSlot = Cast<UCanvasPanelSlot>(DetectionImageWidget->Slot);  /** * 获取画布 */
 			if (DetectionCanvasPanelSlot)
 			{
 				DetectionCanvasPanelSlot->SetSize(DisabledSlateBrush.GetImageSize());  /** * 设置大小 */
 			}
-			DetectionImageWidget->SetBrush(DisabledSlateBrush);  /** * 设置按下的图片 */
 		}
 		TriggerInedxAnimation(-1);
 	}
@@ -84,12 +94,12 @@ void UTouchDetectionWidget::SetDisabled(bool bIsDisabled)
 	{
 		if (DetectionImageWidget)
 		{
+			DetectionImageWidget->SetBrush(DetectionSlateBrush);  /** * 设置按下的图片 */
 			UCanvasPanelSlot* DetectionCanvasPanelSlot = Cast<UCanvasPanelSlot>(DetectionImageWidget->Slot);  /** * 获取画布 */
 			if (DetectionCanvasPanelSlot)
 			{
 				DetectionCanvasPanelSlot->SetSize(DetectionSlateBrush.GetImageSize());  /** * 设置大小 */
 			}
-			DetectionImageWidget->SetBrush(DetectionSlateBrush);  /** * 设置按下的图片 */
 		}
 		TriggerInedxAnimation(0);
 	}

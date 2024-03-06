@@ -147,12 +147,12 @@ void UTouchJoystickWidget::SetDisabled(bool bIsDisabled)
 		}
 		if (BackdropImageWidget)
 		{
+			BackdropImageWidget->SetBrush(DisabledSlateBrush);  /** * 设置操控杆背景的图片 */
 			UCanvasPanelSlot* BackdropCanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot);  /** * 获取画布 */
 			if (BackdropCanvasPanelSlot)
 			{
 				BackdropCanvasPanelSlot->SetSize(DisabledSlateBrush.GetImageSize());  /** * 设置大小 */
 			}
-			BackdropImageWidget->SetBrush(DisabledSlateBrush);  /** * 设置操控杆背景的图片 */
 		}
 		TriggerInedxAnimation(-1);
 	}
@@ -160,12 +160,12 @@ void UTouchJoystickWidget::SetDisabled(bool bIsDisabled)
 	{
 		if (BackdropImageWidget)
 		{
+			BackdropImageWidget->SetBrush(BackdropSlateBrush);  /** * 设置操控杆背景的图片 */
 			UCanvasPanelSlot* BackdropCanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot);  /** * 获取画布 */
 			if (BackdropCanvasPanelSlot)
 			{
 				BackdropCanvasPanelSlot->SetSize(BackdropSlateBrush.GetImageSize());  /** * 设置大小 */
 			}
-			BackdropImageWidget->SetBrush(BackdropSlateBrush);  /** * 设置操控杆背景的图片 */
 		}
 		TriggerInedxAnimation(0);
 	}

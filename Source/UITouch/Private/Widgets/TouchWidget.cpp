@@ -90,6 +90,10 @@ void UTouchWidget::NativeTouchIndexLocation(const FVector& Location, uint8 Finge
 
 bool UTouchWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex)
 {
+	if (bDisabled || GetVisibility() == ESlateVisibility::Hidden)  /** * 是否禁用,隐藏是禁用 */
+	{
+		return false;
+	}
 	if (IsTouchLocation(Location))
 	{
 		LastTriggerLocation = Location;
@@ -104,15 +108,22 @@ bool UTouchWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex
 
 void UTouchWidget::SetIndexTouchDelegate(bool bDelegateBind, uint8 FingerIndex)
 {
-	UTouchComponent* TouchComponent = Cast<UTouchComponent>(GetOwningPlayer()->GetComponentByClass(UTouchComponent::StaticClass()));
-	if (TouchComponent)
+	if (GetOwningPlayer())
 	{
-		TouchComponent->DelegateBind(FingerIndex, bDelegateBind, this, "TouchMovedLocation");
+		UTouchComponent* TouchComponent = Cast<UTouchComponent>(GetOwningPlayer()->GetComponentByClass(UTouchComponent::StaticClass()));
+		if (TouchComponent)
+		{
+			TouchComponent->DelegateBind(FingerIndex, bDelegateBind, this, "TouchMovedLocation");
+		}
 	}
 }
 
 void UTouchWidget::TouchMovedLocation(const FVector& Location)
 {
+	if (bDisabled || GetVisibility() == ESlateVisibility::Hidden)  /** * 是否禁用,隐藏是禁用 */
+	{
+		return;
+	}
 	LastTriggerLocation = Location;
 	/** * 子类继承重写使用 */
 }

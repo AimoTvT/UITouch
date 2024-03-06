@@ -29,7 +29,7 @@ void UTouchControlWidget::NativePreConstruct()
 
 bool UTouchControlWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex)
 {
-	if (bDisabled)
+	if (bDisabled || GetVisibility() == ESlateVisibility::Hidden)  /** * 是否禁用,隐藏是禁用 */
 	{
 		return false;
 	}
@@ -57,6 +57,10 @@ bool UTouchControlWidget::TouchIndexLocation(const FVector& Location, uint8 Fing
 
 void UTouchControlWidget::TouchMovedLocation(const FVector& Location)
 {
+	if (bDisabled || GetVisibility() == ESlateVisibility::Hidden)  /** * 是否禁用,隐藏是禁用 */
+	{
+		return;
+	}
 	if (TouchLocations.Find(Location) != -1)
 	{
 		return;

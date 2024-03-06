@@ -48,7 +48,7 @@ void UTouchJoystickWidget::NativePreConstruct()
 
 bool UTouchJoystickWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex)
 {
-	if (bDisabled)
+	if (bDisabled || GetVisibility() == ESlateVisibility::Hidden)  /** * 是否禁用,隐藏是禁用 */
 	{
 		return false;
 	}
@@ -96,6 +96,10 @@ bool UTouchJoystickWidget::TouchIndexLocation(const FVector& Location, uint8 Fin
 
 void UTouchJoystickWidget::TouchMovedLocation(const FVector& Location)
 {
+	if (bDisabled || GetVisibility() == ESlateVisibility::Hidden)  /** * 是否禁用,隐藏是禁用 */
+	{
+		return;
+	}
 	if (bTickDelegated == false && LastTriggerLocation == Location)
 	{
 		return;

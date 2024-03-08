@@ -94,6 +94,7 @@ void UTouchDetectionWidget::SetDisabled(bool bIsDisabled)
 			if (TouchFingerIndex != 255)
 			{
 				SetIndexTouchDelegate(false, TouchFingerIndex);
+				TouchFingerIndex = 255;
 			}
 		}
 		if (DetectionImageWidget)

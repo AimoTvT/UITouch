@@ -106,6 +106,14 @@ void UTouchButtonWidget::SetDisabled(bool bIsDisabled)
 	Super::SetDisabled(bIsDisabled);
 	if (bDisabled)
 	{
+		if (IsDesignTime() == false)
+		{
+			if (bPressed)
+			{
+				SetIndexTouchDelegate(false, TouchFingerIndex);
+				bPressed = false;
+			}
+		}
 		if (ButtonImageWidget)
 		{
 			ButtonImageWidget->SetBrush(DisabledSlateBrush);  /** * 设置按下的图片 */

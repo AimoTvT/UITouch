@@ -104,8 +104,9 @@ void UTouchControlWidget::SetDisabled(bool bIsDisabled)
 		{
 			for (size_t i = 0; i < TouchLocations.Num(); i++)
 			{
-				SetIndexTouchDelegate(false, TouchLocations[i].Z); /** * 解除绑定移动位置调度器 */
+				SetIndexTouchDelegate(false, uint8(TouchLocations[i].Z)); /** * 解除绑定移动位置调度器 */
 			}
+			TouchLocations.Empty(); /** * 并清除标记 */
 		}
 		if (ControlImageWidget)
 		{

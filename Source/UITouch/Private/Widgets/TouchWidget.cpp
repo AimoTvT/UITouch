@@ -53,29 +53,21 @@ void UTouchWidget::NativeDestruct()
 
 void UTouchWidget::BindTouchDelegate()
 {
-	if (GetOwningPlayer())
+	if (WidgetTouchComponent)
 	{
-		if (WidgetTouchComponent)
+		RemoveTouchDelegate(WidgetTouchComponent);
+	}
+	if (GetWidgetTouchComponent())
+	{
+		if (TriggerIndex != 255)
 		{
-			RemoveTouchDelegate(WidgetTouchComponent);
+			WidgetTouchComponent->AddObjectTouchs(this, TriggerIndex);
 		}
-		UActorComponent* ActorComponent = GetOwningPlayer()->GetComponentByClass(UTouchComponent::StaticClass());
-		if (ActorComponent)
-		{
-			WidgetTouchComponent = Cast<UTouchComponent>(ActorComponent);
-			if (WidgetTouchComponent)
-			{
-				if (TriggerIndex != 255)
-				{
-					WidgetTouchComponent->AddObjectTouchs(this, TriggerIndex);
-				}
-				WidgetTouchComponent->DelegateBind(10, true, this, "NativeTouchIndexLocation");
-				FScriptDelegate ScriptDelegate; //建立对接变量
-				ScriptDelegate.BindUFunction(this, "ComponentDeactivated"); //对接变量绑定函数
-				WidgetTouchComponent->OnComponentDeactivated.Add(ScriptDelegate);
-				return;
-			}
-		}
+		WidgetTouchComponent->DelegateBind(10, true, this, "NativeTouchIndexLocation");
+		FScriptDelegate ScriptDelegate; //建立对接变量
+		ScriptDelegate.BindUFunction(this, "ComponentDeactivated"); //对接变量绑定函数
+		WidgetTouchComponent->OnComponentDeactivated.Add(ScriptDelegate);
+		return;
 	}
 	if (GetWorld())
 	{
@@ -136,12 +128,9 @@ bool UTouchWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex
 
 void UTouchWidget::SetIndexTouchDelegate(bool bDelegateBind, uint8 FingerIndex)
 {
-	if (GetOwningPlayer())
+	if (GetWidgetTouchComponent())
 	{
-		if (WidgetTouchComponent)
-		{
-			WidgetTouchComponent->DelegateBind(FingerIndex, bDelegateBind, this, "TouchMovedLocation");
-		}
+		WidgetTouchComponent->DelegateBind(FingerIndex, bDelegateBind, this, "TouchMovedLocation");
 	}
 }
 
@@ -192,7 +181,10 @@ bool UTouchWidget::IsTouchLocation(const FVector& Location)
 
 void UTouchWidget::SetDisabled(bool bIsDisabled)
 {
-	bDisabled = bIsDisabled;
+	if (bDisabled != bIsDisabled)
+	{
+		bDisabled = bIsDisabled;
+	}
 }
 
 void UTouchWidget::TriggerInedxAnimation(int Index)
@@ -234,6 +226,23 @@ void UTouchWidget::SetTriggerIndex(uint8 Index)
 			}
 		}
 	}
+}
+
+UTouchComponent* UTouchWidget::GetWidgetTouchComponent()
+{
+	if (WidgetTouchComponent)
+	{
+		return WidgetTouchComponent;
+	}
+	if (GetOwningPlayer())
+	{
+		UActorComponent* ActorComponent = GetOwningPlayer()->GetComponentByClass(UTouchComponent::StaticClass());
+		if (ActorComponent)
+		{
+			WidgetTouchComponent = Cast<UTouchComponent>(ActorComponent);
+		}
+	}
+	return WidgetTouchComponent;
 }
 
 

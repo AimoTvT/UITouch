@@ -153,4 +153,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual void SetTriggerIndex(uint8 Index);
 
+	/** * 获取控件触控组件 */
+	UFUNCTION(BlueprintPure, Category = "UITouch|Function")
+	virtual UTouchComponent* GetWidgetTouchComponent();
+
 };

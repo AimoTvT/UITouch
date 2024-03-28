@@ -24,6 +24,9 @@
 #include "Runtime/UMG/Public/Blueprint/WidgetLayoutLibrary.h"
 
 
+
+
+
 void UTouchWidget::NativePreConstruct()
 {
 	Super::NativePreConstruct();
@@ -49,6 +52,16 @@ void UTouchWidget::NativeDestruct()
 {
 	Super::NativeDestruct();
 	RemoveTouchDelegate(WidgetTouchComponent);
+}
+
+UWidget* UTouchWidget::GetParentUserWidget()
+{
+	return ParentUserWidget;
+}
+
+void UTouchWidget::SetParentUserWidget(UUserWidget* InUserWidget)
+{
+	ParentUserWidget = InUserWidget;
 }
 
 void UTouchWidget::BindTouchDelegate()
@@ -153,9 +166,9 @@ FVector2D UTouchWidget::GetLocalPosition()
 		Offset += Parent->GetPaintSpaceGeometry().GetLocalPositionAtCoordinates({ 0.0,0.0 });
 		Parent = Parent->GetParent();
 	}
-	if (ParentWidget)
+	if (ParentUserWidget)
 	{
-		Parent = ParentWidget;
+		Parent = ParentUserWidget;
 		while (Parent)
 		{
 			Offset += Parent->GetPaintSpaceGeometry().GetLocalPositionAtCoordinates({ 0.0,0.0 });

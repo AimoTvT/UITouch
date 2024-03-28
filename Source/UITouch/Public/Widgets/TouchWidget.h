@@ -104,7 +104,7 @@ public:
 
 	/** * 获取父类控件,用于嵌套用户控件,如用户控件位置不是右上角 */
 	UFUNCTION(BlueprintPure, Category = "UITouch|Function")
-	virtual UWidget* GetParentUserWidget();
+	virtual UUserWidget* GetParentUserWidget();
 
 	/** * 设置父类控件,用于嵌套用户控件,如用户控件位置不是右上角 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")

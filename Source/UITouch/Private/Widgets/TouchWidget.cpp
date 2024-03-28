@@ -54,7 +54,7 @@ void UTouchWidget::NativeDestruct()
 	RemoveTouchDelegate(WidgetTouchComponent);
 }
 
-UWidget* UTouchWidget::GetParentUserWidget()
+UUserWidget* UTouchWidget::GetParentUserWidget()
 {
 	return ParentUserWidget;
 }

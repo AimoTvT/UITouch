@@ -31,12 +31,14 @@ UCLASS()
 class UITOUCH_API UTouchWidget : public UUserWidget
 {
 	GENERATED_BODY()
+protected:
+
+	/** * 父类控件,用于嵌套用户控件,如用户控件位置不是右上角 */
+	UPROPERTY(BlueprintReadWrite, Category = "UITouch|Variable")
+	TObjectPtr<UUserWidget> ParentUserWidget;
+
 
 public:
-
-	/** * 总父类控件,如一个用户控件里添加多个触控,那么那个用户控件是总父类 */
-	UPROPERTY(BlueprintReadWrite, Category = "UITouch|Variable")
-	TObjectPtr<UWidget> ParentWidget;
 
 	/** * 本地位置,包括嵌套布局后的位置 */
 	UPROPERTY(BlueprintReadWrite, Category = "UITouch|Variable")
@@ -99,6 +101,14 @@ protected:
 
 
 public:
+
+	/** * 获取父类控件,用于嵌套用户控件,如用户控件位置不是右上角 */
+	UFUNCTION(BlueprintPure, Category = "UITouch|Function")
+	virtual UWidget* GetParentUserWidget();
+
+	/** * 设置父类控件,用于嵌套用户控件,如用户控件位置不是右上角 */
+	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
+	virtual void SetParentUserWidget(UUserWidget* InUserWidget);
 
 
 	/** * 绑定组件委托,绑定失败后0.2秒后重新绑定,直至绑定成功 */

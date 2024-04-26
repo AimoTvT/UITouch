@@ -30,7 +30,7 @@ void UTouchDetectionWidget::RemoveTouchDelegate(UTouchComponent* TouchComponent)
 	{
 		if (TouchComponent)
 		{
-			TouchComponent->DelegateBind(TouchFingerIndex, false, this, "TouchMovedLocation");
+			TouchComponent->DelegateBind(TouchFingerIndex, false, this, TEXT("TouchMovedLocation"));
 		}
 	}
 }

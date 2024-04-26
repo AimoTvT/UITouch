@@ -76,9 +76,9 @@ void UTouchWidget::BindTouchDelegate()
 		{
 			WidgetTouchComponent->AddObjectTouchs(this, TriggerIndex);
 		}
-		WidgetTouchComponent->DelegateBind(10, true, this, "NativeTouchIndexLocation");
+		WidgetTouchComponent->DelegateBind(10, true, this, TEXT("NativeTouchIndexLocation"));
 		FScriptDelegate ScriptDelegate; //建立对接变量
-		ScriptDelegate.BindUFunction(this, "ComponentDeactivated"); //对接变量绑定函数
+		ScriptDelegate.BindUFunction(this, TEXT("ComponentDeactivated")); //对接变量绑定函数
 		WidgetTouchComponent->OnComponentDeactivated.Add(ScriptDelegate);
 		return;
 	}
@@ -87,7 +87,7 @@ void UTouchWidget::BindTouchDelegate()
 		FLatentActionManager& LatentActionManager = GetWorld()->GetLatentActionManager();
 		FLatentActionInfo Latentinfo;
 		Latentinfo.CallbackTarget = this;
-		Latentinfo.ExecutionFunction = "BindTouchDelegate";
+		Latentinfo.ExecutionFunction = TEXT("BindTouchDelegate");
 		Latentinfo.Linkage = 0;
 		Latentinfo.UUID = UKismetMathLibrary::RandomIntegerInRange(0, 222);
 		LatentActionManager.AddNewAction(this, Latentinfo.UUID, new FDelayAction(0.2, Latentinfo));
@@ -102,9 +102,9 @@ void UTouchWidget::RemoveTouchDelegate(UTouchComponent* TouchComponent)
 		{
 			TouchComponent->RemoveObjectTouchs(this);
 		}
-		TouchComponent->DelegateBind(10, false, this, "NativeTouchIndexLocation");
+		TouchComponent->DelegateBind(10, false, this, TEXT("NativeTouchIndexLocation"));
 		FScriptDelegate ScriptDelegate; //建立对接变量
-		ScriptDelegate.BindUFunction(this, "ComponentDeactivated"); //对接变量绑定函数
+		ScriptDelegate.BindUFunction(this, TEXT("ComponentDeactivated")); //对接变量绑定函数
 		TouchComponent->OnComponentDeactivated.Remove(ScriptDelegate);
 		if (TouchComponent == WidgetTouchComponent)
 		{
@@ -143,7 +143,7 @@ void UTouchWidget::SetIndexTouchDelegate(bool bDelegateBind, uint8 FingerIndex)
 {
 	if (GetWidgetTouchComponent())
 	{
-		WidgetTouchComponent->DelegateBind(FingerIndex, bDelegateBind, this, "TouchMovedLocation");
+		WidgetTouchComponent->DelegateBind(FingerIndex, bDelegateBind, this, TEXT("TouchMovedLocation"));
 	}
 }
 

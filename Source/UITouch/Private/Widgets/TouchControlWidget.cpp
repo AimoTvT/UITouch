@@ -36,7 +36,7 @@ void UTouchControlWidget::RemoveTouchDelegate(UTouchComponent* TouchComponent)
 		{
 			if (TouchComponent)
 			{
-				TouchComponent->DelegateBind(uint8(TouchLocations[i].Z), false, this, "TouchMovedLocation");
+				TouchComponent->DelegateBind(uint8(TouchLocations[i].Z), false, this, TEXT("TouchMovedLocation"));
 			}
 		}
 	}

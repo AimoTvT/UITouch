@@ -77,9 +77,10 @@ void UTouchWidget::BindTouchDelegate()
 			WidgetTouchComponent->AddObjectTouchs(this, TriggerIndex);
 		}
 		WidgetTouchComponent->DelegateBind(10, true, this, TEXT("NativeTouchIndexLocation"));
-		FScriptDelegate ScriptDelegate; //建立对接变量
-		ScriptDelegate.BindUFunction(this, TEXT("ComponentDeactivated")); //对接变量绑定函数
-		WidgetTouchComponent->OnComponentDeactivated.Add(ScriptDelegate);
+		if (!WidgetTouchComponent->OnComponentDeactivated.IsAlreadyBound(this, &UTouchWidget::ComponentDeactivated))
+		{
+			WidgetTouchComponent->OnComponentDeactivated.AddDynamic(this, &UTouchWidget::ComponentDeactivated);
+		}
 		return;
 	}
 	if (GetWorld())
@@ -103,9 +104,10 @@ void UTouchWidget::RemoveTouchDelegate(UTouchComponent* TouchComponent)
 			TouchComponent->RemoveObjectTouchs(this);
 		}
 		TouchComponent->DelegateBind(10, false, this, TEXT("NativeTouchIndexLocation"));
-		FScriptDelegate ScriptDelegate; //建立对接变量
-		ScriptDelegate.BindUFunction(this, TEXT("ComponentDeactivated")); //对接变量绑定函数
-		TouchComponent->OnComponentDeactivated.Remove(ScriptDelegate);
+		if (TouchComponent->OnComponentDeactivated.IsAlreadyBound(this, &UTouchWidget::ComponentDeactivated))
+		{
+			TouchComponent->OnComponentDeactivated.RemoveDynamic(this, &UTouchWidget::ComponentDeactivated);
+		}
 		if (TouchComponent == WidgetTouchComponent)
 		{
 			WidgetTouchComponent = nullptr;

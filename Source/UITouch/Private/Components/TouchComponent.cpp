@@ -211,6 +211,10 @@ bool UTouchComponent::DelegateBind(uint8 FingerIndex, bool bDelegateBind, UObjec
 	}
 	FScriptDelegate ScriptDelegate; //建立对接变量
 	ScriptDelegate.BindUFunction(InFunctionObject, InFunctionName); //对接变量绑定函数
+	if (!ScriptDelegate.IsBound())
+	{
+		return false;
+	}
 	switch (FingerIndex)
 	{
 	case 0:

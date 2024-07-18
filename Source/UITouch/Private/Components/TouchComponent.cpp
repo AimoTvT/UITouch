@@ -22,6 +22,7 @@
 #include "Components/InputComponent.h"
 #include "EnhancedInputComponent.h"
 #include "Widgets/TouchWidget.h"
+#include "EnhancedInputSubsystems.h"
 
 
  // Sets default values for this component's properties
@@ -49,13 +50,9 @@ void UTouchComponent::BeginPlay()
 	}
 	else
 	{
-		if (GetOwner())
+		if (Cast<APlayerController>(GetOwner()))
 		{
-			TouchPlayerController = Cast<APlayerController>(GetOwner());
-			if (TouchPlayerController)
-			{
-				SetPlayerController(TouchPlayerController);
-			}
+			SetPlayerController(Cast<APlayerController>(GetOwner()));
 		}
 	}
 }
@@ -174,7 +171,7 @@ void UTouchComponent::DefaultInputActionTouchs()
 
 void UTouchComponent::SetPlayerController(APlayerController* PlayerController)
 {
-	if (PlayerController)
+	if (TouchPlayerController != PlayerController)
 	{
 		TouchPlayerController = PlayerController;
 		if (TouchPlayerController->IsLocalController())
@@ -190,10 +187,6 @@ void UTouchComponent::SetPlayerController(APlayerController* PlayerController)
 			}
 			SetupPlayerInputComponent(InputComponent);
 		}
-	}
-	else
-	{
-		TouchPlayerController = nullptr;
 	}
 }
 
@@ -356,6 +349,17 @@ void UTouchComponent::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 				EnhancedInputComponent->BindAction(InputActionTouchs[i], ETriggerEvent::Started, this, &UTouchComponent::IA_TouchPressed);
 				EnhancedInputComponent->BindAction(InputActionTouchs[i], ETriggerEvent::Completed, this, &UTouchComponent::IA_TouchReleased);
 				EnhancedInputComponent->BindAction(InputActionTouchs[i], ETriggerEvent::Triggered, this, &UTouchComponent::IA_TouchMove);
+			}
+		}
+		if (bAutoInputMappingContext && TouchPlayerController && TouchInputMappingContext.IsNull() == false)
+		{
+			if (TouchInputMappingContext.IsValid() == false)
+			{
+				TouchInputMappingContext.LoadSynchronous();
+			}
+			if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(TouchPlayerController->GetLocalPlayer()))
+			{
+				Subsystem->AddMappingContext(TouchInputMappingContext.Get(), InputMappingContextPriorityIndex);
 			}
 		}
 	}

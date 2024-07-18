@@ -23,6 +23,7 @@
 #include "Runtime/InputCore/Classes/InputCoreTypes.h"
 #include "InputAction.h"
 #include "EnhancedInputComponent.h"
+#include "InputMappingContext.h"
 
 #include "TouchComponent.generated.h"
 
@@ -59,6 +60,18 @@ public:
 	/** * 触发调用组 */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EnhancedInput|Action", meta = (AllowPrivateAccess = "true"))
 	TArray<TObjectPtr<UObject>> ObjectTouchs;
+
+	/** * 自动绑定触控的输入映射 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnhancedInput|InputMappingContext")
+	bool bAutoInputMappingContext = true;
+
+	/** * 自动绑定触控的输入映射的优先度 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnhancedInput|InputMappingContext")
+	int InputMappingContextPriorityIndex = 2;
+
+	/** * 触控的输入映射 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnhancedInput|InputMappingContext")
+	TSoftObjectPtr<UInputMappingContext> TouchInputMappingContext = TSoftObjectPtr<UInputMappingContext>(FString(TEXT("UInputMappingContext/Script/EnhancedInput.InputMappingContext'/UITouch/EnhancedInput/EnhancedInputMappingContextTouchs.EnhancedInputMappingContextTouchs'")));
 
 	/** * 多播所有接收到的调度器 */
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnIndexTouchDynmic, FVector, Moved, uint8, FingerIndex);

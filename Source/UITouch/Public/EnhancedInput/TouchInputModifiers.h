@@ -37,8 +37,8 @@ class UITOUCH_API UTouchInputModifiers : public UInputModifier
 /** 添加修改器
 	*  添加对应的标量来做标记
 	*/
-UCLASS(NotBlueprintable, MinimalAPI, meta = (DisplayName = "AddScalar"))
-class UInputModifierAddScalar : public UInputModifier
+UCLASS(NotBlueprintable, MinimalAPI, meta = (DisplayName = "TouchAddScalar"))
+class UTouchInputModifierAddScalar : public UInputModifier
 {
 	GENERATED_BODY()
 

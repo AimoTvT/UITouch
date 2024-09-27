@@ -68,7 +68,7 @@ public:
 
 	virtual void TouchMovedLocation(const FVector& Location) override;
 
-	virtual void SetDisabled(bool bIsDisabled) override;
+	virtual void SetVisibleDisabled(bool bVisible, bool bFlushInput) override;
 
 	/** * 获取对应位置触控位置组的索引 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")

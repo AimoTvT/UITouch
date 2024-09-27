@@ -67,7 +67,7 @@ public:
 
 	virtual void TouchMovedLocation(const FVector& Location) override;
 
-	virtual void SetDisabled(bool bIsDisabled) override;
+	virtual void SetVisibleDisabled(bool bVisible, bool bFlushInput) override;
 
 
 	/** * 设置触发索引调用 255=取消 */

@@ -37,7 +37,7 @@ void UTouchDetectionWidget::RemoveTouchDelegate(UTouchComponent* TouchComponent)
 
 void UTouchDetectionWidget::TouchMovedLocation(const FVector& Location)
 {
-	if (bDisabled || GetVisibility() == ESlateVisibility::Hidden)  /** * 是否禁用,隐藏是禁用 */
+	if (!GetIsEnabled() || GetVisibility() != ESlateVisibility::Visible)  /** * 是否启用,只有可视才能互交 */
 	{
 		return;
 	}
@@ -84,12 +84,12 @@ void UTouchDetectionWidget::TouchMovedLocation(const FVector& Location)
 	}
 }
 
-void UTouchDetectionWidget::SetDisabled(bool bIsDisabled)
+void UTouchDetectionWidget::SetVisibleDisabled(bool bVisible, bool bFlushInput)
 {
-	Super::SetDisabled(bIsDisabled);
-	if (bDisabled)
+	Super::SetVisibleDisabled(bVisible, bFlushInput);
+	if (bVisible)
 	{
-		if (IsDesignTime() == false)
+		if (bFlushInput && IsDesignTime() == false)
 		{
 			if (TouchFingerIndex != 255)
 			{
@@ -125,7 +125,7 @@ void UTouchDetectionWidget::SetDisabled(bool bIsDisabled)
 
 void UTouchDetectionWidget::SetOnIndexTouchDelegate(uint8 FingerIndex)
 {
-	if (bDisabled)
+	if (!GetIsEnabled())
 	{
 		return;
 	}

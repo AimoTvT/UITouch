@@ -24,13 +24,17 @@
 #include "Runtime/UMG/Public/Blueprint/WidgetLayoutLibrary.h"
 
 
-
+UTouchWidget::UTouchWidget(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
+{
+	SetVisibilityInternal(ESlateVisibility::Visible);
+}
 
 
 void UTouchWidget::NativePreConstruct()
 {
 	Super::NativePreConstruct();
-	SetDisabled(bDisabled);
+	SetVisibleDisabled(bIsEnabled == 0);
 }
 
 void UTouchWidget::NativeConstruct()
@@ -52,6 +56,13 @@ void UTouchWidget::NativeDestruct()
 {
 	Super::NativeDestruct();
 	RemoveTouchDelegate(WidgetTouchComponent);
+}
+
+
+void UTouchWidget::SetIsEnabled(bool bInIsEnabled)
+{
+	Super::SetIsEnabled(bInIsEnabled);
+	SetVisibleDisabled(!GetIsEnabled(), true);
 }
 
 UUserWidget* UTouchWidget::GetParentUserWidget()
@@ -125,7 +136,7 @@ void UTouchWidget::NativeTouchIndexLocation(const FVector& Location, uint8 Finge
 
 bool UTouchWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex)
 {
-	if (bDisabled || GetVisibility() == ESlateVisibility::Hidden)  /** * 是否禁用,隐藏是禁用 */
+	if (!GetIsEnabled() || GetVisibility() != ESlateVisibility::Visible)  /** * 是否启用,只有可视才能互交 */
 	{
 		return false;
 	}
@@ -151,7 +162,7 @@ void UTouchWidget::SetIndexTouchDelegate(bool bDelegateBind, uint8 FingerIndex)
 
 void UTouchWidget::TouchMovedLocation(const FVector& Location)
 {
-	if (bDisabled || GetVisibility() == ESlateVisibility::Hidden)  /** * 是否禁用,隐藏是禁用 */
+	if (!GetIsEnabled() || GetVisibility() != ESlateVisibility::Visible)  /** * 是否启用,只有可视才能互交 */
 	{
 		return;
 	}
@@ -194,13 +205,10 @@ bool UTouchWidget::IsTouchLocation(const FVector& Location)
 		&& Location.Y >= TLocalWidgetPosition.Y && Location.Y <= TLocalWidgetPosition.Y + SizeLocation.Y; // \是链接下一行 后面不许有空格
 }
 
-void UTouchWidget::SetDisabled(bool bIsDisabled)
+void UTouchWidget::SetVisibleDisabled(bool bVisible, bool bFlushInput)
 {
-	if (bDisabled != bIsDisabled)
-	{
-		bDisabled = bIsDisabled;
-	}
 }
+
 
 void UTouchWidget::TriggerInedxAnimation(int Index)
 {

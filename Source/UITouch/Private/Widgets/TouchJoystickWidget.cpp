@@ -60,9 +60,12 @@ void UTouchJoystickWidget::RemoveTouchDelegate(UTouchComponent* TouchComponent)
 
 bool UTouchJoystickWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex)
 {
-	if (bDisabled || GetVisibility() == ESlateVisibility::Hidden)  /** * 是否禁用,隐藏是禁用 */
+	if (!GetIsEnabled() || GetVisibility() != ESlateVisibility::Visible)  /** * 是否启用,只有可视才能互交 */
 	{
-		return false;
+		if (FingerIndex == 255 || TouchFingerIndex != FingerIndex)
+		{
+			return false;
+		}
 	}
 	if (TouchFingerIndex == 255 && Location.Z > 0.0)
 	{
@@ -108,7 +111,7 @@ bool UTouchJoystickWidget::TouchIndexLocation(const FVector& Location, uint8 Fin
 
 void UTouchJoystickWidget::TouchMovedLocation(const FVector& Location)
 {
-	if (bDisabled || GetVisibility() == ESlateVisibility::Hidden)  /** * 是否禁用,隐藏是禁用 */
+	if (!GetIsEnabled())  /** * 是否启用,只有可视才能互交 */
 	{
 		return;
 	}
@@ -137,12 +140,12 @@ void UTouchJoystickWidget::TouchMovedLocation(const FVector& Location)
 	LastTriggerLocation = Location;
 }
 
-void UTouchJoystickWidget::SetDisabled(bool bIsDisabled)
+void UTouchJoystickWidget::SetVisibleDisabled(bool bVisible, bool bFlushInput)
 {
-	Super::SetDisabled(bIsDisabled);
-	if (bDisabled)
+	Super::SetVisibleDisabled(bVisible, bFlushInput);
+	if (bVisible)
 	{
-		if (IsDesignTime() == false)
+		if (bFlushInput && IsDesignTime() == false)
 		{
 			if (TouchFingerIndex != 255)
 			{

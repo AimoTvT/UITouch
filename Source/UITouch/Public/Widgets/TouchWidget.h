@@ -39,6 +39,7 @@ protected:
 
 
 public:
+	UTouchWidget(const FObjectInitializer& ObjectInitializer);
 
 	/** * 本地位置,包括嵌套布局后的位置 */
 	UPROPERTY(BlueprintReadWrite, Category = "UITouch|Variable")
@@ -68,10 +69,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
 	bool bCustomTrigger;
 
-	/** * 禁用 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
-	bool bDisabled = false;
-
 	/** * 触发索引,255不限制触发, 0~254 等级越高越优先, 如果有相等那么都会触发,触发后等级低下会停止触发 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
 	uint8 TriggerIndex;
@@ -99,6 +96,8 @@ protected:
 
 	virtual void NativeDestruct() override;
 
+	virtual void SetIsEnabled(bool bInIsEnabled) override;
+	
 
 public:
 
@@ -143,9 +142,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual bool IsTouchLocation(const FVector& Location);
 
-	/** * 设置禁用  */
+	/** * 设置可视禁用,但不影响交互,禁用请使用设置已启用模式,建议熟悉后调用  */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
-	virtual void SetDisabled(bool bIsDisabled);
+	virtual void SetVisibleDisabled(bool bVisible, bool bFlushInput = true);
 
 	/** * 播放动画 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")

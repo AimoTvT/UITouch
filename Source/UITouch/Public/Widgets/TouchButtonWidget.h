@@ -68,7 +68,7 @@ public:
 public:
 
 
-	virtual void RemoveTouchDelegate(UTouchComponent* TouchComponent) override;
+	virtual void SetWidgetTouchComponent(UTouchComponent* InTouchComponent) override;
 
 	virtual	bool TouchIndexLocation(const FVector& Location, uint8 FingerIndex) override;
 

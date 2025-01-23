@@ -21,16 +21,13 @@
 #include "Components/CanvasPanelSlot.h"
 
 
-void UTouchButtonWidget::RemoveTouchDelegate(UTouchComponent* TouchComponent)
+void UTouchButtonWidget::SetWidgetTouchComponent(UTouchComponent* InTouchComponent)
 {
-	Super::RemoveTouchDelegate(TouchComponent);
-	if (TouchFingerIndex != 255)
+	if (WidgetTouchComponent && WidgetTouchComponent != InTouchComponent && TouchFingerIndex != 255)
 	{
-		if (TouchComponent)
-		{
-			TouchComponent->DelegateBind(TouchFingerIndex, false, this, TEXT("TouchMovedLocation"));
-		}
+		WidgetTouchComponent->DelegateBind(TouchFingerIndex, false, this, TEXT("TouchMovedLocation"));
 	}
+	Super::SetWidgetTouchComponent(InTouchComponent);
 }
 
 bool UTouchButtonWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex)
@@ -109,6 +106,19 @@ void UTouchButtonWidget::SetVisibleDisabled(bool bVisible, bool bFlushInput)
 	Super::SetVisibleDisabled(bVisible, bFlushInput);
 	if (bVisible)
 	{
+		if (ButtonImageWidget)
+		{
+			ButtonImageWidget->SetBrush(bPressed ? PressedButtonSlateBrush : ButtonSlateBrush);  /** * 设置按下的图片 */
+			UCanvasPanelSlot* ButtonCanvasPanelSlot = Cast<UCanvasPanelSlot>(ButtonImageWidget->Slot);  /** * 获取画布 */
+			if (ButtonCanvasPanelSlot)
+			{
+				ButtonCanvasPanelSlot->SetSize(bPressed ? PressedButtonSlateBrush.GetImageSize() : ButtonSlateBrush.GetImageSize());  /** * 设置大小 */
+			}
+		}
+		TriggerInedxAnimation(0);
+	}
+	else
+	{
 		if (bFlushInput && IsDesignTime() == false)
 		{
 			if (bPressed)
@@ -127,18 +137,5 @@ void UTouchButtonWidget::SetVisibleDisabled(bool bVisible, bool bFlushInput)
 			}
 		}
 		TriggerInedxAnimation(-1);
-	}
-	else
-	{
-		if (ButtonImageWidget)
-		{
-			ButtonImageWidget->SetBrush(bPressed ? PressedButtonSlateBrush : ButtonSlateBrush);  /** * 设置按下的图片 */
-			UCanvasPanelSlot* ButtonCanvasPanelSlot = Cast<UCanvasPanelSlot>(ButtonImageWidget->Slot);  /** * 获取画布 */
-			if (ButtonCanvasPanelSlot)
-			{
-				ButtonCanvasPanelSlot->SetSize(bPressed ? PressedButtonSlateBrush.GetImageSize() : ButtonSlateBrush.GetImageSize());  /** * 设置大小 */
-			}
-		}
-		TriggerInedxAnimation(0);
 	}
 }

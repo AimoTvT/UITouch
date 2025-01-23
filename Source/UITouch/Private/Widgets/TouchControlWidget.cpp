@@ -27,19 +27,19 @@ void UTouchControlWidget::NativePreConstruct()
 }
 
 
-void UTouchControlWidget::RemoveTouchDelegate(UTouchComponent* TouchComponent)
+void UTouchControlWidget::SetWidgetTouchComponent(UTouchComponent* InTouchComponent)
 {
-	Super::RemoveTouchDelegate(TouchComponent);
-	for (size_t i = 0; i < TouchLocations.Num(); i++)
+	if (WidgetTouchComponent && WidgetTouchComponent != InTouchComponent)
 	{
-		if (TouchLocations[i] != FVector())
+		for (size_t i = 0; i < TouchLocations.Num(); i++)
 		{
-			if (TouchComponent)
+			if (TouchLocations[i] != FVector())
 			{
-				TouchComponent->DelegateBind(uint8(TouchLocations[i].Z), false, this, TEXT("TouchMovedLocation"));
+				WidgetTouchComponent->DelegateBind(uint8(TouchLocations[i].Z), false, this, TEXT("TouchMovedLocation"));
 			}
 		}
 	}
+	Super::SetWidgetTouchComponent(InTouchComponent);
 }
 
 bool UTouchControlWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex)
@@ -84,7 +84,7 @@ void UTouchControlWidget::TouchMovedLocation(const FVector& Location)
 	int32 Index = GetTouchLocationsIndex(Location.Z);
 	if (Index != -1 && TouchLocations.Num() > Index) /** * 判断是否寻找成功 */
 	{
-		FVector TouchMovedLocation = Location - TouchLocations[Index];/** * 计算移动位置 */
+		FVector TouchMovedLocation = (Location - TouchLocations[Index]) * DistanceMultiple;/** * 计算移动位置,并乘于距离倍数 */
 		TouchLocations[Index] = Location; /** * 覆盖旧位置 */
 		if (ClampDifferenceDistance != 0 && FVector2D(TouchMovedLocation).Size() > ClampDifferenceDistance)
 		{
@@ -100,6 +100,14 @@ void UTouchControlWidget::SetVisibleDisabled(bool bVisible, bool bFlushInput)
 	Super::SetVisibleDisabled(bVisible, bFlushInput);
 	if (bVisible)
 	{
+		if (ControlImageWidget)
+		{
+			ControlImageWidget->SetBrush(ControlSlateBrush);  /** * 设置背景的图片 */
+		}
+		TriggerInedxAnimation(0);
+	}
+	else
+	{
 		if (bFlushInput && IsDesignTime() == false)
 		{
 			for (size_t i = 0; i < TouchLocations.Num(); i++)
@@ -113,14 +121,6 @@ void UTouchControlWidget::SetVisibleDisabled(bool bVisible, bool bFlushInput)
 			ControlImageWidget->SetBrush(DisabledSlateBrush);  /** * 设置背景的图片 */
 		}
 		TriggerInedxAnimation(-1);
-	}
-	else
-	{
-		if (ControlImageWidget)
-		{
-			ControlImageWidget->SetBrush(ControlSlateBrush);  /** * 设置背景的图片 */
-		}
-		TriggerInedxAnimation(0);
 	}
 }
 

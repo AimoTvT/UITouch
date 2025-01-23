@@ -44,16 +44,13 @@ void UTouchJoystickWidget::NativePreConstruct()
 	}
 }
 
-void UTouchJoystickWidget::RemoveTouchDelegate(UTouchComponent* TouchComponent)
+void UTouchJoystickWidget::SetWidgetTouchComponent(UTouchComponent* InTouchComponent)
 {
-	Super::RemoveTouchDelegate(TouchComponent);
-	if (TouchFingerIndex != 255)
+	if (WidgetTouchComponent && WidgetTouchComponent != InTouchComponent && TouchFingerIndex != 255)
 	{
-		if (TouchComponent)
-		{
-			TouchComponent->DelegateBind(TouchFingerIndex, false, this, TEXT("TouchMovedLocation"));
-		}
+		WidgetTouchComponent->DelegateBind(TouchFingerIndex, false, this, TEXT("TouchMovedLocation"));
 	}
+	Super::SetWidgetTouchComponent(InTouchComponent);
 }
 
 
@@ -145,15 +142,28 @@ void UTouchJoystickWidget::SetVisibleDisabled(bool bVisible, bool bFlushInput)
 	Super::SetVisibleDisabled(bVisible, bFlushInput);
 	if (bVisible)
 	{
+		if (BackdropImageWidget)
+		{
+			BackdropImageWidget->SetBrush(BackdropSlateBrush);  /** * 设置操控杆背景的图片 */
+			UCanvasPanelSlot* BackdropCanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot);  /** * 获取画布 */
+			if (BackdropCanvasPanelSlot)
+			{
+				BackdropCanvasPanelSlot->SetSize(BackdropSlateBrush.GetImageSize());  /** * 设置大小 */
+			}
+		}
+	}
+	else
+	{
+		TriggerInedxAnimation(0);
 		if (bFlushInput && IsDesignTime() == false)
 		{
 			if (TouchFingerIndex != 255)
 			{
 				SetIndexTouchDelegate(false, TouchFingerIndex);
 				TouchFingerIndex = 255;
+				OnTouchLocation.Broadcast({ 0.0, 0.0, LastTriggerLocation.Z + 1 });
 			}
 
-			OnTouchLocation.Broadcast({ 0.0, 0.0, LastTriggerLocation.Z + 1 });
 			SetControlPosition({ 0.0,0.0 });  /** * 设置操控杆归零位置 */
 			if (bFixedJoystick == false)
 			{
@@ -174,19 +184,6 @@ void UTouchJoystickWidget::SetVisibleDisabled(bool bVisible, bool bFlushInput)
 			}
 		}
 		TriggerInedxAnimation(-1);
-	}
-	else
-	{
-		if (BackdropImageWidget)
-		{
-			BackdropImageWidget->SetBrush(BackdropSlateBrush);  /** * 设置操控杆背景的图片 */
-			UCanvasPanelSlot* BackdropCanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot);  /** * 获取画布 */
-			if (BackdropCanvasPanelSlot)
-			{
-				BackdropCanvasPanelSlot->SetSize(BackdropSlateBrush.GetImageSize());  /** * 设置大小 */
-			}
-		}
-		TriggerInedxAnimation(0);
 	}
 }
 

@@ -56,13 +56,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
 	float ClampDifferenceDistance = 0.0f;
 
+	/** 距离倍数,影响反馈值,一般用于灵敏度调节 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
+	float DistanceMultiple = 1.0f;
+
 protected:
 
 	virtual void NativePreConstruct() override;
 
 public:
 
-	virtual void RemoveTouchDelegate(UTouchComponent* TouchComponent) override;
+	virtual void SetWidgetTouchComponent(UTouchComponent* InTouchComponent) override;
 
 	virtual	bool TouchIndexLocation(const FVector& Location, uint8 FingerIndex) override;
 

@@ -76,7 +76,7 @@ public:
 
 	/** * 触控的输入映射定时器,用于自动绑定失败的重试 */
 	UPROPERTY(BlueprintReadWrite, Category = "PictureSequence|Variable")
-	FTimerHandle FTouchInputMappingContextTimerHandle;
+	FTimerHandle TouchInputMappingContextTimerHandle;
 
 
 	/** * 多播所有接收到的调度器 */

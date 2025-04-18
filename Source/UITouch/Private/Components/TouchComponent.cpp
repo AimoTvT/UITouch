@@ -24,6 +24,7 @@
 #include "Widgets/TouchWidget.h"
 #include "EnhancedInputSubsystems.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
+#include "UObject/ConstructorHelpers.h"
 
 
  // Sets default values for this component's properties

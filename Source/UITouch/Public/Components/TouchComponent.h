@@ -22,6 +22,7 @@
 #include "Components/ActorComponent.h"
 #include "Runtime/InputCore/Classes/InputCoreTypes.h"
 #include "InputAction.h"
+#include "TimerManager.h"
 #include "EnhancedInputComponent.h"
 #include "InputMappingContext.h"
 
@@ -71,7 +72,7 @@ public:
 
 	/** * 触控的输入映射 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnhancedInput|InputMappingContext")
-	TSoftObjectPtr<UInputMappingContext> TouchInputMappingContext = TSoftObjectPtr<UInputMappingContext>(FString(TEXT("UInputMappingContext/Script/EnhancedInput.InputMappingContext'/UITouch/EnhancedInput/EnhancedInputMappingContextTouchs.EnhancedInputMappingContextTouchs'")));
+	TSoftObjectPtr<UInputMappingContext> TouchInputMappingContext = TSoftObjectPtr<UInputMappingContext>(FSoftObjectPath(TEXT("UInputMappingContext/Script/EnhancedInput.InputMappingContext'/UITouch/EnhancedInput/EnhancedInputMappingContextTouchs.EnhancedInputMappingContextTouchs'")));
 
 	/** * 触控的输入映射定时器,用于自动绑定失败的重试 */
 	UPROPERTY(BlueprintReadWrite, Category = "PictureSequence|Variable")

@@ -23,16 +23,13 @@
 
 
 
-void UTouchDetectionWidget::RemoveTouchDelegate(UTouchComponent* TouchComponent)
+void UTouchDetectionWidget::SetWidgetTouchComponent(UTouchComponent* InTouchComponent)
 {
-	Super::RemoveTouchDelegate(TouchComponent);
-	if (TouchFingerIndex != 255)
+	if (WidgetTouchComponent && WidgetTouchComponent != InTouchComponent && TouchFingerIndex != 255)
 	{
-		if (TouchComponent)
-		{
-			TouchComponent->DelegateBind(TouchFingerIndex, false, this, TEXT("TouchMovedLocation"));
-		}
+		WidgetTouchComponent->DelegateBind(TouchFingerIndex, false, this, TEXT("TouchMovedLocation"));
 	}
+	Super::SetWidgetTouchComponent(InTouchComponent);
 }
 
 void UTouchDetectionWidget::TouchMovedLocation(const FVector& Location)
@@ -89,6 +86,19 @@ void UTouchDetectionWidget::SetVisibleDisabled(bool bVisible, bool bFlushInput)
 	Super::SetVisibleDisabled(bVisible, bFlushInput);
 	if (bVisible)
 	{
+		if (DetectionImageWidget)
+		{
+			DetectionImageWidget->SetBrush(DetectionSlateBrush);  /** * 设置按下的图片 */
+			UCanvasPanelSlot* DetectionCanvasPanelSlot = Cast<UCanvasPanelSlot>(DetectionImageWidget->Slot);  /** * 获取画布 */
+			if (DetectionCanvasPanelSlot)
+			{
+				DetectionCanvasPanelSlot->SetSize(DetectionSlateBrush.GetImageSize());  /** * 设置大小 */
+			}
+		}
+		TriggerInedxAnimation(0);
+	}
+	else
+	{
 		if (bFlushInput && IsDesignTime() == false)
 		{
 			if (TouchFingerIndex != 255)
@@ -107,19 +117,6 @@ void UTouchDetectionWidget::SetVisibleDisabled(bool bVisible, bool bFlushInput)
 			}
 		}
 		TriggerInedxAnimation(-1);
-	}
-	else
-	{
-		if (DetectionImageWidget)
-		{
-			DetectionImageWidget->SetBrush(DetectionSlateBrush);  /** * 设置按下的图片 */
-			UCanvasPanelSlot* DetectionCanvasPanelSlot = Cast<UCanvasPanelSlot>(DetectionImageWidget->Slot);  /** * 获取画布 */
-			if (DetectionCanvasPanelSlot)
-			{
-				DetectionCanvasPanelSlot->SetSize(DetectionSlateBrush.GetImageSize());  /** * 设置大小 */
-			}
-		}
-		TriggerInedxAnimation(0);
 	}
 }
 

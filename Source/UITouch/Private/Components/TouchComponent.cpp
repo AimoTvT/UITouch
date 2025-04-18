@@ -23,6 +23,7 @@
 #include "EnhancedInputComponent.h"
 #include "Widgets/TouchWidget.h"
 #include "EnhancedInputSubsystems.h"
+#include "Blueprint/WidgetBlueprintLibrary.h"
 
 
  // Sets default values for this component's properties
@@ -33,6 +34,28 @@ UTouchComponent::UTouchComponent()
 	PrimaryComponentTick.bCanEverTick = false;
 	TouchIndexs.SetNum(10); /** * 设置触控位置组的最大索引数 */
 
+	static ConstructorHelpers::FObjectFinder<UInputAction> EnhancedInputActionTouch1(TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch1.EnhancedInputActionTouch1'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction> EnhancedInputActionTouch2(TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch2.EnhancedInputActionTouch2'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction> EnhancedInputActionTouch3(TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch3.EnhancedInputActionTouch3'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction> EnhancedInputActionTouch4(TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch4.EnhancedInputActionTouch4'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction> EnhancedInputActionTouch5(TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch5.EnhancedInputActionTouch5'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction> EnhancedInputActionTouch6(TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch6.EnhancedInputActionTouch6'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction> EnhancedInputActionTouch7(TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch7.EnhancedInputActionTouch7'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction> EnhancedInputActionTouch8(TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch8.EnhancedInputActionTouch8'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction> EnhancedInputActionTouch9(TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch9.EnhancedInputActionTouch9'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction> EnhancedInputActionTouch10(TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch10.EnhancedInputActionTouch10'"));
+
+	InputActionTouchs.Add(EnhancedInputActionTouch1.Object);
+	InputActionTouchs.Add(EnhancedInputActionTouch2.Object);
+	InputActionTouchs.Add(EnhancedInputActionTouch3.Object);
+	InputActionTouchs.Add(EnhancedInputActionTouch4.Object);
+	InputActionTouchs.Add(EnhancedInputActionTouch5.Object);
+	InputActionTouchs.Add(EnhancedInputActionTouch6.Object);
+	InputActionTouchs.Add(EnhancedInputActionTouch7.Object);
+	InputActionTouchs.Add(EnhancedInputActionTouch8.Object);
+	InputActionTouchs.Add(EnhancedInputActionTouch9.Object);
+	InputActionTouchs.Add(EnhancedInputActionTouch10.Object);
+
 	// ...
 }
 
@@ -42,7 +65,6 @@ void UTouchComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	OnTriggerTouch.GetAllObjectRefsEvenIfUnreachable();
 	// ...
 	if (TouchPlayerController)
 	{
@@ -53,6 +75,19 @@ void UTouchComponent::BeginPlay()
 		if (Cast<APlayerController>(GetOwner()))
 		{
 			SetPlayerController(Cast<APlayerController>(GetOwner()));
+		}
+	}
+	//获取控件并绑定上
+	TArray<UUserWidget*> FoundWidgets;
+	UWidgetBlueprintLibrary::GetAllWidgetsOfClass(this, FoundWidgets, UTouchWidget::StaticClass(), false);
+	for (UUserWidget* UserWidget : FoundWidgets)
+	{
+		if (UTouchWidget* TouchWidget = Cast<UTouchWidget>(UserWidget))
+		{
+			if (TouchWidget->bCustomTrigger == false && TouchWidget->GetOwningPlayer() == TouchPlayerController)
+			{
+				TouchWidget->SetWidgetTouchComponent(this);
+			}
 		}
 	}
 }
@@ -167,6 +202,49 @@ void UTouchComponent::DefaultInputActionTouchs()
 	InputActionTouchs.Add(LoadObject<UInputAction>(this, TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch8.EnhancedInputActionTouch8'")));
 	InputActionTouchs.Add(LoadObject<UInputAction>(this, TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch9.EnhancedInputActionTouch9'")));
 	InputActionTouchs.Add(LoadObject<UInputAction>(this, TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch10.EnhancedInputActionTouch10'")));
+}
+
+void UTouchComponent::EnabledDefaultInputMappingContext()
+{
+	if (TouchInputMappingContext.IsNull())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("[UTouchComponent] TouchInputMappingContext == nullprt,Unable to perform automatic binding"));
+		return;
+	}
+	if (TouchPlayerController == nullptr) //虽然基本上不可能发生
+	{
+		if (Cast<APlayerController>(GetOwner()))
+		{
+			SetPlayerController(Cast<APlayerController>(GetOwner()));
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("[UTouchComponent] TouchComponent Bind the player controller"));
+			return;
+		}
+	}
+	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(TouchPlayerController->GetLocalPlayer()))
+	{
+		Subsystem->AddMappingContext(TouchInputMappingContext.LoadSynchronous(), InputMappingContextPriorityIndex);
+		UE_LOG(LogTemp, Log, TEXT("[UTouchComponent] TouchInputMappingContext, automatic binding successfully"));
+		return;
+	}
+	else
+	{
+		if (GetWorld())
+		{
+			GetWorld()->GetTimerManager().SetTimer(FTouchInputMappingContextTimerHandle, this, &UTouchComponent::EnabledDefaultInputMappingContext, 0.5f, false);
+			UE_LOG(LogTemp, Warning, TEXT("[UTouchComponent] UEnhancedInputLocalPlayerSubsystem == nullprt,Wait to appear fetch"));
+			return;
+		}
+		UE_LOG(LogTemp, Warning, TEXT("[UTouchComponent] GetWorld() = nullptr !???")); //虽然基本上不可能发生
+		return;
+	}
+}
+
+APlayerController* UTouchComponent::GetPlayerController()
+{
+	return TouchPlayerController;
 }
 
 void UTouchComponent::SetPlayerController(APlayerController* PlayerController)
@@ -342,7 +420,8 @@ void UTouchComponent::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	}
 	if (EnhancedInputComponent)
 	{
-		for (size_t i = 0; i < InputActionTouchs.Num(); i++)
+		//因为UE5.5 API BUG所以暂时取消了
+		/*for (size_t i = 0; i < InputActionTouchs.Num(); i++)
 		{
 			if (InputActionTouchs[i])
 			{
@@ -350,19 +429,21 @@ void UTouchComponent::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 				EnhancedInputComponent->BindAction(InputActionTouchs[i], ETriggerEvent::Completed, this, &UTouchComponent::IA_TouchReleased);
 				EnhancedInputComponent->BindAction(InputActionTouchs[i], ETriggerEvent::Triggered, this, &UTouchComponent::IA_TouchMove);
 			}
-		}
-		if (bAutoInputMappingContext && TouchPlayerController && TouchInputMappingContext.IsNull() == false)
+		}*/
+		if (bAutoInputMappingContext)
 		{
-			if (TouchInputMappingContext.IsValid() == false)
-			{
-				TouchInputMappingContext.LoadSynchronous();
-			}
-			if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(TouchPlayerController->GetLocalPlayer()))
-			{
-				Subsystem->AddMappingContext(TouchInputMappingContext.Get(), InputMappingContextPriorityIndex);
-			}
+			//因为UE5.5 API BUG所以暂时取消了
+			//EnabledDefaultInputMappingContext(); 
+			
+			
+			//因为UE5.5 API BUG,所以暂时使用
+			// 绑定触摸事件到回调函数
+			InputComponent->BindTouch(IE_Pressed, this, &UTouchComponent::OnTouchPressed);
+			InputComponent->BindTouch(IE_Repeat, this, &UTouchComponent::OnTouchMove);
+			InputComponent->BindTouch(IE_Released, this, &UTouchComponent::OnTouchReleased);
 		}
 	}
+
 }
 
 
@@ -373,22 +454,18 @@ void UTouchComponent::IA_TouchPressed(const FInputActionValue& Value)
 	uint8 FingerIndex = Location.Z;
 	Location.Z = 1;
 	uint8 Index = 255;
-	for (size_t i = 0; i < ObjectTouchs.Num(); i++)
+	for (UTouchWidget* TouchWidget : TouchWidgets)
 	{
-		UTouchWidget* TouchWidget = Cast<UTouchWidget>(ObjectTouchs[i]);
-		if (TouchWidget)
+		if ((Index == 255 || TouchWidget->TriggerIndex == Index))
 		{
-			if ((Index == 255 || TouchWidget->TriggerIndex == Index))
+			if (TouchWidget->TouchIndexLocation(Location, FingerIndex))
 			{
-				if (TouchWidget->TouchIndexLocation(Location, FingerIndex))
-				{
-					Index = TouchWidget->TriggerIndex;
-				}
+				Index = TouchWidget->TriggerIndex;
 			}
-			else
-			{
-				break;
-			}
+		}
+		else
+		{
+			break;
 		}
 	}
 	TouchIndexLocation(Location, FingerIndex);
@@ -413,14 +490,14 @@ void UTouchComponent::IA_TouchMove(const FInputActionValue& Value)
 	TouchIndexLocation(Location, FingerIndex);
 }
 
-void UTouchComponent::AddObjectTouchs(UObject* Object, uint8 Index)
+void UTouchComponent::AddTouchWidget(UTouchWidget* InTouchWidget, uint8 Index)
 {
-	if (Object)
+	if (InTouchWidget)
 	{
 		int TIndex = -1;
-		for (size_t i = 0; i < ObjectTouchs.Num(); i++)
+		for (size_t i = 0; i < TouchWidgets.Num(); i++)
 		{
-			UTouchWidget* TouchWidget = Cast<UTouchWidget>(ObjectTouchs[i]);
+			UTouchWidget* TouchWidget = TouchWidgets[i];
 			if (TouchWidget && (TouchWidget->TriggerIndex <= Index))
 			{
 				TIndex = i;
@@ -429,19 +506,38 @@ void UTouchComponent::AddObjectTouchs(UObject* Object, uint8 Index)
 		}
 		if (TIndex == -1)
 		{
-			ObjectTouchs.Add(Object);
+			TouchWidgets.Add(InTouchWidget);
 		}
 		else
 		{
-			ObjectTouchs.Insert(Object, TIndex);
+			TouchWidgets.Insert(InTouchWidget, TIndex);
 		}
 	}
 }
 
-void UTouchComponent::RemoveObjectTouchs(UObject* Object)
+void UTouchComponent::RemoveTouchWidget(UTouchWidget* InTouchWidget)
 {
-	if (Object)
+	if (InTouchWidget)
 	{
-		ObjectTouchs.Remove(Object);
+		TouchWidgets.Remove(InTouchWidget);
 	}
+}
+
+//因为UE5.5 API BUG,所以暂时使用
+void UTouchComponent::OnTouchPressed(ETouchIndex::Type FingerIndex, FVector Location)
+{
+	Location.Z = double(FingerIndex);
+	IA_TouchPressed(Location);
+}
+//因为UE5.5 API BUG,所以暂时使用
+void UTouchComponent::OnTouchMove(ETouchIndex::Type FingerIndex, FVector Location)
+{
+	Location.Z = double(FingerIndex);
+	IA_TouchMove(Location);
+}
+//因为UE5.5 API BUG,所以暂时使用
+void UTouchComponent::OnTouchReleased(ETouchIndex::Type FingerIndex, FVector Location)
+{
+	Location.Z = double(FingerIndex);
+	IA_TouchReleased(Location);
 }

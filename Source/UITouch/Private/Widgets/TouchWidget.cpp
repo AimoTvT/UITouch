@@ -23,10 +23,10 @@
 #include "Runtime/Engine/Public/DelayAction.h" //延迟的函数库
 #include "Runtime/UMG/Public/Blueprint/WidgetLayoutLibrary.h"
 
-
 UTouchWidget::UTouchWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
+	//设置默认可视状态,不然无法触控
 	SetVisibilityInternal(ESlateVisibility::Visible);
 }
 
@@ -34,35 +34,26 @@ UTouchWidget::UTouchWidget(const FObjectInitializer& ObjectInitializer)
 void UTouchWidget::NativePreConstruct()
 {
 	Super::NativePreConstruct();
-	SetVisibleDisabled(bIsEnabled == 0);
+	SetVisibleDisabled(GetIsEnabled()); //我不知道这是不是Bug,IsDesignTime()编辑器设计模式下,GetIsEnabled()永远是真,导致无法预览未启用图片,如果官方修复好了@我一下
 }
-
-void UTouchWidget::NativeConstruct()
-{
-	Super::NativeConstruct();
-
-}
-
 void UTouchWidget::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
-	if (bCustomTrigger == false)
-	{
-		BindTouchDelegate();
-	}
+	//自动获取控制器里的触控组件
+	GetWidgetTouchComponent();
 }
 
 void UTouchWidget::NativeDestruct()
 {
 	Super::NativeDestruct();
-	RemoveTouchDelegate(WidgetTouchComponent);
+	SetWidgetTouchComponent(nullptr);
 }
 
 
 void UTouchWidget::SetIsEnabled(bool bInIsEnabled)
 {
 	Super::SetIsEnabled(bInIsEnabled);
-	SetVisibleDisabled(!GetIsEnabled(), true);
+	SetVisibleDisabled(GetIsEnabled(), true);
 }
 
 UUserWidget* UTouchWidget::GetParentUserWidget()
@@ -73,57 +64,6 @@ UUserWidget* UTouchWidget::GetParentUserWidget()
 void UTouchWidget::SetParentUserWidget(UUserWidget* InUserWidget)
 {
 	ParentUserWidget = InUserWidget;
-}
-
-void UTouchWidget::BindTouchDelegate()
-{
-	if (WidgetTouchComponent)
-	{
-		RemoveTouchDelegate(WidgetTouchComponent);
-	}
-	if (GetWidgetTouchComponent())
-	{
-		if (TriggerIndex != 255)
-		{
-			WidgetTouchComponent->AddObjectTouchs(this, TriggerIndex);
-		}
-		WidgetTouchComponent->DelegateBind(10, true, this, TEXT("NativeTouchIndexLocation"));
-		if (!WidgetTouchComponent->OnComponentDeactivated.IsAlreadyBound(this, &UTouchWidget::ComponentDeactivated))
-		{
-			WidgetTouchComponent->OnComponentDeactivated.AddDynamic(this, &UTouchWidget::ComponentDeactivated);
-		}
-		return;
-	}
-	if (GetWorld())
-	{
-		FLatentActionManager& LatentActionManager = GetWorld()->GetLatentActionManager();
-		FLatentActionInfo Latentinfo;
-		Latentinfo.CallbackTarget = this;
-		Latentinfo.ExecutionFunction = TEXT("BindTouchDelegate");
-		Latentinfo.Linkage = 0;
-		Latentinfo.UUID = UKismetMathLibrary::RandomIntegerInRange(0, 222);
-		LatentActionManager.AddNewAction(this, Latentinfo.UUID, new FDelayAction(0.2, Latentinfo));
-	}
-}
-
-void UTouchWidget::RemoveTouchDelegate(UTouchComponent* TouchComponent)
-{
-	if (TouchComponent)
-	{
-		if (TriggerIndex != 255)
-		{
-			TouchComponent->RemoveObjectTouchs(this);
-		}
-		TouchComponent->DelegateBind(10, false, this, TEXT("NativeTouchIndexLocation"));
-		if (TouchComponent->OnComponentDeactivated.IsAlreadyBound(this, &UTouchWidget::ComponentDeactivated))
-		{
-			TouchComponent->OnComponentDeactivated.RemoveDynamic(this, &UTouchWidget::ComponentDeactivated);
-		}
-		if (TouchComponent == WidgetTouchComponent)
-		{
-			WidgetTouchComponent = nullptr;
-		}
-	}
 }
 
 void UTouchWidget::NativeTouchIndexLocation(const FVector& Location, uint8 FingerIndex)
@@ -217,13 +157,9 @@ void UTouchWidget::TriggerInedxAnimation(int Index)
 
 void UTouchWidget::ComponentDeactivated(UActorComponent* ActorComponent)
 {
-	if (ActorComponent)
+	if (WidgetTouchComponent == ActorComponent)
 	{
-		UTouchComponent* TouchComponent = Cast<UTouchComponent>(ActorComponent);
-		if (TouchComponent)
-		{
-			RemoveTouchDelegate(TouchComponent);
-		}
+		SetWidgetTouchComponent(nullptr);
 	}
 }
 
@@ -239,11 +175,11 @@ void UTouchWidget::SetTriggerIndex(uint8 Index)
 			{
 				if (TriggerIndex != 255)
 				{
-					TouchComponent->RemoveObjectTouchs(this);
+					TouchComponent->RemoveTouchWidget(this);
 				}
 				if (Index != 255)
 				{
-					TouchComponent->AddObjectTouchs(this, TriggerIndex);
+					TouchComponent->AddTouchWidget(this, TriggerIndex);
 				}
 				TriggerIndex = Index;
 			}
@@ -262,10 +198,47 @@ UTouchComponent* UTouchWidget::GetWidgetTouchComponent()
 		UActorComponent* ActorComponent = GetOwningPlayer()->GetComponentByClass(UTouchComponent::StaticClass());
 		if (ActorComponent)
 		{
-			WidgetTouchComponent = Cast<UTouchComponent>(ActorComponent);
+			SetWidgetTouchComponent(Cast<UTouchComponent>(ActorComponent));
+			return WidgetTouchComponent;
+		}
+		UE_LOG(LogTemp, Warning, TEXT("[UTouchWidget] The UTouchComponent failed to be obtained. It should be bound to the controller"));
+	}
+	return nullptr;
+}
+
+void UTouchWidget::SetWidgetTouchComponent(UTouchComponent* InTouchComponent)
+{
+	if (WidgetTouchComponent != InTouchComponent)
+	{
+		if (WidgetTouchComponent)
+		{
+			if (TriggerIndex != 255)
+			{
+				WidgetTouchComponent->RemoveTouchWidget(this);
+			}
+			WidgetTouchComponent->DelegateBind(10, false, this, TEXT("NativeTouchIndexLocation"));
+			if (WidgetTouchComponent->OnComponentDeactivated.IsAlreadyBound(this, &UTouchWidget::ComponentDeactivated))
+			{
+				WidgetTouchComponent->OnComponentDeactivated.RemoveDynamic(this, &UTouchWidget::ComponentDeactivated);
+			}
+		}
+		WidgetTouchComponent = InTouchComponent;
+		if (WidgetTouchComponent)
+		{
+			if (TriggerIndex != 255 && bCustomTrigger == false)
+			{
+				WidgetTouchComponent->AddTouchWidget(this, TriggerIndex);
+			}
+			if (bCustomTrigger == false)
+			{
+				WidgetTouchComponent->DelegateBind(10, true, this, TEXT("NativeTouchIndexLocation"));
+			}
+			if (!WidgetTouchComponent->OnComponentDeactivated.IsAlreadyBound(this, &UTouchWidget::ComponentDeactivated))
+			{
+				WidgetTouchComponent->OnComponentDeactivated.AddDynamic(this, &UTouchWidget::ComponentDeactivated);
+			}
 		}
 	}
-	return WidgetTouchComponent;
 }
 
 

@@ -39,7 +39,6 @@ protected:
 
 
 public:
-	UTouchWidget(const FObjectInitializer& ObjectInitializer);
 
 	/** * 本地位置,包括嵌套布局后的位置 */
 	UPROPERTY(BlueprintReadWrite, Category = "UITouch|Variable")
@@ -86,11 +85,9 @@ public:
 	FOnPressed OnTouchLocation;
 
 protected:
+	UTouchWidget(const FObjectInitializer& ObjectInitializer);
 
 	virtual void NativePreConstruct() override;
-
-	// Called when the game starts
-	virtual void NativeConstruct() override;
 
 	virtual void NativeOnInitialized() override;
 
@@ -109,14 +106,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual void SetParentUserWidget(UUserWidget* InUserWidget);
 
-
-	/** * 绑定组件委托,绑定失败后0.2秒后重新绑定,直至绑定成功 */
-	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
-	virtual void BindTouchDelegate();
-
-	/** * 删除触控组件委托绑定 */
-	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
-	virtual void RemoveTouchDelegate(UTouchComponent* TouchComponent);
 
 	/** * 接收触发位置和索引 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
@@ -165,5 +154,9 @@ public:
 	/** * 获取控件触控组件 */
 	UFUNCTION(BlueprintPure, Category = "UITouch|Function")
 	virtual UTouchComponent* GetWidgetTouchComponent();
+
+	/** * 设置控件触控组件 */
+	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
+	virtual void SetWidgetTouchComponent(UTouchComponent* InTouchComponent);
 
 };

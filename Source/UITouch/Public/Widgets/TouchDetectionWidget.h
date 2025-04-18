@@ -63,7 +63,7 @@ public:
 
 public:
 
-	virtual void RemoveTouchDelegate(UTouchComponent* TouchComponent) override;
+	virtual void SetWidgetTouchComponent(UTouchComponent* InTouchComponent) override;
 
 	virtual void TouchMovedLocation(const FVector& Location) override;
 

@@ -214,7 +214,7 @@ void UTouchAdvancedJoystickWidget::TouchMovedLocation(const FVector& Location)
 void UTouchAdvancedJoystickWidget::SetVisibleDisabled(bool bVisible, bool bFlushInput)
 {
 	Super::SetVisibleDisabled(bVisible, bFlushInput);
-	if (bVisible)
+	if (!bVisible)
 	{
 		if (bFlushInput && IsDesignTime() == false)
 		{

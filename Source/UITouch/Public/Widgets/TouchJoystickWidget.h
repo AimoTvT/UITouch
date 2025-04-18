@@ -94,7 +94,7 @@ protected:
 
 	virtual void NativePreConstruct() override;
 
-	virtual void RemoveTouchDelegate(UTouchComponent* TouchComponent) override;
+	virtual void SetWidgetTouchComponent(UTouchComponent* InTouchComponent) override;
 
 public:
 

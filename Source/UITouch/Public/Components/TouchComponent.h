@@ -58,8 +58,8 @@ public:
 	TArray<TObjectPtr<UInputAction>> InputActionTouchs;
 
 	/** * 触发调用组 */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EnhancedInput|Action", meta = (AllowPrivateAccess = "true"))
-	TArray<TObjectPtr<UObject>> ObjectTouchs;
+	UPROPERTY(BlueprintReadWrite, Category = "EnhancedInput|Action", meta = (AllowPrivateAccess = "true"))
+	TArray<TObjectPtr<UTouchWidget>> TouchWidgets;
 
 	/** * 自动绑定触控的输入映射 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnhancedInput|InputMappingContext")
@@ -72,6 +72,11 @@ public:
 	/** * 触控的输入映射 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnhancedInput|InputMappingContext")
 	TSoftObjectPtr<UInputMappingContext> TouchInputMappingContext = TSoftObjectPtr<UInputMappingContext>(FString(TEXT("UInputMappingContext/Script/EnhancedInput.InputMappingContext'/UITouch/EnhancedInput/EnhancedInputMappingContextTouchs.EnhancedInputMappingContextTouchs'")));
+
+	/** * 触控的输入映射定时器,用于自动绑定失败的重试 */
+	UPROPERTY(BlueprintReadWrite, Category = "PictureSequence|Variable")
+	FTimerHandle FTouchInputMappingContextTimerHandle;
+
 
 	/** * 多播所有接收到的调度器 */
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnIndexTouchDynmic, FVector, Moved, uint8, FingerIndex);
@@ -156,6 +161,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual void DefaultInputActionTouchs();
 
+	/** * 启用默认输入上下文 */
+	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
+	virtual void EnabledDefaultInputMappingContext();
+
+	/** * 获取控制器 */
+	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
+	virtual APlayerController* GetPlayerController();
+
 	/** * 设置控制器 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual void SetPlayerController(APlayerController* PlayerController);
@@ -182,10 +195,20 @@ public:
 
 	/** * 添加触发调用组 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
-	virtual void AddObjectTouchs(UObject* Object, uint8 Index);
+	virtual void AddTouchWidget(UTouchWidget* InTouchWidget, uint8 Index);
 
 	/** * 删除触发调用组 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
-	virtual void RemoveObjectTouchs(UObject* Object);
+	virtual void RemoveTouchWidget(UTouchWidget* InTouchWidget);
+
+	//因为UE5.5 API BUG,所以暂时使用
+	/** * 触摸开始事件 */
+	void OnTouchPressed(ETouchIndex::Type FingerIndex, FVector Location);
+
+	/** * 触摸移动事件 */
+	void OnTouchMove(ETouchIndex::Type FingerIndex, FVector Location);
+
+	/** * 触摸结束事件 */
+	void OnTouchReleased(ETouchIndex::Type FingerIndex, FVector Location);
 
 };

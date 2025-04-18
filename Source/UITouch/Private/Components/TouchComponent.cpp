@@ -24,6 +24,7 @@
 #include "Widgets/TouchWidget.h"
 #include "EnhancedInputSubsystems.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
+#include "UObject/ConstructorHelpers.h"
 
 
  // Sets default values for this component's properties
@@ -233,7 +234,7 @@ void UTouchComponent::EnabledDefaultInputMappingContext()
 	{
 		if (GetWorld())
 		{
-			GetWorld()->GetTimerManager().SetTimer(FTouchInputMappingContextTimerHandle, this, &UTouchComponent::EnabledDefaultInputMappingContext, 0.5f, false);
+			GetWorld()->GetTimerManager().SetTimer(TouchInputMappingContextTimerHandle, this, &UTouchComponent::EnabledDefaultInputMappingContext, 0.5f, false);
 			UE_LOG(LogTemp, Warning, TEXT("[UTouchComponent] UEnhancedInputLocalPlayerSubsystem == nullprt,Wait to appear fetch"));
 			return;
 		}

@@ -2,7 +2,7 @@
 > - 名字: UI触控
 > - 描述: 触控设备用的UI部件,有轮盘,高级轮盘,按钮,触控,如安卓,苹果,触控手机用的游戏操控,电脑需要打开鼠标用于触控
 
-## Engine version (>= 5.4.0)
+## Engine version (>= 5.5.0)
 
 > - Copyright: Aimo\_皑墨
 > - Open source protocol: MIT License
@@ -16,7 +16,7 @@
 > - Build powerful plugins together!!
 
 
-## 引擎版本( >= 5.4.0 )
+## 引擎版本( >= 5.5.0 )
 
 > - 版权所有权: Aimo\_皑墨
 > - 开源协议: MIT License

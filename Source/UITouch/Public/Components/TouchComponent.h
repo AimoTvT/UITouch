@@ -201,4 +201,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual void RemoveTouchWidget(UTouchWidget* InTouchWidget);
 
+	//因为UE5.5 API BUG,所以暂时使用
+	/** * 触摸开始事件 */
+	void OnTouchPressed(ETouchIndex::Type FingerIndex, FVector Location);
+
+	/** * 触摸移动事件 */
+	void OnTouchMove(ETouchIndex::Type FingerIndex, FVector Location);
+
+	/** * 触摸结束事件 */
+	void OnTouchReleased(ETouchIndex::Type FingerIndex, FVector Location);
+
 };

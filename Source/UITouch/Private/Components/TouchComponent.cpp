@@ -420,7 +420,8 @@ void UTouchComponent::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	}
 	if (EnhancedInputComponent)
 	{
-		for (size_t i = 0; i < InputActionTouchs.Num(); i++)
+		//因为UE5.5 API BUG所以暂时取消了
+		/*for (size_t i = 0; i < InputActionTouchs.Num(); i++)
 		{
 			if (InputActionTouchs[i])
 			{
@@ -428,12 +429,21 @@ void UTouchComponent::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 				EnhancedInputComponent->BindAction(InputActionTouchs[i], ETriggerEvent::Completed, this, &UTouchComponent::IA_TouchReleased);
 				EnhancedInputComponent->BindAction(InputActionTouchs[i], ETriggerEvent::Triggered, this, &UTouchComponent::IA_TouchMove);
 			}
-		}
+		}*/
 		if (bAutoInputMappingContext)
 		{
-			EnabledDefaultInputMappingContext();
+			//因为UE5.5 API BUG所以暂时取消了
+			//EnabledDefaultInputMappingContext(); 
+			
+			
+			//因为UE5.5 API BUG,所以暂时使用
+			// 绑定触摸事件到回调函数
+			InputComponent->BindTouch(IE_Pressed, this, &UTouchComponent::OnTouchPressed);
+			InputComponent->BindTouch(IE_Repeat, this, &UTouchComponent::OnTouchMove);
+			InputComponent->BindTouch(IE_Released, this, &UTouchComponent::OnTouchReleased);
 		}
 	}
+
 }
 
 
@@ -511,4 +521,23 @@ void UTouchComponent::RemoveTouchWidget(UTouchWidget* InTouchWidget)
 	{
 		TouchWidgets.Remove(InTouchWidget);
 	}
+}
+
+//因为UE5.5 API BUG,所以暂时使用
+void UTouchComponent::OnTouchPressed(ETouchIndex::Type FingerIndex, FVector Location)
+{
+	Location.Z = double(FingerIndex);
+	IA_TouchPressed(Location);
+}
+//因为UE5.5 API BUG,所以暂时使用
+void UTouchComponent::OnTouchMove(ETouchIndex::Type FingerIndex, FVector Location)
+{
+	Location.Z = double(FingerIndex);
+	IA_TouchMove(Location);
+}
+//因为UE5.5 API BUG,所以暂时使用
+void UTouchComponent::OnTouchReleased(ETouchIndex::Type FingerIndex, FVector Location)
+{
+	Location.Z = double(FingerIndex);
+	IA_TouchReleased(Location);
 }

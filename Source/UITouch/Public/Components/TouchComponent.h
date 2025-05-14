@@ -29,6 +29,16 @@
 #include "TouchComponent.generated.h"
 
 
+ // TouchInputMode
+UENUM(BlueprintType)
+enum class ETouchInputMode : uint8
+{
+	/** * 输入事件 */
+	InputEevent UMETA(DisplayName = "InputEevent"),
+	/** * 增强输入 */
+	EnhancedInput UMETA(DisplayName = "EnhancedInput")
+};
+
 UCLASS(Blueprintable, meta = (DisplayName = "TouchComponent", BlueprintSpawnableComponent))
 class UITOUCH_API UTouchComponent : public UActorComponent
 {
@@ -65,6 +75,14 @@ public:
 	/** * 自动绑定触控的输入映射 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnhancedInput|InputMappingContext")
 	bool bAutoInputMappingContext = true;
+
+	/** * 
+	* 触控输入模式: 默认增强输入(EnhancedInput)
+	* InputEvent(输入事件): 这个是官方的默认输入事件,自动绑定后无法关闭,所以推荐使用增强输入
+	* EnhancedInput(默认增强输入): 默认绑定事件只是等待输入映射启用,和自动绑定输入映射配合默认启用
+	*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnhancedInput|InputMappingContext")
+	ETouchInputMode TouchInputMode = ETouchInputMode::EnhancedInput;
 
 	/** * 自动绑定触控的输入映射的优先度 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnhancedInput|InputMappingContext")
@@ -202,7 +220,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual void RemoveTouchWidget(UTouchWidget* InTouchWidget);
 
-	//因为UE5.5 API BUG,所以暂时使用
+
+	/** * 默认触控事件的回调 */
+
 	/** * 触摸开始事件 */
 	void OnTouchPressed(ETouchIndex::Type FingerIndex, FVector Location);
 

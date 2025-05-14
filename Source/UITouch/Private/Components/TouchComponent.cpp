@@ -421,30 +421,37 @@ void UTouchComponent::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	}
 	if (EnhancedInputComponent)
 	{
-		//因为UE5.5 API BUG所以暂时取消了
-		/*for (size_t i = 0; i < InputActionTouchs.Num(); i++)
+		switch (TouchInputMode)
 		{
-			if (InputActionTouchs[i])
+		case ETouchInputMode::EnhancedInput:
+			for (size_t i = 0; i < InputActionTouchs.Num(); i++)
 			{
-				EnhancedInputComponent->BindAction(InputActionTouchs[i], ETriggerEvent::Started, this, &UTouchComponent::IA_TouchPressed);
-				EnhancedInputComponent->BindAction(InputActionTouchs[i], ETriggerEvent::Completed, this, &UTouchComponent::IA_TouchReleased);
-				EnhancedInputComponent->BindAction(InputActionTouchs[i], ETriggerEvent::Triggered, this, &UTouchComponent::IA_TouchMove);
+				if (InputActionTouchs[i])
+				{
+					EnhancedInputComponent->BindAction(InputActionTouchs[i], ETriggerEvent::Started, this, &UTouchComponent::IA_TouchPressed);
+					EnhancedInputComponent->BindAction(InputActionTouchs[i], ETriggerEvent::Completed, this, &UTouchComponent::IA_TouchReleased);
+					EnhancedInputComponent->BindAction(InputActionTouchs[i], ETriggerEvent::Triggered, this, &UTouchComponent::IA_TouchMove);
+				}
 			}
-		}*/
-		if (bAutoInputMappingContext)
-		{
-			//因为UE5.5 API BUG所以暂时取消了
-			//EnabledDefaultInputMappingContext(); 
-			
-			
-			//因为UE5.5 API BUG,所以暂时使用
-			// 绑定触摸事件到回调函数
-			InputComponent->BindTouch(IE_Pressed, this, &UTouchComponent::OnTouchPressed);
-			InputComponent->BindTouch(IE_Repeat, this, &UTouchComponent::OnTouchMove);
-			InputComponent->BindTouch(IE_Released, this, &UTouchComponent::OnTouchReleased);
+			UE_LOG(LogTemp, Log, TEXT("[UTouchComponent] BindEnhancedInput,Pending activation of input mapping")); //绑定增强输入,待启用输入映射
+			if (bAutoInputMappingContext)
+			{
+				EnabledDefaultInputMappingContext();
+			}
+			break;
+		case ETouchInputMode::InputEevent:
+			if (bAutoInputMappingContext)
+			{
+				InputComponent->BindTouch(IE_Pressed, this, &UTouchComponent::OnTouchPressed);
+				InputComponent->BindTouch(IE_Repeat, this, &UTouchComponent::OnTouchMove);
+				InputComponent->BindTouch(IE_Released, this, &UTouchComponent::OnTouchReleased);
+				UE_LOG(LogTemp, Log, TEXT("[UTouchComponent] BindTouchEvent,Cannot be closed")); //绑定触控事件,无法关闭
+			}
+			break;
+		default:
+			break;
 		}
 	}
-
 }
 
 
@@ -524,19 +531,18 @@ void UTouchComponent::RemoveTouchWidget(UTouchWidget* InTouchWidget)
 	}
 }
 
-//因为UE5.5 API BUG,所以暂时使用
 void UTouchComponent::OnTouchPressed(ETouchIndex::Type FingerIndex, FVector Location)
 {
 	Location.Z = double(FingerIndex);
 	IA_TouchPressed(Location);
 }
-//因为UE5.5 API BUG,所以暂时使用
+
 void UTouchComponent::OnTouchMove(ETouchIndex::Type FingerIndex, FVector Location)
 {
 	Location.Z = double(FingerIndex);
 	IA_TouchMove(Location);
 }
-//因为UE5.5 API BUG,所以暂时使用
+
 void UTouchComponent::OnTouchReleased(ETouchIndex::Type FingerIndex, FVector Location)
 {
 	Location.Z = double(FingerIndex);

@@ -28,7 +28,7 @@
 
 
  // Sets default values for this component's properties
-UTouchComponent::UTouchComponent()
+UTouchComponent::UTouchComponent() : EnhancedInputComponent(nullptr)
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
@@ -104,7 +104,7 @@ void UTouchComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 
 void UTouchComponent::TouchIndexLocation(FVector Location, uint8 FingerIndex)
 {
-	switch (int(Location.Z))
+	switch (static_cast<int>(Location.Z))
 	{
 	case 0:
 		TouchIndexs[FingerIndex] = 0;
@@ -172,12 +172,12 @@ bool UTouchComponent::IsClamp(FVector2D& A, FVector2D& B)
 
 TArray<uint8> UTouchComponent::NoInputTouchIndex(APlayerController* PlayerController)
 {
-	FVector2D Vector;
 	FVector2D Vector2 = UWidgetLayoutLibrary::GetViewportSize(GetWorld());
-	bool bIsCurrentlyPressed = false;
 	TArray<uint8> Indexs;
 	if (PlayerController && PlayerController->PlayerInput)
 	{
+		FVector2D Vector;
+		bool bIsCurrentlyPressed = false;
 		for (size_t i = 0; i < TouchIndexs.Num(); i++)
 		{
 			PlayerController->GetInputTouchState(static_cast<ETouchIndex::Type>(i), Vector.X, Vector.Y, bIsCurrentlyPressed);
@@ -209,7 +209,7 @@ void UTouchComponent::EnabledDefaultInputMappingContext()
 {
 	if (TouchInputMappingContext.IsNull())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("[UTouchComponent] TouchInputMappingContext == nullprt,Unable to perform automatic binding"));
+		UE_LOG(LogTemp, Warning, TEXT("[UTouchComponent] TouchInputMappingContext == nullptr,Unable to perform automatic binding"));
 		return;
 	}
 	if (TouchPlayerController == nullptr) //虽然基本上不可能发生
@@ -439,7 +439,7 @@ void UTouchComponent::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 				EnabledDefaultInputMappingContext();
 			}
 			break;
-		case ETouchInputMode::InputEevent:
+		case ETouchInputMode::InputEvent:
 			if (bAutoInputMappingContext)
 			{
 				InputComponent->BindTouch(IE_Pressed, this, &UTouchComponent::OnTouchPressed);
@@ -459,7 +459,7 @@ void UTouchComponent::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 void UTouchComponent::IA_TouchPressed(const FInputActionValue& Value)
 {
 	FVector Location = Value.Get<FVector>();
-	uint8 FingerIndex = Location.Z;
+	const uint8 FingerIndex = Location.Z;
 	Location.Z = 1;
 	uint8 Index = 255;
 	for (UTouchWidget* TouchWidget : TouchWidgets)
@@ -493,7 +493,7 @@ void UTouchComponent::IA_TouchReleased(const FInputActionValue& Value)
 void UTouchComponent::IA_TouchMove(const FInputActionValue& Value)
 {
 	FVector Location = Value.Get<FVector>();
-	uint8 FingerIndex = Location.Z;
+	const uint8 FingerIndex = Location.Z;
 	Location.Z = 2;
 	TouchIndexLocation(Location, FingerIndex);
 }
@@ -533,18 +533,18 @@ void UTouchComponent::RemoveTouchWidget(UTouchWidget* InTouchWidget)
 
 void UTouchComponent::OnTouchPressed(ETouchIndex::Type FingerIndex, FVector Location)
 {
-	Location.Z = double(FingerIndex);
+	Location.Z = static_cast<double>(FingerIndex);
 	IA_TouchPressed(Location);
 }
 
 void UTouchComponent::OnTouchMove(ETouchIndex::Type FingerIndex, FVector Location)
 {
-	Location.Z = double(FingerIndex);
+	Location.Z = static_cast<double>(FingerIndex);
 	IA_TouchMove(Location);
 }
 
 void UTouchComponent::OnTouchReleased(ETouchIndex::Type FingerIndex, FVector Location)
 {
-	Location.Z = double(FingerIndex);
+	Location.Z = static_cast<double>(FingerIndex);
 	IA_TouchReleased(Location);
 }

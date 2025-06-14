@@ -57,6 +57,12 @@ UTouchComponent::UTouchComponent() : EnhancedInputComponent(nullptr)
 	InputActionTouchs.Add(EnhancedInputActionTouch9.Object);
 	InputActionTouchs.Add(EnhancedInputActionTouch10.Object);
 
+	
+	static ConstructorHelpers::FObjectFinder<UInputMappingContext> TouchInputMappingContextObject(TEXT("/Script/EnhancedInput.InputMappingContext'/UITouch/EnhancedInput/EnhancedInputMappingContextTouchs.EnhancedInputMappingContextTouchs'"));
+
+	TouchInputMappingContext = TouchInputMappingContextObject.Object;
+
+
 	// ...
 }
 
@@ -207,7 +213,7 @@ void UTouchComponent::DefaultInputActionTouchs()
 
 void UTouchComponent::EnabledDefaultInputMappingContext()
 {
-	if (TouchInputMappingContext.IsNull())
+	if (!TouchInputMappingContext)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("[UTouchComponent] TouchInputMappingContext == nullptr,Unable to perform automatic binding"));
 		return;
@@ -226,7 +232,7 @@ void UTouchComponent::EnabledDefaultInputMappingContext()
 	}
 	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(TouchPlayerController->GetLocalPlayer()))
 	{
-		Subsystem->AddMappingContext(TouchInputMappingContext.LoadSynchronous(), InputMappingContextPriorityIndex);
+		Subsystem->AddMappingContext(TouchInputMappingContext, InputMappingContextPriorityIndex);
 		UE_LOG(LogTemp, Log, TEXT("[UTouchComponent] TouchInputMappingContext, automatic binding successfully"));
 		return;
 	}

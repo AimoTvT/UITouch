@@ -87,11 +87,11 @@ public:
 	/** * 自动绑定触控的输入映射的优先度 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnhancedInput|InputMappingContext")
 	int InputMappingContextPriorityIndex = 2;
-
+	
 	/** * 触控的输入映射 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnhancedInput|InputMappingContext")
-	TSoftObjectPtr<UInputMappingContext> TouchInputMappingContext = TSoftObjectPtr<UInputMappingContext>(FSoftObjectPath(TEXT("/Script/EnhancedInput.InputMappingContext'/UITouch/EnhancedInput/EnhancedInputMappingContextTouchs.EnhancedInputMappingContextTouchs'")));
-
+	TObjectPtr<UInputMappingContext> TouchInputMappingContext;
+	
 	/** * 触控的输入映射定时器,用于自动绑定失败的重试 */
 	UPROPERTY(BlueprintReadWrite, Category = "PictureSequence|Variable")
 	FTimerHandle TouchInputMappingContextTimerHandle;

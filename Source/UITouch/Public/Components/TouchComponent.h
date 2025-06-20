@@ -62,7 +62,7 @@ public:
 
 	/** * 增强型输入元件 */
 	UPROPERTY(BlueprintReadWrite, Category = "EnhancedInput|Controller")
-	UEnhancedInputComponent* EnhancedInputComponent;
+	TObjectPtr<UEnhancedInputComponent> EnhancedInputComponent;
 
 	/** * 输入动作组 */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EnhancedInput|Action", meta = (AllowPrivateAccess = "true"))

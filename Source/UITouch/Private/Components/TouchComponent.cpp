@@ -416,14 +416,14 @@ bool UTouchComponent::DelegateBind(uint8 FingerIndex, bool bDelegateBind, UObjec
 
 void UTouchComponent::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
+	check(PlayerInputComponent);
 	if (PlayerInputComponent == nullptr)
 	{
 		return;
 	}
-	check(PlayerInputComponent);
-	if (EnhancedInputComponent == nullptr)
+	if (EnhancedInputComponent == nullptr)	
 	{
-		EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent);
+		EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent);
 	}
 	if (EnhancedInputComponent)
 	{

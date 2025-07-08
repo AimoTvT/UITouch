@@ -65,10 +65,12 @@ protected:
 	virtual void NativePreConstruct() override;
 
 public:
-
-	virtual	bool TouchIndexLocation(const FVector& Location, uint8 FingerIndex) override;
+	
+	virtual	bool TouchPressedLocation(const FVector& Location) override;
 
 	virtual void TouchMovedLocation(const FVector& Location) override;
+
+	virtual	bool TouchReleasedLocation(const FVector& Location) override;
 
 	virtual void SetVisibleDisabled(bool bVisible, bool bFlushInput) override;
 

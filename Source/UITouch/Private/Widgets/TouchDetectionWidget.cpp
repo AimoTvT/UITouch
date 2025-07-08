@@ -25,9 +25,9 @@
 
 void UTouchDetectionWidget::SetWidgetTouchComponent(UTouchComponent* InTouchComponent)
 {
-	if (WidgetTouchComponent && WidgetTouchComponent != InTouchComponent && TouchFingerIndex != 255)
+	if (WidgetTouchComponent && WidgetTouchComponent != InTouchComponent && TriggerTouchIndex != 255)
 	{
-		WidgetTouchComponent->DelegateBind(TouchFingerIndex, false, this, TEXT("TouchMovedLocation"));
+		RemoveTouchMoveDelegate(TriggerTouchIndex);
 	}
 	Super::SetWidgetTouchComponent(InTouchComponent);
 }
@@ -48,17 +48,16 @@ void UTouchDetectionWidget::TouchMovedLocation(const FVector& Location)
 		if (bDetectionTouch == false)
 		{
 			bDetectionTouch = true;
-			OnTouchLocation.Broadcast({ LastTriggerLocation.X, LastTriggerLocation.Y, LastTriggerLocation.Z + 1 }); /** * 触发触摸位置 */
+			OnTouchLocationState.Broadcast(LastTriggerLocation, ETouchState::Moved); /** * 触发触摸位置 */
 			if (DetectionImageWidget)
 			{
 				DetectionImageWidget->SetBrush(TriggerDetectionSlateBrush);  /** * 设置的图片 */
-				UCanvasPanelSlot* UpSpeedCanvasPanelSlot = Cast<UCanvasPanelSlot>(DetectionImageWidget->Slot);
-				if (UpSpeedCanvasPanelSlot)
+				if (UCanvasPanelSlot* UpSpeedCanvasPanelSlot = Cast<UCanvasPanelSlot>(DetectionImageWidget->Slot))
 				{
 					UpSpeedCanvasPanelSlot->SetSize(TriggerDetectionSlateBrush.GetImageSize()); /** * 设置图片大小 */
 				}
 			}
-			TriggerInedxAnimation(1);
+			TriggerIndexAnimation(1);
 		}
 	}
 	else
@@ -66,17 +65,16 @@ void UTouchDetectionWidget::TouchMovedLocation(const FVector& Location)
 		if (bDetectionTouch)
 		{
 			bDetectionTouch = false;
-			OnTouchLocation.Broadcast({ LastTriggerLocation.X, LastTriggerLocation.Y, 0.0 }); /** * 触发触摸位置 */
+			OnTouchLocationState.Broadcast(LastTriggerLocation, ETouchState::Released); /** * 触发触摸位置 */
 			if (DetectionImageWidget)
 			{
 				DetectionImageWidget->SetBrush(DetectionSlateBrush);  /** * 设置的图片 */
-				UCanvasPanelSlot* UpSpeedCanvasPanelSlot = Cast<UCanvasPanelSlot>(DetectionImageWidget->Slot);
-				if (UpSpeedCanvasPanelSlot)
+				if (UCanvasPanelSlot* UpSpeedCanvasPanelSlot = Cast<UCanvasPanelSlot>(DetectionImageWidget->Slot))
 				{
 					UpSpeedCanvasPanelSlot->SetSize(DetectionSlateBrush.GetImageSize()); /** * 设置图片大小 */
 				}
 			}
-			TriggerInedxAnimation(0);
+			TriggerIndexAnimation(0);
 		}
 	}
 }
@@ -89,56 +87,54 @@ void UTouchDetectionWidget::SetVisibleDisabled(bool bVisible, bool bFlushInput)
 		if (DetectionImageWidget)
 		{
 			DetectionImageWidget->SetBrush(DetectionSlateBrush);  /** * 设置按下的图片 */
-			UCanvasPanelSlot* DetectionCanvasPanelSlot = Cast<UCanvasPanelSlot>(DetectionImageWidget->Slot);  /** * 获取画布 */
-			if (DetectionCanvasPanelSlot)
+			if (UCanvasPanelSlot* DetectionCanvasPanelSlot = Cast<UCanvasPanelSlot>(DetectionImageWidget->Slot))
 			{
 				DetectionCanvasPanelSlot->SetSize(DetectionSlateBrush.GetImageSize());  /** * 设置大小 */
 			}
 		}
-		TriggerInedxAnimation(0);
+		TriggerIndexAnimation(0);
 	}
 	else
 	{
 		if (bFlushInput && IsDesignTime() == false)
 		{
-			if (TouchFingerIndex != 255)
+			if (TriggerTouchIndex != 255)
 			{
-				SetIndexTouchDelegate(false, TouchFingerIndex);
-				TouchFingerIndex = 255;
+				RemoveTouchMoveDelegate(TriggerTouchIndex);
+				TriggerTouchIndex = 255;
 			}
 		}
 		if (DetectionImageWidget)
 		{
 			DetectionImageWidget->SetBrush(DisabledSlateBrush);  /** * 设置按下的图片 */
-			UCanvasPanelSlot* DetectionCanvasPanelSlot = Cast<UCanvasPanelSlot>(DetectionImageWidget->Slot);  /** * 获取画布 */
-			if (DetectionCanvasPanelSlot)
+			if (UCanvasPanelSlot* DetectionCanvasPanelSlot = Cast<UCanvasPanelSlot>(DetectionImageWidget->Slot))
 			{
 				DetectionCanvasPanelSlot->SetSize(DisabledSlateBrush.GetImageSize());  /** * 设置大小 */
 			}
 		}
-		TriggerInedxAnimation(-1);
+		TriggerIndexAnimation(-1);
 	}
 }
 
-void UTouchDetectionWidget::SetOnIndexTouchDelegate(uint8 FingerIndex)
+void UTouchDetectionWidget::SetOnIndexTouchDelegate(uint8 TouchIndex)
 {
 	if (!GetIsEnabled())
 	{
 		return;
 	}
-	if (FingerIndex != 255)
+	if (TouchIndex != 255)
 	{
-		if (TouchFingerIndex != 255)
+		if (TriggerTouchIndex != 255)
 		{
-			SetIndexTouchDelegate(false, TouchFingerIndex);
+			RemoveTouchMoveDelegate(TriggerTouchIndex);
 		}
-		TouchFingerIndex = FingerIndex;
-		SetIndexTouchDelegate(true, TouchFingerIndex);
+		TriggerTouchIndex = TouchIndex;
+		BindTouchMoveDelegate(TriggerTouchIndex);
 	}
 	else
 	{
-		SetIndexTouchDelegate(false, TouchFingerIndex);
+		RemoveTouchMoveDelegate(TriggerTouchIndex);
 		TouchMovedLocation({ LastTriggerLocation.X, LastTriggerLocation.Y, -1.0 });
-		TouchFingerIndex = 255;
+		TriggerTouchIndex = 255;
 	}
 }

@@ -19,8 +19,6 @@
 
 #include "Widgets/TouchWidget.h"
 #include "Components/PanelWidget.h"
-#include "Kismet/KismetMathLibrary.h" //官方函数库
-#include "Runtime/Engine/Public/DelayAction.h" //延迟的函数库
 #include "Runtime/UMG/Public/Blueprint/WidgetLayoutLibrary.h"
 
 UTouchWidget::UTouchWidget(const FObjectInitializer& ObjectInitializer)
@@ -66,37 +64,43 @@ void UTouchWidget::SetParentUserWidget(UUserWidget* InUserWidget)
 	ParentUserWidget = InUserWidget;
 }
 
-void UTouchWidget::NativeTouchIndexLocation(const FVector& Location, uint8 FingerIndex)
+bool UTouchWidget::TouchTriggerLocation(const FVector& Location, const ETouchState TouchState)
 {
-	if (Location.Z == 0.0f || TriggerIndex == 255)
+	switch (TouchState)
 	{
-		TouchIndexLocation(Location, FingerIndex);
+	case ETouchState::Released:
+		return TouchReleasedLocation(Location);
+	case ETouchState::Pressed:
+		return TouchPressedLocation(Location);
+	case ETouchState::Moved:
+		TouchMovedLocation(Location);
+		return true;
+	case ETouchState::Canceled:
+		break;
+	default: 
+		return false;
 	}
+	return false;
 }
 
-bool UTouchWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex)
+bool UTouchWidget::TouchPressedLocation(const FVector& Location)
 {
-	if (!GetIsEnabled() || GetVisibility() != ESlateVisibility::Visible)  /** * 是否启用,只有可视才能互交 */
+	if (TriggerPriorityIndex == 255 && !IsAllowTouch(Location))  /** * 是否进入触控区域 */
 	{
 		return false;
 	}
-	if (IsTouchLocation(Location))
-	{
-		LastTriggerLocation = Location;
-		LastTriggerLocation.Z = FingerIndex;
-		OnTouchLocation.Broadcast(LastTriggerLocation); /** * 触发触摸位置 */
-		TriggerInedxAnimation(0);
-	}
+	LastTriggerLocation = Location;
+	OnTouchLocationState.Broadcast(LastTriggerLocation, ETouchState::Pressed); /** * 触发触摸位置 */
+	TriggerIndexAnimation(0);
 	return true;
 }
 
-
-
-void UTouchWidget::SetIndexTouchDelegate(bool bDelegateBind, uint8 FingerIndex)
+void UTouchWidget::TouchPressedLocation_Event(const FVector& Location)
 {
-	if (GetWidgetTouchComponent())
+	if (TriggerPriorityIndex == 255 && !IsAllowTouch(Location))  /** * 是否进入触控区域 */
 	{
-		WidgetTouchComponent->DelegateBind(FingerIndex, bDelegateBind, this, TEXT("TouchMovedLocation"));
+		TouchPressedLocation(Location);
+		return;
 	}
 }
 
@@ -110,10 +114,26 @@ void UTouchWidget::TouchMovedLocation(const FVector& Location)
 	/** * 子类继承重写使用 */
 }
 
-FVector2D UTouchWidget::GetLocalPosition()
+void UTouchWidget::TouchReleasedLocation_Event(const FVector& Location)
 {
-	FVector2D Offset = GetPaintSpaceGeometry().GetLocalPositionAtCoordinates({ 0.0,0.0 });
-	UWidget* Parent = GetParent();
+	TouchReleasedLocation(Location);
+}
+
+bool UTouchWidget::TouchReleasedLocation(const FVector& Location)
+{
+	const uint8 TouchIndex = static_cast<uint8>(Location.Z);
+	if (TriggerTouchIndex != TouchIndex)
+	{
+		return false;
+	}
+	return true;
+}
+
+FVector2D UTouchWidget::GetLocalPositionAndParentPosition()
+{
+	const FGeometry& CachedGeometry = GetCachedGeometry();
+	FVector2D Offset = CachedGeometry.GetLocalPositionAtCoordinates({ 0.0,0.0 });
+	const UWidget* Parent = GetParent();
 	while (Parent)
 	{
 		Offset += Parent->GetPaintSpaceGeometry().GetLocalPositionAtCoordinates({ 0.0,0.0 });
@@ -131,18 +151,48 @@ FVector2D UTouchWidget::GetLocalPosition()
 	return Offset + CustomOffsetPosition;
 }
 
+bool UTouchWidget::UpdateCacheLocation(const FVector& Location)
+{
+	const FGeometry& CachedGeometry = GetCachedGeometry();
+	const float ViewportScale = UWidgetLayoutLibrary::GetViewportScale(this); /** * 视口触控缩放 */
+	// 计算控件在视口空间中的绝对位置和大小
+	const FVector2D LocalSize = CachedGeometry.GetLocalSize() * ViewportScale * GetRenderTransform().Scale;
+	// 缓存需要的变量
+	LocalWidgetPosition = GetLocalPositionAndParentPosition(); // 控件左上角屏幕位置
+	LocalCentreWidgetPosition = LocalWidgetPosition + LocalSize * 0.5f; // 控件中心屏幕位置
+    
+	// 计算触摸位置在控件局部空间中的偏移
+	TriggerOffsetPosition = FVector2D(Location) / ViewportScale - LocalWidgetPosition;
+	return true;
+}
+
 /** * 判断是否触控位置是否进入触控区域 */
 
 bool UTouchWidget::IsTouchLocation(const FVector& Location)
 {
-	float ViewportScale = UWidgetLayoutLibrary::GetViewportScale(this); /** * 视口触控缩放 */
-	FVector2D SizeLocation = GetPaintSpaceGeometry().GetLocalSize() * ViewportScale * GetRenderTransform().Scale; /** * 获取控件大小 */
-	LocalWidgetPosition = GetLocalPosition(); /** * 获取控件左上角位置 */
-	LocalCentreWidgetPosition = LocalWidgetPosition + SizeLocation / 2;
-	TriggerOffsetPosition = FVector2D(Location) / ViewportScale - LocalWidgetPosition;
-	FVector2D TLocalWidgetPosition = LocalWidgetPosition * ViewportScale - SizeLocation / 4 * (GetRenderTransform().Scale - 1); /** * 计算缩放偏移 */
-	return Location.X >= TLocalWidgetPosition.X && Location.X <= TLocalWidgetPosition.X + SizeLocation.X  \
-		&& Location.Y >= TLocalWidgetPosition.Y && Location.Y <= TLocalWidgetPosition.Y + SizeLocation.Y; // \是链接下一行 后面不许有空格
+	const float ViewportScale = UWidgetLayoutLibrary::GetViewportScale(this); /** * 视口触控缩放 */
+	// 获取控件的几何信息（包含所有变换和视口缩放）
+	const FGeometry& CachedGeometry = GetCachedGeometry();
+	// 更新缓存位置
+	UpdateCacheLocation(Location);
+	// 计算控件在视口空间中的绝对位置和大小
+	const FVector2D LocalSize = CachedGeometry.GetLocalSize() * ViewportScale * GetRenderTransform().Scale;
+	const FVector2D TransformLocalWidgetPosition = LocalWidgetPosition * ViewportScale - LocalSize / 4 * (GetRenderTransform().Scale - 1); /** * 计算缩放偏移 */
+	return Location.X >= TransformLocalWidgetPosition.X && Location.X <= TransformLocalWidgetPosition.X + LocalSize.X  \
+		&& Location.Y >= TransformLocalWidgetPosition.Y && Location.Y <= TransformLocalWidgetPosition.Y + LocalSize.Y; // \是链接下一行 后面不许有空格
+}
+
+bool UTouchWidget::IsAllowTouch(const FVector& Location)
+{
+	if (!GetIsEnabled() || GetVisibility() != ESlateVisibility::Visible)  /** * 是否启用,只有可视才能互交 */
+	{
+		return false;
+	}
+	if (TriggerTouchIndex == 255 && IsTouchLocation(Location))
+	{
+		return true;
+	}
+	return false;
 }
 
 void UTouchWidget::SetVisibleDisabled(bool bVisible, bool bFlushInput)
@@ -150,9 +200,9 @@ void UTouchWidget::SetVisibleDisabled(bool bVisible, bool bFlushInput)
 }
 
 
-void UTouchWidget::TriggerInedxAnimation(int Index)
+void UTouchWidget::TriggerIndexAnimation(int Index)
 {
-	BPTriggerInedxAnimation(Index);
+	BPTriggerIndexAnimation(Index);
 }
 
 void UTouchWidget::ComponentDeactivated(UActorComponent* ActorComponent)
@@ -163,26 +213,18 @@ void UTouchWidget::ComponentDeactivated(UActorComponent* ActorComponent)
 	}
 }
 
-void UTouchWidget::SetTriggerIndex(uint8 Index)
+void UTouchWidget::SetTriggerPriorityIndex(uint8 PriorityIndex)
 {
-	if (GetOwningPlayer())
+	if (GetWidgetTouchComponent())
 	{
-		UActorComponent* ActorComponent = GetOwningPlayer()->GetComponentByClass(UTouchComponent::StaticClass());
-		if (ActorComponent)
+		if (TriggerPriorityIndex != 255)
 		{
-			UTouchComponent* TouchComponent = Cast<UTouchComponent>(ActorComponent);
-			if (TouchComponent)
-			{
-				if (TriggerIndex != 255)
-				{
-					TouchComponent->RemoveTouchWidget(this);
-				}
-				if (Index != 255)
-				{
-					TouchComponent->AddTouchWidget(this, TriggerIndex);
-				}
-				TriggerIndex = Index;
-			}
+			WidgetTouchComponent->RemoveTouchWidget(this);
+		}
+		TriggerPriorityIndex = PriorityIndex;
+		if (TriggerPriorityIndex != 255)
+		{
+			WidgetTouchComponent->AddTouchWidget(this, TriggerPriorityIndex);
 		}
 	}
 }
@@ -195,8 +237,7 @@ UTouchComponent* UTouchWidget::GetWidgetTouchComponent()
 	}
 	if (GetOwningPlayer())
 	{
-		UActorComponent* ActorComponent = GetOwningPlayer()->GetComponentByClass(UTouchComponent::StaticClass());
-		if (ActorComponent)
+		if (UActorComponent* ActorComponent = GetOwningPlayer()->GetComponentByClass(UTouchComponent::StaticClass()))
 		{
 			SetWidgetTouchComponent(Cast<UTouchComponent>(ActorComponent));
 			return WidgetTouchComponent;
@@ -212,11 +253,14 @@ void UTouchWidget::SetWidgetTouchComponent(UTouchComponent* InTouchComponent)
 	{
 		if (WidgetTouchComponent)
 		{
-			if (TriggerIndex != 255)
+			if (TriggerPriorityIndex != 255)
 			{
 				WidgetTouchComponent->RemoveTouchWidget(this);
 			}
-			WidgetTouchComponent->DelegateBind(10, false, this, TEXT("NativeTouchIndexLocation"));
+			if (WidgetTouchComponent->OnTouchPressed.IsAlreadyBound(this, &UTouchWidget::TouchPressedLocation_Event))
+			{
+				WidgetTouchComponent->OnTouchPressed.RemoveDynamic(this, &UTouchWidget::TouchPressedLocation_Event);
+			}
 			if (WidgetTouchComponent->OnComponentDeactivated.IsAlreadyBound(this, &UTouchWidget::ComponentDeactivated))
 			{
 				WidgetTouchComponent->OnComponentDeactivated.RemoveDynamic(this, &UTouchWidget::ComponentDeactivated);
@@ -225,13 +269,16 @@ void UTouchWidget::SetWidgetTouchComponent(UTouchComponent* InTouchComponent)
 		WidgetTouchComponent = InTouchComponent;
 		if (WidgetTouchComponent)
 		{
-			if (TriggerIndex != 255 && bCustomTrigger == false)
+			if (!bCustomTrigger)
 			{
-				WidgetTouchComponent->AddTouchWidget(this, TriggerIndex);
-			}
-			if (bCustomTrigger == false)
-			{
-				WidgetTouchComponent->DelegateBind(10, true, this, TEXT("NativeTouchIndexLocation"));
+				if (TriggerPriorityIndex == 255)
+				{
+					WidgetTouchComponent->OnTouchPressed.AddDynamic(this, &UTouchWidget::TouchPressedLocation_Event);
+				}
+				else 
+				{
+					WidgetTouchComponent->AddTouchWidget(this, TriggerPriorityIndex);
+				}
 			}
 			if (!WidgetTouchComponent->OnComponentDeactivated.IsAlreadyBound(this, &UTouchWidget::ComponentDeactivated))
 			{
@@ -241,4 +288,181 @@ void UTouchWidget::SetWidgetTouchComponent(UTouchComponent* InTouchComponent)
 	}
 }
 
+void UTouchWidget::BindTouchPressedDelegate()
+{
+	if (WidgetTouchComponent && !WidgetTouchComponent->OnTouchReleased.IsAlreadyBound(this, &UTouchWidget::TouchReleasedLocation_Event))
+	{
+		WidgetTouchComponent->OnTouchPressed.AddDynamic(this, &UTouchWidget::TouchPressedLocation_Event);
+	}
+}
 
+void UTouchWidget::RemoveTouchPressedDelegate()
+{
+	if (WidgetTouchComponent && WidgetTouchComponent->OnTouchReleased.IsAlreadyBound(this, &UTouchWidget::TouchReleasedLocation_Event))
+	{
+		WidgetTouchComponent->OnTouchPressed.RemoveDynamic(this, &UTouchWidget::TouchPressedLocation_Event);
+	}
+}
+
+void UTouchWidget::BindTouchReleasedDelegate()
+{
+	if (WidgetTouchComponent && !WidgetTouchComponent->OnTouchReleased.IsAlreadyBound(this, &UTouchWidget::TouchReleasedLocation_Event))
+	{
+		WidgetTouchComponent->OnTouchReleased.AddDynamic(this, &UTouchWidget::TouchReleasedLocation_Event);
+	}
+}
+
+void UTouchWidget::RemoveTouchReleasedDelegate()
+{
+	if (WidgetTouchComponent && WidgetTouchComponent->OnTouchReleased.IsAlreadyBound(this, &UTouchWidget::TouchReleasedLocation_Event))
+	{
+		WidgetTouchComponent->OnTouchReleased.RemoveDynamic(this, &UTouchWidget::TouchReleasedLocation_Event);
+	}
+}
+
+bool UTouchWidget::BindTouchMoveDelegate(const uint8 TouchIndex)
+{
+	if (WidgetTouchComponent == nullptr)
+	{
+		return false;
+	}
+	switch (TouchIndex)
+	{
+	case 0:
+		if (!WidgetTouchComponent->OnTouchMoved1.IsAlreadyBound(this, &UTouchWidget::TouchMovedLocation))
+		{
+			WidgetTouchComponent->OnTouchMoved1.AddDynamic(this, &UTouchWidget::TouchMovedLocation); //绑定对接变量
+		}
+		break;
+	case 1:
+		if (!WidgetTouchComponent->OnTouchMoved2.IsAlreadyBound(this, &UTouchWidget::TouchMovedLocation))
+		{
+			WidgetTouchComponent->OnTouchMoved2.AddDynamic(this, &UTouchWidget::TouchMovedLocation); //绑定对接变量
+		}
+		break;
+	case 2:
+		if (!WidgetTouchComponent->OnTouchMoved3.IsAlreadyBound(this, &UTouchWidget::TouchMovedLocation))
+		{
+			WidgetTouchComponent->OnTouchMoved3.AddDynamic(this, &UTouchWidget::TouchMovedLocation); //绑定对接变量
+		}
+		break;
+	case 3:
+		if (!WidgetTouchComponent->OnTouchMoved4.IsAlreadyBound(this, &UTouchWidget::TouchMovedLocation))
+		{
+			WidgetTouchComponent->OnTouchMoved4.AddDynamic(this, &UTouchWidget::TouchMovedLocation); //绑定对接变量
+		}
+		break;
+	case 4:
+		if (!WidgetTouchComponent->OnTouchMoved5.IsAlreadyBound(this, &UTouchWidget::TouchMovedLocation))
+		{
+			WidgetTouchComponent->OnTouchMoved5.AddDynamic(this, &UTouchWidget::TouchMovedLocation); //绑定对接变量
+		}
+		break;
+	case 5:
+		if (!WidgetTouchComponent->OnTouchMoved6.IsAlreadyBound(this, &UTouchWidget::TouchMovedLocation))
+		{
+			WidgetTouchComponent->OnTouchMoved6.AddDynamic(this, &UTouchWidget::TouchMovedLocation); //绑定对接变量
+		}
+		break;
+	case 6:
+		if (!WidgetTouchComponent->OnTouchMoved7.IsAlreadyBound(this, &UTouchWidget::TouchMovedLocation))
+		{
+			WidgetTouchComponent->OnTouchMoved7.AddDynamic(this, &UTouchWidget::TouchMovedLocation); //绑定对接变量
+		}
+		break;
+	case 7:
+		if (!WidgetTouchComponent->OnTouchMoved8.IsAlreadyBound(this, &UTouchWidget::TouchMovedLocation))
+		{
+			WidgetTouchComponent->OnTouchMoved8.AddDynamic(this, &UTouchWidget::TouchMovedLocation); //绑定对接变量
+		}
+		break;
+	case 8:
+		if (!WidgetTouchComponent->OnTouchMoved9.IsAlreadyBound(this, &UTouchWidget::TouchMovedLocation))
+		{
+			WidgetTouchComponent->OnTouchMoved9.AddDynamic(this, &UTouchWidget::TouchMovedLocation); //绑定对接变量
+		}
+		break;
+	case 9:
+		if (!WidgetTouchComponent->OnTouchMoved10.IsAlreadyBound(this, &UTouchWidget::TouchMovedLocation))
+		{
+			WidgetTouchComponent->OnTouchMoved10.AddDynamic(this, &UTouchWidget::TouchMovedLocation); //绑定对接变量
+		}
+		break;
+	default:
+		return false;
+	}
+	return false;
+}
+
+bool UTouchWidget::RemoveTouchMoveDelegate(const uint8 TouchIndex)
+{if (WidgetTouchComponent == nullptr)
+	{
+		return false;
+	}
+	switch (TouchIndex)
+	{
+	case 0:
+		if (WidgetTouchComponent->OnTouchMoved1.IsAlreadyBound(this, &UTouchWidget::TouchMovedLocation))
+		{
+			WidgetTouchComponent->OnTouchMoved1.RemoveDynamic(this, &UTouchWidget::TouchMovedLocation); //绑定对接变量
+		}
+		break;
+	case 1:
+		if (WidgetTouchComponent->OnTouchMoved2.IsAlreadyBound(this, &UTouchWidget::TouchMovedLocation))
+		{
+			WidgetTouchComponent->OnTouchMoved2.RemoveDynamic(this, &UTouchWidget::TouchMovedLocation); //绑定对接变量
+		}
+		break;
+	case 2:
+		if (WidgetTouchComponent->OnTouchMoved3.IsAlreadyBound(this, &UTouchWidget::TouchMovedLocation))
+		{
+			WidgetTouchComponent->OnTouchMoved3.RemoveDynamic(this, &UTouchWidget::TouchMovedLocation); //绑定对接变量
+		}
+		break;
+	case 3:
+		if (WidgetTouchComponent->OnTouchMoved4.IsAlreadyBound(this, &UTouchWidget::TouchMovedLocation))
+		{
+			WidgetTouchComponent->OnTouchMoved4.RemoveDynamic(this, &UTouchWidget::TouchMovedLocation); //绑定对接变量
+		}
+		break;
+	case 4:
+		if (WidgetTouchComponent->OnTouchMoved5.IsAlreadyBound(this, &UTouchWidget::TouchMovedLocation))
+		{
+			WidgetTouchComponent->OnTouchMoved5.RemoveDynamic(this, &UTouchWidget::TouchMovedLocation); //绑定对接变量
+		}
+		break;
+	case 5:
+		if (WidgetTouchComponent->OnTouchMoved6.IsAlreadyBound(this, &UTouchWidget::TouchMovedLocation))
+		{
+			WidgetTouchComponent->OnTouchMoved6.RemoveDynamic(this, &UTouchWidget::TouchMovedLocation); //绑定对接变量
+		}
+		break;
+	case 6:
+		if (WidgetTouchComponent->OnTouchMoved7.IsAlreadyBound(this, &UTouchWidget::TouchMovedLocation))
+		{
+			WidgetTouchComponent->OnTouchMoved7.RemoveDynamic(this, &UTouchWidget::TouchMovedLocation); //绑定对接变量
+		}
+		break;
+	case 7:
+		if (WidgetTouchComponent->OnTouchMoved8.IsAlreadyBound(this, &UTouchWidget::TouchMovedLocation))
+		{
+			WidgetTouchComponent->OnTouchMoved8.RemoveDynamic(this, &UTouchWidget::TouchMovedLocation); //绑定对接变量
+		}
+		break;
+	case 8:
+		if (WidgetTouchComponent->OnTouchMoved9.IsAlreadyBound(this, &UTouchWidget::TouchMovedLocation))
+		{
+			WidgetTouchComponent->OnTouchMoved9.RemoveDynamic(this, &UTouchWidget::TouchMovedLocation); //绑定对接变量
+		}
+		break;
+	case 9:
+		if (WidgetTouchComponent->OnTouchMoved10.IsAlreadyBound(this, &UTouchWidget::TouchMovedLocation))
+		{
+			WidgetTouchComponent->OnTouchMoved10.RemoveDynamic(this, &UTouchWidget::TouchMovedLocation); //绑定对接变量
+		}
+		break;
+	default:
+		return false;
+	}
+	return false;
+}

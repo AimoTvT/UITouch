@@ -51,10 +51,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Appearance")
 	FSlateBrush TriggerDetectionSlateBrush;
 
-	/** * 触控索引,255 = 空 */
-	UPROPERTY(BlueprintReadWrite, Category = "UITouch|Variable")
-	uint8 TouchFingerIndex = 255;
-
 	/** * 是否触控 */
 	UPROPERTY(BlueprintReadWrite, Category = "UITouch|Variable")
 	bool bDetectionTouch;
@@ -72,6 +68,6 @@ public:
 
 	/** * 设置触发索引调用 255=取消 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
-	virtual void SetOnIndexTouchDelegate(uint8 FingerIndex);
+	virtual void SetOnIndexTouchDelegate(uint8 TouchIndex);
 
 };

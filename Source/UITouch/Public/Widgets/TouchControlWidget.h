@@ -52,9 +52,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "UITouch|Variable")
 	TArray<FVector> TouchLocations;
 
-	/** 限制差值距离,0.0代表不启用,2次位置变化过大会忽略*/
+	/** 限制差值距离,0.0代表不启用,中间位置变化过大会忽略*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
-	float ClampDifferenceDistance = 0.0f;
+	float ClampDifferenceDistance = 100.0f;
 
 	/** 距离倍数,影响反馈值,一般用于灵敏度调节 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
@@ -62,20 +62,26 @@ public:
 
 protected:
 
-	virtual void NativePreConstruct() override;
+	virtual void NativeConstruct() override;
 
 public:
 
 	virtual void SetWidgetTouchComponent(UTouchComponent* InTouchComponent) override;
-
-	virtual	bool TouchIndexLocation(const FVector& Location, uint8 FingerIndex) override;
+	
+	virtual	bool TouchPressedLocation(const FVector& Location) override;
 
 	virtual void TouchMovedLocation(const FVector& Location) override;
 
+	virtual	bool TouchReleasedLocation(const FVector& Location) override;
+
 	virtual void SetVisibleDisabled(bool bVisible, bool bFlushInput) override;
 
-	/** * 获取对应位置触控位置组的索引 */
+	/** * 获取触控位置组有效数量 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
-	virtual int GetTouchLocationsIndex(int32 Index);
+	virtual int GetTouchLocationsTouchNum();
+	
+	/** * 是否触控位置组还有触控 */
+	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
+	virtual bool IsTouchLocationsTouch();
 
 };

@@ -21,82 +21,79 @@
 #include "Components/CanvasPanelSlot.h"
 
 
+
 void UTouchButtonWidget::SetWidgetTouchComponent(UTouchComponent* InTouchComponent)
 {
-	if (WidgetTouchComponent && WidgetTouchComponent != InTouchComponent && TouchFingerIndex != 255)
+	if (WidgetTouchComponent && WidgetTouchComponent != InTouchComponent)
 	{
-		WidgetTouchComponent->DelegateBind(TouchFingerIndex, false, this, TEXT("TouchMovedLocation"));
+		RemoveTouchReleasedDelegate();
 	}
 	Super::SetWidgetTouchComponent(InTouchComponent);
 }
 
-bool UTouchButtonWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex)
+bool UTouchButtonWidget::TouchPressedLocation(const FVector& Location)
 {
-	if (!GetIsEnabled() || GetVisibility() != ESlateVisibility::Visible)  /** * 是否启用,只有可视才能互交 */
+	const uint8 TouchIndex = static_cast<uint8>(Location.Z);
+	if (bPressedHandover)
 	{
-		if (FingerIndex == 255 || TouchFingerIndex != FingerIndex)
+		bPressed = !bPressed;
+		OnTouchLocationState.Broadcast(Location, bPressed ? ETouchState::Pressed : ETouchState::Released);
+		if (ButtonImageWidget)
 		{
-			return false;
+			ButtonImageWidget->SetBrush(bPressed ? PressedButtonSlateBrush : ButtonSlateBrush);
+			if (UCanvasPanelSlot* UpSpeedCanvasPanelSlot = Cast<UCanvasPanelSlot>(ButtonImageWidget->Slot))
+			{
+				UpSpeedCanvasPanelSlot->SetSize((bPressed ? PressedButtonSlateBrush : ButtonSlateBrush).GetImageSize()); /** * 设置图片大小 */
+			}
 		}
-	}
-	if (TouchFingerIndex == 255 && IsTouchLocation(Location))  /** * 触控索引是否空 && 是否进入触控区域 */
-	{
+		TriggerIndexAnimation(bPressed ? 1 : 0);
 		LastTriggerLocation = Location;
-		if (bPressedHandover)
-		{
-			if (Location.Z)
-			{
-				bPressed = !bPressed;
-				OnTouchLocation.Broadcast({ Location.X, Location.Y, bPressed ? FingerIndex + 1.0 : 0.0 });
-				if (ButtonImageWidget)
-				{
-					ButtonImageWidget->SetBrush(bPressed ? PressedButtonSlateBrush : ButtonSlateBrush);
-					UCanvasPanelSlot* UpSpeedCanvasPanelSlot = Cast<UCanvasPanelSlot>(ButtonImageWidget->Slot);
-					if (UpSpeedCanvasPanelSlot)
-					{
-						UpSpeedCanvasPanelSlot->SetSize((bPressed ? PressedButtonSlateBrush : ButtonSlateBrush).GetImageSize()); /** * 设置图片大小 */
-					}
-				}
-				TriggerInedxAnimation(bPressed ? 1 : 0);
-			}
-			return true;
-		}
-		else
-		{
-			bPressed = true;
-			TouchFingerIndex = FingerIndex;
-			OnTouchLocation.Broadcast({ Location.X, Location.Y, FingerIndex + 1.0 });
-			if (ButtonImageWidget)
-			{
-				ButtonImageWidget->SetBrush(PressedButtonSlateBrush);
-				UCanvasPanelSlot* UpSpeedCanvasPanelSlot = Cast<UCanvasPanelSlot>(ButtonImageWidget->Slot);
-				if (UpSpeedCanvasPanelSlot)
-				{
-					UpSpeedCanvasPanelSlot->SetSize(PressedButtonSlateBrush.GetImageSize()); /** * 设置图片大小 */
-				}
-			}
-			TriggerInedxAnimation(1);
-			return true;
-		}
+		return true;
 	}
 	else
 	{
-		if (TouchFingerIndex == FingerIndex)  /** * 判断是否是第二次松下触控 */
+		bPressed = true;
+		TriggerTouchIndex = TouchIndex;
+		OnTouchLocationState.Broadcast(Location, ETouchState::Pressed);
+		BindTouchReleasedDelegate();
+		if (ButtonImageWidget)
 		{
-			TouchFingerIndex = 255;
-			bPressed = false;
-			OnTouchLocation.Broadcast({ LastTriggerLocation.X, LastTriggerLocation.Y,  0.0 });
-			if (ButtonImageWidget)
+			ButtonImageWidget->SetBrush(PressedButtonSlateBrush);
+			if (UCanvasPanelSlot* UpSpeedCanvasPanelSlot = Cast<UCanvasPanelSlot>(ButtonImageWidget->Slot))
 			{
-				ButtonImageWidget->SetBrush(ButtonSlateBrush);
-				UCanvasPanelSlot* UpSpeedCanvasPanelSlot = Cast<UCanvasPanelSlot>(ButtonImageWidget->Slot);
-				if (UpSpeedCanvasPanelSlot)
-				{
-					UpSpeedCanvasPanelSlot->SetSize(ButtonSlateBrush.GetImageSize()); /** * 设置图片大小 */
-				}
+				UpSpeedCanvasPanelSlot->SetSize(PressedButtonSlateBrush.GetImageSize()); /** * 设置图片大小 */
 			}
-			TriggerInedxAnimation(0);
 		}
+		TriggerIndexAnimation(1);
+		LastTriggerLocation = Location;
+		return true;
+	}
+	return false;
+}
+
+bool UTouchButtonWidget::TouchReleasedLocation(const FVector& Location)
+{
+	const uint8 TouchIndex = static_cast<uint8>(Location.Z);
+	if (TriggerTouchIndex != TouchIndex)
+	{
+		return false;
+	}
+	RemoveTouchReleasedDelegate();
+	if (TriggerTouchIndex == TouchIndex)  /** * 判断是否是第二次松下触控 */
+	{
+		TriggerTouchIndex = 255;
+		bPressed = false;
+		OnTouchLocationState.Broadcast(LastTriggerLocation, ETouchState::Released);
+		if (ButtonImageWidget)
+		{
+			ButtonImageWidget->SetBrush(ButtonSlateBrush);
+			if (UCanvasPanelSlot* UpSpeedCanvasPanelSlot = Cast<UCanvasPanelSlot>(ButtonImageWidget->Slot))
+			{
+				UpSpeedCanvasPanelSlot->SetSize(ButtonSlateBrush.GetImageSize()); /** * 设置图片大小 */
+			}
+		}
+		TriggerIndexAnimation(0);
+		return true;
 	}
 	return false;
 }
@@ -109,13 +106,12 @@ void UTouchButtonWidget::SetVisibleDisabled(bool bVisible, bool bFlushInput)
 		if (ButtonImageWidget)
 		{
 			ButtonImageWidget->SetBrush(bPressed ? PressedButtonSlateBrush : ButtonSlateBrush);  /** * 设置按下的图片 */
-			UCanvasPanelSlot* ButtonCanvasPanelSlot = Cast<UCanvasPanelSlot>(ButtonImageWidget->Slot);  /** * 获取画布 */
-			if (ButtonCanvasPanelSlot)
+			if (UCanvasPanelSlot* ButtonCanvasPanelSlot = Cast<UCanvasPanelSlot>(ButtonImageWidget->Slot))
 			{
 				ButtonCanvasPanelSlot->SetSize(bPressed ? PressedButtonSlateBrush.GetImageSize() : ButtonSlateBrush.GetImageSize());  /** * 设置大小 */
 			}
 		}
-		TriggerInedxAnimation(0);
+		TriggerIndexAnimation(0);
 	}
 	else
 	{
@@ -123,19 +119,18 @@ void UTouchButtonWidget::SetVisibleDisabled(bool bVisible, bool bFlushInput)
 		{
 			if (bPressed)
 			{
-				SetIndexTouchDelegate(false, TouchFingerIndex);
+				RemoveTouchMoveDelegate(TriggerTouchIndex);
 				bPressed = false;
 			}
 		}
 		if (ButtonImageWidget)
 		{
 			ButtonImageWidget->SetBrush(DisabledSlateBrush);  /** * 设置按下的图片 */
-			UCanvasPanelSlot* ButtonCanvasPanelSlot = Cast<UCanvasPanelSlot>(ButtonImageWidget->Slot);  /** * 获取画布 */
-			if (ButtonCanvasPanelSlot)
+			if (UCanvasPanelSlot* ButtonCanvasPanelSlot = Cast<UCanvasPanelSlot>(ButtonImageWidget->Slot))
 			{
 				ButtonCanvasPanelSlot->SetSize(DisabledSlateBrush.GetImageSize());  /** * 设置大小 */
 			}
 		}
-		TriggerInedxAnimation(-1);
+		TriggerIndexAnimation(-1);
 	}
 }

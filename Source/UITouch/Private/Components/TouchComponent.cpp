@@ -33,7 +33,6 @@ UTouchComponent::UTouchComponent() : EnhancedInputComponent(nullptr)
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
-	TouchIndexs.SetNum(10); /** * 设置触控位置组的最大索引数 */
 
 	static ConstructorHelpers::FObjectFinder<UInputAction> EnhancedInputActionTouch1(TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch1.EnhancedInputActionTouch1'"));
 	static ConstructorHelpers::FObjectFinder<UInputAction> EnhancedInputActionTouch2(TEXT("/Script/EnhancedInput.InputAction'/UITouch/EnhancedInput/EnhancedInputActionTouch2.EnhancedInputActionTouch2'"));
@@ -108,63 +107,69 @@ void UTouchComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	// ...
 }
 
-void UTouchComponent::TouchIndexLocation(FVector Location, uint8 FingerIndex)
+void UTouchComponent::TouchTriggerLocation(const FVector& Location, const ETouchState TouchState)
 {
-	switch (static_cast<int>(Location.Z))
+	const uint8 TouchIndex = static_cast<uint8>(Location.Z);
+	//是否小于这个触控值
+	if (!TouchStates.IsValidIndex(TouchIndex))
 	{
-	case 0:
-		TouchIndexs[FingerIndex] = 0;
-		OnTriggerTouch.Broadcast(Location, FingerIndex);
+		TouchStates.SetNum(TouchIndex + 1); /** * 设置触控位置组的最大索引数 */
+	}
+	switch (TouchState)
+	{
+	case ETouchState::Released:
+		TouchStates[TouchIndex] = TouchState;
+		OnTouchTrigger.Broadcast(Location, TouchState);
 		break;
-	case 1:
-		TouchIndexs[FingerIndex] = 1;
-		OnTriggerTouch.Broadcast(Location, FingerIndex);
+	case ETouchState::Pressed:
+		TouchStates[TouchIndex] = TouchState;
+		OnTouchTrigger.Broadcast(Location, TouchState);
 		break;
-	case 2:
-		TouchIndexLocationDelegate(Location, FingerIndex);
+	case ETouchState::Moved:
+		TouchStates[TouchIndex] = TouchState;
+		TouchTriggerLocationDelegate(Location, TouchState);
 		break;
 	default:
-		TouchIndexs[FingerIndex] = 0;
-		OnTriggerTouch.Broadcast(Location, FingerIndex);
+		TouchStates[TouchIndex] = TouchState;
+		OnTouchTrigger.Broadcast(Location, TouchState);
 		break;
 	}
 }
 
 
-void UTouchComponent::TouchIndexLocationDelegate(FVector Location, uint8 FingerIndex)
+void UTouchComponent::TouchTriggerLocationDelegate(const FVector& Location, ETouchState TouchState)
 {
-	Location.Z = FingerIndex;
-	switch (FingerIndex)
+	switch (static_cast<uint8>(Location.Z))
 	{
 	case 0:
-		OnMovedTouch1.Broadcast(Location);
+		OnTouchMoved1.Broadcast(Location);
 		break;
 	case 1:
-		OnMovedTouch2.Broadcast(Location);
+		OnTouchMoved2.Broadcast(Location);
 		break;
 	case 2:
-		OnMovedTouch3.Broadcast(Location);
+		OnTouchMoved3.Broadcast(Location);
 		break;
 	case 3:
-		OnMovedTouch4.Broadcast(Location);
+		OnTouchMoved4.Broadcast(Location);
 		break;
 	case 4:
-		OnMovedTouch5.Broadcast(Location);
+		OnTouchMoved5.Broadcast(Location);
 		break;
 	case 5:
-		OnMovedTouch6.Broadcast(Location);
+		OnTouchMoved6.Broadcast(Location);
 		break;
 	case 6:
-		OnMovedTouch7.Broadcast(Location);
+		OnTouchMoved7.Broadcast(Location);
 		break;
 	case 7:
-		OnMovedTouch8.Broadcast(Location);
+		OnTouchMoved8.Broadcast(Location);
 		break;
 	case 8:
-		OnMovedTouch9.Broadcast(Location);
+		OnTouchMoved9.Broadcast(Location);
 		break;
 	case 9:
-		OnMovedTouch10.Broadcast(Location);
+		OnTouchMoved10.Broadcast(Location);
 		break;
 	default:
 		break;
@@ -176,24 +181,24 @@ bool UTouchComponent::IsClamp(FVector2D& A, FVector2D& B)
 	return A.X >= 0 && A.X <= B.X && A.Y >= 0 && A.Y <= B.Y;
 }
 
-TArray<uint8> UTouchComponent::NoInputTouchIndex(APlayerController* PlayerController)
+TArray<uint8> UTouchComponent::ReleasedInputTouchIndexs(APlayerController* PlayerController)
 {
 	FVector2D Vector2 = UWidgetLayoutLibrary::GetViewportSize(GetWorld());
-	TArray<uint8> Indexs;
-	if (PlayerController && PlayerController->PlayerInput)
+	TArray<uint8> ReleasedIndexs;
+	if (PlayerController)
 	{
 		FVector2D Vector;
 		bool bIsCurrentlyPressed = false;
-		for (size_t i = 0; i < TouchIndexs.Num(); i++)
+		for (size_t i = 0; i < TouchStates.Num(); i++)
 		{
 			PlayerController->GetInputTouchState(static_cast<ETouchIndex::Type>(i), Vector.X, Vector.Y, bIsCurrentlyPressed);
-			if ((TouchIndexs[i] && bIsCurrentlyPressed == false) || IsClamp(Vector, Vector2) == false)
+			if ((TouchStates[i] != ETouchState::Released && bIsCurrentlyPressed == false) || IsClamp(Vector, Vector2) == false)
 			{
-				Indexs.Add(i);
+				ReleasedIndexs.Add(i);
 			}
 		}
 	}
-	return Indexs;
+	return ReleasedIndexs;
 }
 
 void UTouchComponent::DefaultInputActionTouchs()
@@ -249,7 +254,7 @@ void UTouchComponent::EnabledDefaultInputMappingContext()
 	}
 }
 
-APlayerController* UTouchComponent::GetPlayerController()
+APlayerController* UTouchComponent::GetPlayerController() const
 {
 	return TouchPlayerController;
 }
@@ -259,7 +264,7 @@ void UTouchComponent::SetPlayerController(APlayerController* PlayerController)
 	if (TouchPlayerController != PlayerController)
 	{
 		TouchPlayerController = PlayerController;
-		if (TouchPlayerController->IsLocalController())
+		if (TouchPlayerController && TouchPlayerController->IsLocalController())
 		{
 			InputComponent = Cast<UInputComponent>(PlayerController->FindComponentByClass(UInputComponent::StaticClass()));
 			if (InputComponent == nullptr)
@@ -271,6 +276,7 @@ void UTouchComponent::SetPlayerController(APlayerController* PlayerController)
 				DefaultInputActionTouchs();
 			}
 			SetupPlayerInputComponent(InputComponent);
+			
 		}
 	}
 }
@@ -281,7 +287,7 @@ void UTouchComponent::SetInputActionTouchs(TArray<UInputAction*> InputActions)
 	SetupPlayerInputComponent(InputComponent);
 }
 
-bool UTouchComponent::DelegateBind(uint8 FingerIndex, bool bDelegateBind, UObject* InFunctionObject, const FName& InFunctionName)
+bool UTouchComponent::DelegateBind(uint8 TouchIndex, bool bDelegateBind, UObject* InFunctionObject, const FName& InFunctionName)
 {
 	if (InFunctionObject == nullptr)
 	{
@@ -293,125 +299,124 @@ bool UTouchComponent::DelegateBind(uint8 FingerIndex, bool bDelegateBind, UObjec
 	{
 		return false;
 	}
-	switch (FingerIndex)
+	switch (TouchIndex)
 	{
 	case 0:
 		if (bDelegateBind)
 		{
-			OnMovedTouch1.Add(ScriptDelegate); //绑定对接变量
+			OnTouchMoved1.Add(ScriptDelegate); //绑定对接变量
 		}
 		else
 		{
-			OnMovedTouch1.Remove(ScriptDelegate);
+			OnTouchMoved1.Remove(ScriptDelegate);
 		}
 		break;
 	case 1:
 		if (bDelegateBind)
 		{
-			OnMovedTouch2.Add(ScriptDelegate); //绑定对接变量
+			OnTouchMoved2.Add(ScriptDelegate); //绑定对接变量
 		}
 		else
 		{
-			OnMovedTouch2.Remove(ScriptDelegate);
+			OnTouchMoved2.Remove(ScriptDelegate);
 		}
 		break;
 	case 2:
 		if (bDelegateBind)
 		{
-			OnMovedTouch3.Add(ScriptDelegate); //绑定对接变量
+			OnTouchMoved3.Add(ScriptDelegate); //绑定对接变量
 		}
 		else
 		{
-			OnMovedTouch3.Remove(ScriptDelegate);
+			OnTouchMoved3.Remove(ScriptDelegate);
 		}
 		break;
 	case 3:
 		if (bDelegateBind)
 		{
-			OnMovedTouch4.Add(ScriptDelegate); //绑定对接变量
+			OnTouchMoved4.Add(ScriptDelegate); //绑定对接变量
 		}
 		else
 		{
-			OnMovedTouch4.Remove(ScriptDelegate);
+			OnTouchMoved4.Remove(ScriptDelegate);
 		}
 		break;
 	case 4:
 		if (bDelegateBind)
 		{
-			OnMovedTouch5.Add(ScriptDelegate); //绑定对接变量
+			OnTouchMoved5.Add(ScriptDelegate); //绑定对接变量
 		}
 		else
 		{
-			OnMovedTouch5.Remove(ScriptDelegate);
+			OnTouchMoved5.Remove(ScriptDelegate);
 		}
 		break;
 	case 5:
 		if (bDelegateBind)
 		{
-			OnMovedTouch6.Add(ScriptDelegate); //绑定对接变量
+			OnTouchMoved6.Add(ScriptDelegate); //绑定对接变量
 		}
 		else
 		{
-			OnMovedTouch6.Remove(ScriptDelegate);
+			OnTouchMoved6.Remove(ScriptDelegate);
 		}
 		break;
 	case 6:
 		if (bDelegateBind)
 		{
-			OnMovedTouch7.Add(ScriptDelegate); //绑定对接变量
+			OnTouchMoved7.Add(ScriptDelegate); //绑定对接变量
 		}
 		else
 		{
-			OnMovedTouch7.Remove(ScriptDelegate);
+			OnTouchMoved7.Remove(ScriptDelegate);
 		}
 		break;
 	case 7:
 		if (bDelegateBind)
 		{
-			OnMovedTouch8.Add(ScriptDelegate); //绑定对接变量
+			OnTouchMoved8.Add(ScriptDelegate); //绑定对接变量
 		}
 		else
 		{
-			OnMovedTouch8.Remove(ScriptDelegate);
+			OnTouchMoved8.Remove(ScriptDelegate);
 		}
 		break;
 	case 8:
 		if (bDelegateBind)
 		{
-			OnMovedTouch9.Add(ScriptDelegate); //绑定对接变量
+			OnTouchMoved9.Add(ScriptDelegate); //绑定对接变量
 		}
 		else
 		{
-			OnMovedTouch9.Remove(ScriptDelegate);
+			OnTouchMoved9.Remove(ScriptDelegate);
 		}
 		break;
 	case 9:
 		if (bDelegateBind)
 		{
-			OnMovedTouch10.Add(ScriptDelegate); //绑定对接变量
+			OnTouchMoved10.Add(ScriptDelegate); //绑定对接变量
 		}
 		else
 		{
-			OnMovedTouch10.Remove(ScriptDelegate);
+			OnTouchMoved10.Remove(ScriptDelegate);
 		}
 		break;
 	case 10:
 		if (bDelegateBind)
 		{
-			OnTriggerTouch.Add(ScriptDelegate); //绑定对接变量
+			OnTouchTrigger.Add(ScriptDelegate); //绑定对接变量
 		}
 		else
 		{
-			OnTriggerTouch.Remove(ScriptDelegate);
+			OnTouchTrigger.Remove(ScriptDelegate);
 		}
 		break;
 	default:
-		FingerIndex = 255;
+		TouchIndex = 255;
 		break;
 	}
-	return FingerIndex != 255;
+	return TouchIndex != 255;
 }
-
 
 
 void UTouchComponent::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -448,9 +453,9 @@ void UTouchComponent::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 		case ETouchInputMode::InputEvent:
 			if (bAutoInputMappingContext)
 			{
-				InputComponent->BindTouch(IE_Pressed, this, &UTouchComponent::OnTouchPressed);
-				InputComponent->BindTouch(IE_Repeat, this, &UTouchComponent::OnTouchMove);
-				InputComponent->BindTouch(IE_Released, this, &UTouchComponent::OnTouchReleased);
+				InputComponent->BindTouch(IE_Pressed, this, &UTouchComponent::IA_TouchIndexPressed);
+				InputComponent->BindTouch(IE_Repeat, this, &UTouchComponent::IA_TouchIndexMove);
+				InputComponent->BindTouch(IE_Released, this, &UTouchComponent::IA_TouchIndexReleased);
 				UE_LOG(LogTemp, Log, TEXT("[UTouchComponent] BindTouchEvent,Cannot be closed")); //绑定触控事件,无法关闭
 			}
 			break;
@@ -464,17 +469,20 @@ void UTouchComponent::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 
 void UTouchComponent::IA_TouchPressed(const FInputActionValue& Value)
 {
-	FVector Location = Value.Get<FVector>();
-	const uint8 FingerIndex = Location.Z;
-	Location.Z = 1;
+	const FVector Location = Value.Get<FVector>();
+	UE_LOG(LogTemp, Warning, TEXT("[UTouchComponent] 按键按下: %s"), *Location.ToString());
 	uint8 Index = 255;
-	for (UTouchWidget* TouchWidget : TouchWidgets)
+	for (UTouchWidget* TouchWidget : TriggerTouchWidgets)
 	{
-		if ((Index == 255 || TouchWidget->TriggerIndex == Index))
+		if ((Index == 255 || TouchWidget->TriggerPriorityIndex == Index))
 		{
-			if (TouchWidget->TouchIndexLocation(Location, FingerIndex))
+			if (TouchWidget->IsAllowTouch(Location))
 			{
-				Index = TouchWidget->TriggerIndex;
+				UE_LOG(LogTemp, Warning, TEXT("[UTouchComponent] 允许控件: %s"), *TouchWidget->GetName());
+				if (TouchWidget->TouchPressedLocation(Location))
+				{
+					Index = TouchWidget->TriggerPriorityIndex;
+				}
 			}
 		}
 		else
@@ -482,37 +490,34 @@ void UTouchComponent::IA_TouchPressed(const FInputActionValue& Value)
 			break;
 		}
 	}
-	TouchIndexLocation(Location, FingerIndex);
+	OnTouchPressed.Broadcast(Location);
 }
 
 void UTouchComponent::IA_TouchReleased(const FInputActionValue& Value)
 {
-	FVector Location = Value.Get<FVector>();
-	TArray<uint8> FingerIndexs = NoInputTouchIndex(TouchPlayerController);
-	Location.Z = 0;
-	for (size_t i = 0; i < FingerIndexs.Num(); i++)
-	{
-		TouchIndexLocation(Location, FingerIndexs[i]);
-	}
+	const FVector Location = Value.Get<FVector>();
+	UE_LOG(LogTemp, Warning, TEXT("[UTouchComponent] 按键松开: %s"), *Location.ToString());
+	OnTouchReleased.Broadcast(Location);
+	//const TArray<uint8> ReleasedTouchIndexs = ReleasedInputTouchIndexs(TouchPlayerController);
+	//for (const uint8 ReleasedTouchIndex : ReleasedTouchIndexs)
+	//{
+	//}
 }
 
 void UTouchComponent::IA_TouchMove(const FInputActionValue& Value)
 {
-	FVector Location = Value.Get<FVector>();
-	const uint8 FingerIndex = Location.Z;
-	Location.Z = 2;
-	TouchIndexLocation(Location, FingerIndex);
+	TouchTriggerLocation(Value.Get<FVector>(), ETouchState::Moved);
 }
 
-void UTouchComponent::AddTouchWidget(UTouchWidget* InTouchWidget, uint8 Index)
+void UTouchComponent::AddTouchWidget(UTouchWidget* InTouchWidget, uint8 PriorityIndex)
 {
 	if (InTouchWidget)
 	{
 		int TIndex = -1;
-		for (size_t i = 0; i < TouchWidgets.Num(); i++)
+		for (size_t i = 0; i < TriggerTouchWidgets.Num(); i++)
 		{
-			UTouchWidget* TouchWidget = TouchWidgets[i];
-			if (TouchWidget && (TouchWidget->TriggerIndex <= Index))
+			const UTouchWidget* TouchWidget = TriggerTouchWidgets[i]; 
+			if (TouchWidget && (TouchWidget->TriggerPriorityIndex <= PriorityIndex))
 			{
 				TIndex = i;
 				break;
@@ -520,11 +525,11 @@ void UTouchComponent::AddTouchWidget(UTouchWidget* InTouchWidget, uint8 Index)
 		}
 		if (TIndex == -1)
 		{
-			TouchWidgets.Add(InTouchWidget);
+			TriggerTouchWidgets.Add(InTouchWidget);
 		}
 		else
 		{
-			TouchWidgets.Insert(InTouchWidget, TIndex);
+			TriggerTouchWidgets.Insert(InTouchWidget, TIndex);
 		}
 	}
 }
@@ -533,24 +538,24 @@ void UTouchComponent::RemoveTouchWidget(UTouchWidget* InTouchWidget)
 {
 	if (InTouchWidget)
 	{
-		TouchWidgets.Remove(InTouchWidget);
+		TriggerTouchWidgets.Remove(InTouchWidget);
 	}
 }
 
-void UTouchComponent::OnTouchPressed(ETouchIndex::Type FingerIndex, FVector Location)
+void UTouchComponent::IA_TouchIndexPressed(ETouchIndex::Type TouchIndex, FVector Location)
 {
-	Location.Z = static_cast<double>(FingerIndex);
+	Location.Z = static_cast<double>(TouchIndex);
 	IA_TouchPressed(Location);
 }
 
-void UTouchComponent::OnTouchMove(ETouchIndex::Type FingerIndex, FVector Location)
+void UTouchComponent::IA_TouchIndexMove(ETouchIndex::Type TouchIndex, FVector Location)
 {
-	Location.Z = static_cast<double>(FingerIndex);
+	Location.Z = static_cast<double>(TouchIndex);
 	IA_TouchMove(Location);
 }
 
-void UTouchComponent::OnTouchReleased(ETouchIndex::Type FingerIndex, FVector Location)
+void UTouchComponent::IA_TouchIndexReleased(ETouchIndex::Type TouchIndex, FVector Location)
 {
-	Location.Z = static_cast<double>(FingerIndex);
+	Location.Z = static_cast<double>(TouchIndex);
 	IA_TouchReleased(Location);
 }

@@ -52,10 +52,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Appearance")
 	FSlateBrush PressedButtonSlateBrush;
 
-	/** * 触控索引,255=空 */
-	UPROPERTY(BlueprintReadWrite, Category = "UITouch|Variable")
-	uint8 TouchFingerIndex = 255;
-
 	/** * 切换按下模式 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
 	bool bPressedHandover = false;
@@ -67,10 +63,11 @@ public:
 
 public:
 
-
 	virtual void SetWidgetTouchComponent(UTouchComponent* InTouchComponent) override;
 
-	virtual	bool TouchIndexLocation(const FVector& Location, uint8 FingerIndex) override;
+	virtual	bool TouchPressedLocation(const FVector& Location) override;
+
+	virtual	bool TouchReleasedLocation(const FVector& Location) override;
 
 	virtual void SetVisibleDisabled(bool bVisible, bool bFlushInput) override;
 

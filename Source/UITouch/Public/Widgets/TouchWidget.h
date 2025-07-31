@@ -66,11 +66,19 @@ public:
 
 	/** * 自定义触发,后续需要手动触发 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
-	bool bCustomTrigger;
+	bool bCustomTrigger = false;
+	
+	/** * 消耗触发,后续即便优先级相等也不会触发了 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
+	bool bConsumeTrigger = false;
 
 	/** * 触发索引,255不限制触发, 0~254 等级越高越优先, 如果有相等那么都会触发,触发后等级低下会停止触发 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Variable")
-	uint8 TriggerIndex;
+	uint8 TriggerPriorityIndex = 0;
+	
+	/** * 触发触控索引,255 = 空 */
+	UPROPERTY(BlueprintReadWrite, Category = "UITouch|Variable")
+	uint8 TriggerTouchIndex = 255;
 
 	/** * 绑定的默认控件触控组件 */
 	UPROPERTY(BlueprintReadWrite, Category = "UITouch|Variable")
@@ -78,14 +86,14 @@ public:
 
 
 	/** * 多播指定接收到的调度器 */
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPressed, FVector, Location);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnTouchLocationStateSignature, const FVector&, Location, ETouchState, TouchState);
 
 	/** * 多播所有接收到的调度器 */
 	UPROPERTY(BlueprintAssignable, Category = "UITouch|On")
-	FOnPressed OnTouchLocation;
+	FOnTouchLocationStateSignature OnTouchLocationState;
 
 protected:
-	UTouchWidget(const FObjectInitializer& ObjectInitializer);
+	explicit UTouchWidget(const FObjectInitializer& ObjectInitializer);
 
 	virtual void NativePreConstruct() override;
 
@@ -106,30 +114,45 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual void SetParentUserWidget(UUserWidget* InUserWidget);
 
-
 	/** * 接收触发位置和索引 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
-	virtual void NativeTouchIndexLocation(const FVector& Location, uint8 FingerIndex);
-
-	/** * 接收触发位置和索引 */
+	virtual bool TouchTriggerLocation(const FVector& Location, const ETouchState TouchState);
+	
+	/** * 触发按下位置 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
-	virtual bool TouchIndexLocation(const FVector& Location, uint8 FingerIndex);
+	virtual bool TouchPressedLocation(const FVector& Location);
 
-	/** * 设置触控是否绑定 */
+	/** *  */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
-	virtual void SetIndexTouchDelegate(bool bDelegateBind, uint8 FingerIndex);
+	virtual void TouchPressedLocation_Event(const FVector& Location);
 
 	/** * 触发移动位置 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual void TouchMovedLocation(const FVector& Location);
 
+	/** *  */
+	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
+	virtual void TouchReleasedLocation_Event(const FVector& Location);
+	
+	/** * 触发松开位置 */
+	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
+	virtual bool TouchReleasedLocation(const FVector& Location);
+
 	/** * 获取本地位置,包括嵌套布局后的偏移 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
-	virtual FVector2D GetLocalPosition();
+	virtual FVector2D GetLocalPositionAndParentPosition();
+	
+	/** * 更新缓存位置 */
+	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
+	virtual bool UpdateCacheLocation(const FVector& Location);
 
 	/** * 判断是否进入触控区域 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual bool IsTouchLocation(const FVector& Location);
+
+	/** * 是否允许触控 */
+	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
+	virtual bool IsAllowTouch(const FVector& Location);
 
 	/** * 设置可视禁用,但不影响交互,禁用请使用设置已启用模式,建议熟悉后调用  */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
@@ -137,11 +160,11 @@ public:
 
 	/** * 播放动画 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
-	virtual void TriggerInedxAnimation(int Index);
+	virtual void TriggerIndexAnimation(int Index);
 
 	/** * 蓝图播放动画 */
 	UFUNCTION(BlueprintImplementableEvent, Category = "UITouch|Function")
-	void BPTriggerInedxAnimation(int Index);
+	void BPTriggerIndexAnimation(int Index);
 
 	/** * 组件销毁回调 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
@@ -149,7 +172,7 @@ public:
 
 	/** * 触发索引,255不限制触发, 0~254 等级越高越优先, 如果有相等那么都会触发,触发后等级低下会停止触发 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
-	virtual void SetTriggerIndex(uint8 Index);
+	virtual void SetTriggerPriorityIndex(uint8 PriorityIndex);
 
 	/** * 获取控件触控组件 */
 	UFUNCTION(BlueprintPure, Category = "UITouch|Function")
@@ -158,5 +181,28 @@ public:
 	/** * 设置控件触控组件 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual void SetWidgetTouchComponent(UTouchComponent* InTouchComponent);
+	
+	/** * 绑定触控按下委托 */
+	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
+	virtual void BindTouchPressedDelegate();
 
+	/** * 删除触控按下委托 */
+	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
+	virtual void RemoveTouchPressedDelegate();
+
+	/** * 绑定触控松开委托 */
+	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
+	virtual void BindTouchReleasedDelegate();
+
+	/** * 删除触控松开委托 */
+	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
+	virtual void RemoveTouchReleasedDelegate();
+	
+	/** * 绑定触控移动委托 */
+	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
+	virtual bool BindTouchMoveDelegate(const uint8 TouchIndex);
+	
+	/** * 删除触控移动委托 */
+	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
+	virtual bool RemoveTouchMoveDelegate(const uint8 TouchIndex);
 };

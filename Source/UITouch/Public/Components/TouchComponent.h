@@ -38,6 +38,21 @@ enum class ETouchInputMode : uint8
 	/** * 增强输入 */
 	EnhancedInput UMETA(DisplayName = "EnhancedInput")
 };
+// 触控事件类型（更准确的命名）
+UENUM(BlueprintType)
+enum class ETouchState : uint8
+{
+	/** 触控松开事件 */
+	Released    UMETA(DisplayName = "Released"),
+	/** 触控按下事件 */
+	Pressed     UMETA(DisplayName = "Pressed"),
+	/** 触控移动事件 */
+	Moved       UMETA(DisplayName = "Moved"),
+	/** 触控取消（系统中断） */
+	Canceled UMETA(DisplayName = "Canceled")
+};
+
+class UTouchWidget;
 
 UCLASS(Blueprintable, meta = (DisplayName = "TouchComponent", BlueprintSpawnableComponent))
 class UITOUCH_API UTouchComponent : public UActorComponent
@@ -48,9 +63,9 @@ public:
 	// Sets default values for this component's properties
 	UTouchComponent();
 
-	/** * 触控索引组 */
+	/** * 触控状态组,用于记录索引状态的 */
 	UPROPERTY(BlueprintReadWrite, Category = "UITouch|On")
-	TArray<uint8> TouchIndexs;
+	TArray<ETouchState> TouchStates;
 
 	/** * 触控玩家控制器 */
 	UPROPERTY(BlueprintReadWrite, Category = "UITouch|Controller")
@@ -68,9 +83,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EnhancedInput|Action", meta = (AllowPrivateAccess = "true"))
 	TArray<TObjectPtr<UInputAction>> InputActionTouchs;
 
-	/** * 触发调用组 */
+	/** * 有限制的触发调用组,优先级都是从大到小排序*/
 	UPROPERTY(BlueprintReadWrite, Category = "EnhancedInput|Action", meta = (AllowPrivateAccess = "true"))
-	TArray<TObjectPtr<UTouchWidget>> TouchWidgets;
+	TArray<TObjectPtr<UTouchWidget>> TriggerTouchWidgets;
 
 	/** * 自动绑定触控的输入映射 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnhancedInput|InputMappingContext")
@@ -98,55 +113,63 @@ public:
 
 
 	/** * 多播所有接收到的调度器 */
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnIndexTouchDynmic, FVector, Moved, uint8, FingerIndex);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnTouchIndexSignature, const FVector&, Location, const ETouchState, TouchState);
 
 	/** * 多播指定接收到的调度器 */
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnTouchDynmic, FVector, Moved);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnTouchLocationSignature, const FVector&, Location);
 
 
-	/** * 多播收到触发的调度器 */
+	/** * 多播收到触发的调度器,只会绑定按下和松开,不会绑定移动 */
 	UPROPERTY(BlueprintAssignable, Category = "UITouch|On")
-	FOnIndexTouchDynmic OnTriggerTouch;
+	FOnTouchIndexSignature OnTouchTrigger;
+	
+	/** * 多播收到触发的调度器,只会绑定按下和松开,不会绑定移动 */
+	UPROPERTY(BlueprintAssignable, Category = "UITouch|On")
+	FOnTouchLocationSignature OnTouchPressed;
+	
+	/** * 多播收到触发的调度器,只会绑定按下和松开,不会绑定移动 */
+	UPROPERTY(BlueprintAssignable, Category = "UITouch|On")
+	FOnTouchLocationSignature OnTouchReleased;
 
 	/** * 多播指定接收到的调度器1 */
 	UPROPERTY(BlueprintAssignable, Category = "UITouch|On")
-	FOnTouchDynmic OnMovedTouch1;
+	FOnTouchLocationSignature OnTouchMoved1;
 
 	/** * 多播指定接收到的调度器2 */
 	UPROPERTY(BlueprintAssignable, Category = "UITouch|On")
-	FOnTouchDynmic OnMovedTouch2;
+	FOnTouchLocationSignature OnTouchMoved2;
 
 	/** * 多播指定接收到的调度器3 */
 	UPROPERTY(BlueprintAssignable, Category = "UITouch|On")
-	FOnTouchDynmic OnMovedTouch3;
+	FOnTouchLocationSignature OnTouchMoved3;
 
 	/** * 多播指定接收到的调度器4 */
 	UPROPERTY(BlueprintAssignable, Category = "UITouch|On")
-	FOnTouchDynmic OnMovedTouch4;
+	FOnTouchLocationSignature OnTouchMoved4;
 
 	/** * 多播指定接收到的调度器5 */
 	UPROPERTY(BlueprintAssignable, Category = "UITouch|On")
-	FOnTouchDynmic OnMovedTouch5;
+	FOnTouchLocationSignature OnTouchMoved5;
 
 	/** * 多播指定接收到的调度器6 */
 	UPROPERTY(BlueprintAssignable, Category = "UITouch|On")
-	FOnTouchDynmic OnMovedTouch6;
+	FOnTouchLocationSignature OnTouchMoved6;
 
 	/** * 多播指定接收到的调度器7 */
 	UPROPERTY(BlueprintAssignable, Category = "UITouch|On")
-	FOnTouchDynmic OnMovedTouch7;
+	FOnTouchLocationSignature OnTouchMoved7;
 
 	/** * 多播指定接收到的调度器8 */
 	UPROPERTY(BlueprintAssignable, Category = "UITouch|On")
-	FOnTouchDynmic OnMovedTouch8;
+	FOnTouchLocationSignature OnTouchMoved8;
 
 	/** * 多播指定接收到的调度器9 */
 	UPROPERTY(BlueprintAssignable, Category = "UITouch|On")
-	FOnTouchDynmic OnMovedTouch9;
+	FOnTouchLocationSignature OnTouchMoved9;
 
 	/** * 多播指定接收到的调度器10 */
 	UPROPERTY(BlueprintAssignable, Category = "UITouch|On")
-	FOnTouchDynmic OnMovedTouch10;
+	FOnTouchLocationSignature OnTouchMoved10;
 
 
 protected:
@@ -162,11 +185,11 @@ public:
 
 	/** * 触控 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
-	virtual void TouchIndexLocation(FVector Location, uint8 FingerIndex);
+	virtual void TouchTriggerLocation(const FVector& Location, const ETouchState TouchState);
 
 	/** * 内部执行触控 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
-	virtual void TouchIndexLocationDelegate(FVector Location, uint8 FingerIndex);
+	virtual void TouchTriggerLocationDelegate(const FVector& Location, ETouchState TouchState);
 
 	/** * 判断是否限制内最小0 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
@@ -174,7 +197,7 @@ public:
 
 	/** * 判断释放的触控 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
-	virtual TArray<uint8> NoInputTouchIndex(APlayerController* PlayerController);
+	virtual TArray<uint8> ReleasedInputTouchIndexs(APlayerController* PlayerController);
 
 	/** * 默认触控按键 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
@@ -186,7 +209,7 @@ public:
 
 	/** * 获取控制器 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
-	virtual APlayerController* GetPlayerController();
+	virtual APlayerController* GetPlayerController() const;
 
 	/** * 设置控制器 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
@@ -198,7 +221,7 @@ public:
 
 	/** * 绑定触控 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
-	virtual bool DelegateBind(uint8 FingerIndex, bool bDelegateBind, UObject* InFunctionObject, const FName& InFunctionName);
+	virtual bool DelegateBind(uint8 TouchIndex, bool bDelegateBind, UObject* InFunctionObject, const FName& InFunctionName);
 
 	/** * 触摸按下 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
@@ -214,7 +237,7 @@ public:
 
 	/** * 添加触发调用组 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
-	virtual void AddTouchWidget(UTouchWidget* InTouchWidget, uint8 Index);
+	virtual void AddTouchWidget(UTouchWidget* InTouchWidget, uint8 PriorityIndex);
 
 	/** * 删除触发调用组 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
@@ -224,12 +247,12 @@ public:
 	/** * 默认触控事件的回调 */
 
 	/** * 触摸开始事件 */
-	void OnTouchPressed(ETouchIndex::Type FingerIndex, FVector Location);
+	void IA_TouchIndexPressed(ETouchIndex::Type TouchIndex, FVector Location);
 
 	/** * 触摸移动事件 */
-	void OnTouchMove(ETouchIndex::Type FingerIndex, FVector Location);
+	void IA_TouchIndexMove(ETouchIndex::Type TouchIndex, FVector Location);
 
 	/** * 触摸结束事件 */
-	void OnTouchReleased(ETouchIndex::Type FingerIndex, FVector Location);
+	void IA_TouchIndexReleased(ETouchIndex::Type TouchIndex, FVector Location);
 
 };

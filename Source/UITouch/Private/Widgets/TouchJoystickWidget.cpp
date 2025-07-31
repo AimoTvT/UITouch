@@ -28,16 +28,14 @@ void UTouchJoystickWidget::NativePreConstruct()
 	if (ControlImageWidget)
 	{
 		ControlImageWidget->SetBrush(ControlSlateBrush);  /** * 设置操控杆的图片 */
-		UCanvasPanelSlot* ControlCanvasPanelSlot = Cast<UCanvasPanelSlot>(ControlImageWidget->Slot);  /** * 获取画布 */
-		if (ControlCanvasPanelSlot)
+		if (UCanvasPanelSlot* ControlCanvasPanelSlot = Cast<UCanvasPanelSlot>(ControlImageWidget->Slot))
 		{
 			ControlCanvasPanelSlot->SetSize(ControlSlateBrush.GetImageSize());  /** * 设置大小 */
 		}
 	}
 	if (BackdropImageWidget)
 	{
-		UCanvasPanelSlot* BackdropCanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot);  /** * 获取画布 */
-		if (BackdropCanvasPanelSlot)
+		if (UCanvasPanelSlot* BackdropCanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot))
 		{
 			BackdropCanvasPanelSlot->SetSize(BackdropSlateBrush.GetImageSize());  /** * 设置大小 */
 		}
@@ -46,95 +44,86 @@ void UTouchJoystickWidget::NativePreConstruct()
 
 void UTouchJoystickWidget::SetWidgetTouchComponent(UTouchComponent* InTouchComponent)
 {
-	if (WidgetTouchComponent && WidgetTouchComponent != InTouchComponent && TouchFingerIndex != 255)
+	if (WidgetTouchComponent && WidgetTouchComponent != InTouchComponent && TriggerTouchIndex != 255)
 	{
-		WidgetTouchComponent->DelegateBind(TouchFingerIndex, false, this, TEXT("TouchMovedLocation"));
+		RemoveTouchMoveDelegate(TriggerTouchIndex);
 	}
 	Super::SetWidgetTouchComponent(InTouchComponent);
 }
 
-
-
-bool UTouchJoystickWidget::TouchIndexLocation(const FVector& Location, uint8 FingerIndex)
+bool UTouchJoystickWidget::TouchPressedLocation(const FVector& Location)
 {
-	if (!GetIsEnabled() || GetVisibility() != ESlateVisibility::Visible)  /** * 是否启用,只有可视才能互交 */
+	const uint8 TouchIndex = static_cast<uint8>(Location.Z);
+	LastTriggerLocation += {0.002, 0.002, 0.0};
+	TriggerTouchIndex = TouchIndex;
+	OnTouchLocationState.Broadcast({ 0.0, 0.0, static_cast<double>(TouchIndex) }, ETouchState::Pressed);
+	BindTouchReleasedDelegate();
+	BindTouchMoveDelegate(TouchIndex);
+	TriggerIndexAnimation(1);
+	if (bFixedJoystick == false && BackdropImageWidget)
 	{
-		if (FingerIndex == 255 || TouchFingerIndex != FingerIndex)
+		if (UCanvasPanelSlot* BackdropCanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot))
 		{
-			return false;
+			const FVector2D LocalSize = GetPaintSpaceGeometry().GetLocalSize() / 2;
+			BackdropCanvasPanelSlot->SetPosition(TriggerOffsetPosition - LocalSize);
 		}
 	}
-	if (TouchFingerIndex == 255 && Location.Z > 0.0)
-	{
-		if (IsTouchLocation(Location))  /** * 判断进入触控位置 */
-		{
-			LastTriggerLocation += {0.002, 0.002, 0.0};
-			TouchFingerIndex = FingerIndex;
-			OnTouchLocation.Broadcast({ 0.0, 0.0, FingerIndex + 1.0 });
-			SetIndexTouchDelegate(true, FingerIndex);
-			TriggerInedxAnimation(1);
-			if (bFixedJoystick == false)
-			{
-				UCanvasPanelSlot* BackdropCanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot);
-				if (BackdropCanvasPanelSlot)
-				{
-
-					float ViewportScale = UWidgetLayoutLibrary::GetViewportScale(this);
-					FVector2D LocalSize = GetPaintSpaceGeometry().GetLocalSize() / 2;
-					BackdropCanvasPanelSlot->SetPosition(TriggerOffsetPosition - LocalSize);
-				}
-			}
-			return true;
-		}
-	}
-	if (TouchFingerIndex == FingerIndex)
-	{
-		TouchFingerIndex = 255;
-		SetIndexTouchDelegate(false, FingerIndex);
-		OnTouchLocation.Broadcast({ 0.0, 0.0, 0.0 });
-		SetControlPosition({ 0.0,0.0 });  /** * 设置操控杆归零位置 */
-		TriggerInedxAnimation(0);
-		if (bFixedJoystick == false)
-		{
-			UCanvasPanelSlot* BackdropCanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot);
-			if (BackdropCanvasPanelSlot)
-			{
-				BackdropCanvasPanelSlot->SetPosition({ 0.0,0.0 });
-			}
-		}
-	}
-	return false;
+	return true;
 }
 
 void UTouchJoystickWidget::TouchMovedLocation(const FVector& Location)
 {
-	if (!GetIsEnabled())  /** * 是否启用,只有可视才能互交 */
-	{
-		return;
-	}
 	if (bTickDelegated == false && LastTriggerLocation == Location)
 	{
 		return;
 	}
-	if (TouchFingerIndex != 255)
+	if (TriggerTouchIndex == 255)
 	{
-		FVector2D PositionScale = { Location.X, Location.Y };
-		PositionScale = GetPositionScale(PositionScale);
-		if (PositionScale.Y < IgnoreNumerical.Y && PositionScale.Y > IgnoreNumerical.Y * -1)
+		return;
+	}
+	//获取操纵杆缩放
+	FVector2D PositionScale = GetPositionScale(FVector2D(Location.X, Location.Y ));
+	if (PositionScale.Y < IgnoreNumerical.Y && PositionScale.Y > IgnoreNumerical.Y * -1)
+	{
+		if (PositionScale.X < IgnoreNumerical.X && PositionScale.X > IgnoreNumerical.X * -1)
 		{
-			if (PositionScale.X < IgnoreNumerical.X && PositionScale.X > IgnoreNumerical.X * -1)
-			{
-				PositionScale.X = 0.0;
-				PositionScale.Y = 0.0;
-			}
-		}
-		OnTouchLocation.Broadcast({ FMath::Clamp(PositionScale.X, -1.0, 1.0),  FMath::Clamp(PositionScale.Y, -1.0, 1.0), Location.Z + 1 });
-		if (LastTriggerLocation != Location)
-		{
-			SetControlPosition({ Location.X, Location.Y });
+			PositionScale.X = 0.0;
+			PositionScale.Y = 0.0;
 		}
 	}
+	OnTouchLocationState.Broadcast({ FMath::Clamp(PositionScale.X, -1.0, 1.0),  FMath::Clamp(PositionScale.Y, -1.0, 1.0), Location.Z }, ETouchState::Moved);
+	if (LastTriggerLocation != Location)
+	{
+		SetControlPosition({ Location.X, Location.Y });
+	}
 	LastTriggerLocation = Location;
+}
+
+bool UTouchJoystickWidget::TouchReleasedLocation(const FVector& Location)
+{
+	const uint8 TouchIndex = static_cast<uint8>(Location.Z);
+	if (TriggerTouchIndex != TouchIndex)
+	{
+		return false;
+	}
+	RemoveTouchReleasedDelegate();
+	RemoveTouchMoveDelegate(TouchIndex);
+	if (TriggerTouchIndex != TouchIndex)
+	{
+		return false;
+	}
+	TriggerTouchIndex = 255;
+	OnTouchLocationState.Broadcast({ 0.0, 0.0, 0.0 }, ETouchState::Released);
+	SetControlPosition({ 0.0,0.0 });  /** * 设置操控杆归零位置 */
+	TriggerIndexAnimation(0);
+	if (bFixedJoystick == false && BackdropImageWidget)
+	{
+		if (UCanvasPanelSlot* BackdropCanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot))
+		{
+			BackdropCanvasPanelSlot->SetPosition({ 0.0,0.0 });
+		}
+	}
+	return true;
 }
 
 void UTouchJoystickWidget::SetVisibleDisabled(bool bVisible, bool bFlushInput)
@@ -145,8 +134,7 @@ void UTouchJoystickWidget::SetVisibleDisabled(bool bVisible, bool bFlushInput)
 		if (BackdropImageWidget)
 		{
 			BackdropImageWidget->SetBrush(BackdropSlateBrush);  /** * 设置操控杆背景的图片 */
-			UCanvasPanelSlot* BackdropCanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot);  /** * 获取画布 */
-			if (BackdropCanvasPanelSlot)
+			if (UCanvasPanelSlot* BackdropCanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot))
 			{
 				BackdropCanvasPanelSlot->SetSize(BackdropSlateBrush.GetImageSize());  /** * 设置大小 */
 			}
@@ -154,21 +142,20 @@ void UTouchJoystickWidget::SetVisibleDisabled(bool bVisible, bool bFlushInput)
 	}
 	else
 	{
-		TriggerInedxAnimation(0);
+		TriggerIndexAnimation(0);
 		if (bFlushInput && IsDesignTime() == false)
 		{
-			if (TouchFingerIndex != 255)
+			if (TriggerTouchIndex != 255)
 			{
-				SetIndexTouchDelegate(false, TouchFingerIndex);
-				TouchFingerIndex = 255;
-				OnTouchLocation.Broadcast({ 0.0, 0.0, LastTriggerLocation.Z + 1 });
+				RemoveTouchMoveDelegate(TriggerTouchIndex);
+				TriggerTouchIndex = 255;
+				OnTouchLocationState.Broadcast({ 0.0, 0.0, LastTriggerLocation.Z + 1 }, ETouchState::Canceled);
 			}
 
 			SetControlPosition({ 0.0,0.0 });  /** * 设置操控杆归零位置 */
 			if (bFixedJoystick == false)
 			{
-				UCanvasPanelSlot* BackdropCanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot);
-				if (BackdropCanvasPanelSlot)
+				if (UCanvasPanelSlot* BackdropCanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot))
 				{
 					BackdropCanvasPanelSlot->SetPosition({ 0.0,0.0 });
 				}
@@ -177,20 +164,18 @@ void UTouchJoystickWidget::SetVisibleDisabled(bool bVisible, bool bFlushInput)
 		if (BackdropImageWidget)
 		{
 			BackdropImageWidget->SetBrush(DisabledSlateBrush);  /** * 设置操控杆背景的图片 */
-			UCanvasPanelSlot* BackdropCanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot);  /** * 获取画布 */
-			if (BackdropCanvasPanelSlot)
+			if (UCanvasPanelSlot* BackdropCanvasPanelSlot = Cast<UCanvasPanelSlot>(BackdropImageWidget->Slot))
 			{
 				BackdropCanvasPanelSlot->SetSize(DisabledSlateBrush.GetImageSize());  /** * 设置大小 */
 			}
 		}
-		TriggerInedxAnimation(-1);
+		TriggerIndexAnimation(-1);
 	}
 }
 
 void UTouchJoystickWidget::SetControlPosition(const FVector2D& Position)
 {
-	UCanvasPanelSlot* ControlCanvasPanelSlot = Cast<UCanvasPanelSlot>(ControlImageWidget->Slot);
-	if (ControlCanvasPanelSlot)
+	if (UCanvasPanelSlot* ControlCanvasPanelSlot = Cast<UCanvasPanelSlot>(ControlImageWidget->Slot))
 	{
 		if (Position != FVector2D({ 0.0, 0.0 }))
 		{
@@ -235,8 +220,8 @@ void UTouchJoystickWidget::SetControlPosition(const FVector2D& Position)
 
 FVector2D UTouchJoystickWidget::GetPositionScale(const FVector2D& Position)
 {
-	float ViewportScale = UWidgetLayoutLibrary::GetViewportScale(this);
-	FVector2D ImageSize = BackdropSlateBrush.GetImageSize() / 2;
+	const float ViewportScale = UWidgetLayoutLibrary::GetViewportScale(this);
+	const FVector2D ImageSize = BackdropSlateBrush.GetImageSize() / 2;
 	FVector2D PositionScale = Position / ViewportScale;  /** * 获取偏移值 */
 	PositionScale = PositionScale - (LocalWidgetPosition + (bFixedJoystick ? GetPaintSpaceGeometry().GetLocalSize() / 2 : TriggerOffsetPosition));
 	/** * 限制的值 */

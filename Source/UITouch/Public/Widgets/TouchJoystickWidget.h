@@ -62,10 +62,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UITouch|Appearance")
 	FSlateBrush ControlSlateBrush;
 
-	/** * 触控索引,255 = 空 */
-	UPROPERTY(BlueprintReadWrite, Category = "UITouch|Variable")
-	uint8 TouchFingerIndex = 255;
-
 	/** * Y轴倍数,-1符合直觉 */
 	UPROPERTY(BlueprintReadWrite, Category = "UITouch|Variable")
 	float YShaftTimes = -1.0f;
@@ -97,10 +93,12 @@ protected:
 	virtual void SetWidgetTouchComponent(UTouchComponent* InTouchComponent) override;
 
 public:
-
-	virtual	bool TouchIndexLocation(const FVector& Location, uint8 FingerIndex) override;
+	
+	virtual	bool TouchPressedLocation(const FVector& Location) override;
 
 	virtual void TouchMovedLocation(const FVector& Location) override;
+
+	virtual	bool TouchReleasedLocation(const FVector& Location) override;
 
 	virtual void SetVisibleDisabled(bool bVisible, bool bFlushInput) override;
 

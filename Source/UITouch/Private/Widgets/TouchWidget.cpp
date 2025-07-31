@@ -197,6 +197,14 @@ bool UTouchWidget::IsAllowTouch(const FVector& Location)
 
 void UTouchWidget::SetVisibleDisabled(bool bVisible, bool bFlushInput)
 {
+	if (!bVisible)
+	{
+		RemoveTouchReleasedDelegate();
+		if (TriggerPriorityIndex != 255)
+		{
+			RemoveTouchMoveDelegate(TriggerPriorityIndex);
+		}
+	}
 }
 
 

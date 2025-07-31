@@ -470,7 +470,6 @@ void UTouchComponent::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 void UTouchComponent::IA_TouchPressed(const FInputActionValue& Value)
 {
 	const FVector Location = Value.Get<FVector>();
-	UE_LOG(LogTemp, Warning, TEXT("[UTouchComponent] 按键按下: %s"), *Location.ToString());
 	uint8 Index = 255;
 	for (UTouchWidget* TouchWidget : TriggerTouchWidgets)
 	{
@@ -478,7 +477,6 @@ void UTouchComponent::IA_TouchPressed(const FInputActionValue& Value)
 		{
 			if (TouchWidget->IsAllowTouch(Location))
 			{
-				UE_LOG(LogTemp, Warning, TEXT("[UTouchComponent] 允许控件: %s"), *TouchWidget->GetName());
 				if (TouchWidget->TouchPressedLocation(Location))
 				{
 					Index = TouchWidget->TriggerPriorityIndex;
@@ -496,7 +494,6 @@ void UTouchComponent::IA_TouchPressed(const FInputActionValue& Value)
 void UTouchComponent::IA_TouchReleased(const FInputActionValue& Value)
 {
 	const FVector Location = Value.Get<FVector>();
-	UE_LOG(LogTemp, Warning, TEXT("[UTouchComponent] 按键松开: %s"), *Location.ToString());
 	OnTouchReleased.Broadcast(Location);
 	//const TArray<uint8> ReleasedTouchIndexs = ReleasedInputTouchIndexs(TouchPlayerController);
 	//for (const uint8 ReleasedTouchIndex : ReleasedTouchIndexs)

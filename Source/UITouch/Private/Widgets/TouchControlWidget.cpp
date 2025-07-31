@@ -57,7 +57,6 @@ bool UTouchControlWidget::TouchPressedLocation(const FVector& Location)
 	}
 	BindTouchMoveDelegate(TouchIndex);
 	LastTriggerLocation = Location;
-	UE_LOG(LogTemp, Warning, TEXT("[UTouchControlWidget] 按下 索引: %d 位置: %s"), TouchIndex , *Location.ToString());
 	return true;
 }
 
@@ -68,10 +67,6 @@ void UTouchControlWidget::TouchMovedLocation(const FVector& Location)
 	if (TouchLocations.IsValidIndex(TouchIndex)) /** * 判断是否寻找成功 */
 	{
 		FVector TouchMovedLocation = (Location - TouchLocations[TouchIndex]) * DistanceMultiple;/** * 计算移动位置,并乘于距离倍数 */
-		if (FVector2D(TouchMovedLocation).Size() > 100.0f)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("[UTouchControlWidget] 移动 索引: %d 位置: %s - %s"), TouchIndex , *Location.ToString(), *TouchLocations[TouchIndex].ToString());
-		}
 		TouchLocations[TouchIndex] = Location; /** * 覆盖旧位置 */
 		if (ClampDifferenceDistance != 0 && FVector2D(TouchMovedLocation).Size() > ClampDifferenceDistance)
 		{
@@ -99,7 +94,6 @@ bool UTouchControlWidget::TouchReleasedLocation(const FVector& Location)
 	
 		TouchLocations[TouchIndex] = FVector(0.0f,0.0f,-1.0f); /** * 清除触控位置组的位置 */
 		RemoveTouchMoveDelegate(TouchIndex); /** * 解除绑定移动位置调度器 */
-		UE_LOG(LogTemp, Warning, TEXT("[UTouchControlWidget] 松开 索引: %d 位置: %s"), TouchIndex, *Location.ToString());
 		return true;
 	}
 	return false;

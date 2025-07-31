@@ -182,27 +182,27 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual void SetWidgetTouchComponent(UTouchComponent* InTouchComponent);
 	
-	/** *  */
+	/** * 绑定触控按下委托 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual void BindTouchPressedDelegate();
 
-	/** *  */
+	/** * 删除触控按下委托 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual void RemoveTouchPressedDelegate();
 
-	/** *  */
+	/** * 绑定触控松开委托 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual void BindTouchReleasedDelegate();
 
-	/** *  */
+	/** * 删除触控松开委托 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual void RemoveTouchReleasedDelegate();
 	
-	/** * 绑定触控 */
+	/** * 绑定触控移动委托 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual bool BindTouchMoveDelegate(const uint8 TouchIndex);
 	
-	/** * 绑定触控 */
+	/** * 删除触控移动委托 */
 	UFUNCTION(BlueprintCallable, Category = "UITouch|Function")
 	virtual bool RemoveTouchMoveDelegate(const uint8 TouchIndex);
 };

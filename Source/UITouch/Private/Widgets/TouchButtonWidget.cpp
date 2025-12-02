@@ -68,7 +68,6 @@ bool UTouchButtonWidget::TouchPressedLocation(const FVector& Location)
 		LastTriggerLocation = Location;
 		return true;
 	}
-	return false;
 }
 
 bool UTouchButtonWidget::TouchReleasedLocation(const FVector& Location)

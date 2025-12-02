@@ -29,7 +29,7 @@
 #include "TouchComponent.generated.h"
 
 
- // TouchInputMode
+/** * 触摸输入模式 */
 UENUM(BlueprintType)
 enum class ETouchInputMode : uint8
 {
@@ -38,7 +38,8 @@ enum class ETouchInputMode : uint8
 	/** * 增强输入 */
 	EnhancedInput UMETA(DisplayName = "EnhancedInput")
 };
-// 触控事件类型（更准确的命名）
+
+/** * 触控状态（更准确的命名） */
 UENUM(BlueprintType)
 enum class ETouchState : uint8
 {

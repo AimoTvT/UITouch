@@ -32,7 +32,7 @@
 
 
 > - # 爱心开发不易, 请开发者们喝茶吧 ------- 0.0
-> - ![喝茶](https://github.com/AimoTvT/UITouch/raw/Aimo/TuPian/ZhiFuMa.png "爱心开发不易, 请开发者们喝茶吧 ------- 0.0")
+
 
 > ## 触摸组件(UTouchComponent)
 >
@@ -40,6 +40,7 @@
 >
 >> - [x] 接收所有触控控件的控制权
 >> - [x] 按照优先权,分配给优先度大的控件
+>> - [x] 
 
 > ## 输入修饰符添加标量(UInputModifierAddScalar)
 >
